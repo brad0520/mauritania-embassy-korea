@@ -36,18 +36,14 @@ function NewsListContent() {
 
   const loadNews = async () => {
     try {
-      const { data, error } = await supabase
-        .from('news')
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { data, error } = await (supabase.from('news') as any)
         .select('*')
         .order('created_at', { ascending: false })
 
       if (error) throw error
 
-      const newsData = (data || []).map(item => ({
-        ...item,
-        id: item.id as string
-      }))
-      setNews(newsData)
+      setNews((data || []) as NewsItem[])
     } catch (error) {
       console.error('Error loading news:', error)
       setNews([])
@@ -60,8 +56,8 @@ function NewsListContent() {
     if (!confirm(t('admin.confirm.delete'))) return
 
     try {
-      const { error } = await supabase
-        .from('news')
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { error } = await (supabase.from('news') as any)
         .delete()
         .eq('id', id)
 
@@ -81,8 +77,8 @@ function NewsListContent() {
     const publishedAt = newStatus === 'published' ? new Date().toISOString() : null
 
     try {
-      const { error } = await supabase
-        .from('news')
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { error } = await (supabase.from('news') as any)
         .update({ status: newStatus, published_at: publishedAt })
         .eq('id', id)
 

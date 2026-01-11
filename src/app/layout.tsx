@@ -26,8 +26,16 @@ const notoSansArabic = Noto_Sans_Arabic({
 });
 
 export const metadata: Metadata = {
-  title: "Embassy Template - Multi-language Embassy Websites",
-  description: "Reusable template for embassy websites with multi-language support",
+  title: "주한 모리타니아 대사관 | Embassy of Mauritania in Korea",
+  description: "주한 모리타니아 이슬람 공화국 대사관 공식 웹사이트 - Embassy of the Islamic Republic of Mauritania in Korea",
+  icons: {
+    icon: [
+      { url: '/images/seal-mauritania.png', sizes: '32x32', type: 'image/png' },
+      { url: '/images/seal-mauritania.png', sizes: '16x16', type: 'image/png' },
+    ],
+    apple: '/images/seal-mauritania.png',
+    shortcut: '/images/seal-mauritania.png',
+  },
 };
 
 export default function RootLayout({

@@ -24,6 +24,15 @@ const DEV_ADMIN = {
   displayName: '관리자'
 }
 
+// 관리자 테이블 타입
+interface AdminRecord {
+  id: string
+  username: string
+  password_hash: string
+  display_name: string | null
+  role: string
+}
+
 /**
  * 관리자 로그인을 처리합니다
  */
@@ -39,11 +48,13 @@ export async function loginAdmin(username: string, password: string): Promise<{
 }> {
   try {
     // Supabase에서 관리자 조회
-    const { data: admin, error } = await supabase
-      .from('admins')
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { data, error } = await (supabase.from('admins') as any)
       .select('id, username, password_hash, display_name, role')
       .eq('username', username)
       .single()
+
+    const admin = data as AdminRecord | null
 
     // DB에서 사용자를 찾은 경우
     if (!error && admin) {
@@ -54,8 +65,8 @@ export async function loginAdmin(username: string, password: string): Promise<{
       }
 
       // 마지막 로그인 시간 업데이트
-      await supabase
-        .from('admins')
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      await (supabase.from('admins') as any)
         .update({ last_login_at: new Date().toISOString() })
         .eq('id', admin.id)
 
@@ -121,8 +132,8 @@ export async function createAdmin(
   try {
     const passwordHash = await hashPassword(password)
 
-    const { error } = await supabase
-      .from('admins')
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { error } = await (supabase.from('admins') as any)
       .insert([{
         username,
         password_hash: passwordHash,

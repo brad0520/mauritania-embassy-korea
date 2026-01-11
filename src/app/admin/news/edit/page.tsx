@@ -25,6 +25,16 @@ interface MultilingualContent {
   ar: string
 }
 
+interface NewsItem {
+  id: string
+  title: MultilingualContent
+  content: MultilingualContent
+  category: string
+  status: string
+  published_at: string | null
+  created_at: string
+}
+
 const LANGUAGES: { code: Language; label: string; dir: 'ltr' | 'rtl' }[] = [
   { code: 'ko', label: '한국어', dir: 'ltr' },
   { code: 'en', label: 'English', dir: 'ltr' },
@@ -60,20 +70,21 @@ function EditNewsContent() {
     if (!postId) return
 
     try {
-      const { data, error } = await supabase
-        .from('news')
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { data, error } = await (supabase.from('news') as any)
         .select('*')
         .eq('id', postId)
         .single()
 
       if (error) throw error
 
-      if (data) {
-        setTitle(data.title as MultilingualContent)
-        setContent(data.content as MultilingualContent)
-        setCategory(data.category)
-        setStatus(data.status)
-        setOriginalStatus(data.status)
+      const newsData = data as NewsItem
+      if (newsData) {
+        setTitle(newsData.title)
+        setContent(newsData.content)
+        setCategory(newsData.category)
+        setStatus(newsData.status)
+        setOriginalStatus(newsData.status)
       }
     } catch (error) {
       console.error('Error loading post:', error)
@@ -129,8 +140,8 @@ function EditNewsContent() {
     }
 
     try {
-      const { error } = await supabase
-        .from('news')
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { error } = await (supabase.from('news') as any)
         .update(updateData)
         .eq('id', postId)
 

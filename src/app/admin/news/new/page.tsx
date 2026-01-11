@@ -83,8 +83,8 @@ function NewNewsContent() {
     }
 
     try {
-      const { error } = await supabase
-        .from('news')
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { error } = await (supabase.from('news') as any)
         .insert([newsData])
 
       if (error) throw error

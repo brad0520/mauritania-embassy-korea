@@ -102,7 +102,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
           user_id: 'dev-admin-001',
           organization_id: 'dev-org-001',
           role: 'admin',
-          created_at: new Date().toISOString()
+          created_at: new Date().toISOString(),
+          granted_at: new Date().toISOString()
         } as UserRole)
         setOrganizationId('dev-org-001')
         localStorage.setItem('current-organization', 'dev-org-001')
@@ -190,7 +191,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
             user_id: devUser.id,
             organization_id: savedOrgId,
             role: 'admin',
-            created_at: new Date().toISOString()
+            created_at: new Date().toISOString(),
+            granted_at: new Date().toISOString()
           } as UserRole)
           setOrganizationId(savedOrgId)
         }

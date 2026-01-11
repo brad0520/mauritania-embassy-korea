@@ -1,0 +1,346 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================
+   테마 색상 설정 - 이 섹션만 수정하면 전체 색상 변경
+   ============================================ */
+:root {
+  /* 🎨 메인 테마 색상 (고객 요청 시 여기만 수정) */
+  --theme-primary: #006233;      /* 녹색 - 버튼, 강조 */
+  --theme-primary-hover: #005229; /* 녹색 호버 */
+  --theme-header: #0c3975;       /* 남색 - 헤더 배경 */
+  --theme-header-hover: #0a2d5c; /* 남색 호버 */
+  --theme-nav: #2f3b66;          /* 네비게이션/시계위젯 배경 */
+  --theme-accent: #FFCD00;       /* 황색 - 악센트 */
+  --theme-dark: #1e2746;         /* 어두운 배경 (긴급연락처 등) */
+
+  /* 히어로 그라데이션 색상 */
+  --theme-hero-start: #3b448a;   /* 히어로 그라데이션 시작 */
+  --theme-hero-mid: #563e73;     /* 히어로 그라데이션 중간 */
+  --theme-hero-end: #8b3244;     /* 히어로 그라데이션 끝 */
+
+  /* 기본 색상 */
+  --background: #ffffff;
+  --foreground: #1a1a1a;
+  color-scheme: light only;
+
+  /* 시스템 색상 (테마와 별개) */
+  --color-primary: var(--theme-primary);
+  --color-secondary: var(--theme-accent);
+  --color-accent: #0ea5e9;
+  --color-neutral: #64748b;
+  --color-success: #059669;
+  --color-warning: #d97706;
+  --color-error: #dc2626;
+  
+  /* 모던 색상 그라데이션 매핑 */
+  --color-primary-50: #f0fdf4;
+  --color-primary-100: #dcfce7;
+  --color-primary-200: #bbf7d0;
+  --color-primary-300: #86efac;
+  --color-primary-400: #4ade80;
+  --color-primary-500: #22c55e;
+  --color-primary-600: var(--color-primary);
+  --color-primary-700: #15803d;
+  --color-primary-800: #166534;
+  --color-primary-900: #0f291a;
+  
+  --color-secondary-50: #fefce8;
+  --color-secondary-100: #fef9c3;
+  --color-secondary-200: #fef08a;
+  --color-secondary-300: #fde047;
+  --color-secondary-400: var(--color-secondary);
+  --color-secondary-500: #eab308;
+  --color-secondary-600: #ca8a04;
+  --color-secondary-700: #a16207;
+  --color-secondary-800: #854d0e;
+  --color-secondary-900: #713f12;
+  
+  /* 현대적 그라데이션 시스템 */
+  --gradient-primary: linear-gradient(135deg, var(--color-primary) 0%, #059669 50%, var(--color-secondary) 100%);
+  --gradient-hero: linear-gradient(135deg, rgba(0,98,51,0.95), rgba(5,150,105,0.85), rgba(255,205,0,0.8));
+  --gradient-card: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+  --gradient-accent: linear-gradient(90deg, var(--color-accent), #3b82f6);
+  
+  /* 현대적 그림자 시스템 */
+  --shadow-sm: 0 2px 4px rgba(0,98,51,0.04);
+  --shadow-md: 0 4px 12px rgba(0,98,51,0.08);
+  --shadow-lg: 0 8px 25px rgba(0,98,51,0.12);
+  --shadow-xl: 0 20px 40px rgba(0,98,51,0.15);
+  --shadow-glow: 0 0 30px rgba(0,98,51,0.3);
+  --shadow-nav: 0 0 0 1px var(--theme-nav);
+  
+  /* 세련된 폰트 시스템 */
+  --font-heading: 'Inter', 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-body: 'Inter', 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'SF Mono', monospace;
+  
+  /* 애니메이션 타이밍 */
+  --transition-fast: 0.15s ease-out;
+  --transition-normal: 0.25s ease-out;
+  --transition-slow: 0.4s ease-out;
+  --transition-bounce: 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* 다크모드 미디어 쿼리 제거 - 원본은 다크모드 지원 안함 */
+
+/* 모던 기본 스타일 */
+* {
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html, body, #__next, main {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+}
+
+/* 메인 컨테이너 고급 스타일 */
+main {
+  background: var(--gradient-card) !important;
+  color: var(--foreground) !important;
+  border-radius: 16px;
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(10px);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.65;
+  margin: 0;
+  padding: 0;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+/* 모던 스크롤바 디자인 */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(248, 250, 252, 0.8);
+  border-radius: 12px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gradient-primary);
+  border-radius: 12px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+  transition: all var(--transition-normal);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gradient-accent);
+  transform: scale(1.1);
+}
+
+/* 스무스 스크롤 및 현대적 효과 */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 4rem;
+}
+
+/* 모던 텍스트 선택 스타일 */
+::selection {
+  background: linear-gradient(135deg, rgba(0,98,51,0.2), rgba(255,205,0,0.3));
+  color: var(--color-primary-800);
+  text-shadow: none;
+}
+
+/* 현대적 포커스 스타일 */
+:focus-visible {
+  outline: 3px solid rgba(0,98,51,0.3);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* 모던 버튼 스타일 */
+.btn-modern {
+  background: var(--gradient-primary);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  box-shadow: var(--shadow-md);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-modern::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: left 0.6s ease;
+}
+
+.btn-modern:hover::before {
+  left: 100%;
+}
+
+.btn-modern:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.btn-modern:active {
+  transform: translateY(-1px);
+}
+
+/* 모던 카드 스타일 */
+.card-modern {
+  background: var(--gradient-card);
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: var(--shadow-md);
+  border: 1px solid rgba(255,255,255,0.2);
+  backdrop-filter: blur(10px);
+  transition: all var(--transition-normal);
+}
+
+.card-modern:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-xl);
+}
+
+/* 현대적 제목 스타일 */
+.heading-modern {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+/* 글래스모피즘 효과 */
+.glass-effect {
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+}
+
+/* 호버 애니메이션 */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
+}
+
+.float-animation {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* 페이드 인 애니메이션 */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+/* 반응형 텍스트 */
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  
+  .card-modern {
+    padding: 1.5rem;
+    border-radius: 16px;
+  }
+  
+  .btn-modern {
+    padding: 0.65rem 1.25rem;
+    font-size: 0.9rem;
+    border-radius: 10px;
+  }
+}
+
+/* 로딩 애니메이션 */
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.loading-shimmer {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.loading-shimmer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+  animation: shimmer 1.5s infinite;
+}
+/* Focus States - Remove default outline */
+* {
+  outline: none !important;
+}
+
+*:focus {
+  outline: none !important;
+}
+
+/* Button and Link Focus States */
+button:focus,
+a:focus,
+[role="button"]:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Navigation specific focus removal */
+nav button:focus,
+nav a:focus,
+.nav-link:focus,
+[class*="nav"]:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Custom focus for accessibility - only visible focus styles */
+button:focus-visible,
+a:focus-visible {
+  box-shadow: 0 0 0 2px rgba(201, 169, 110, 0.5) !important;
+  border-radius: 4px;
+}
+
+/* 테마 유틸리티 클래스 */
+.shadow-nav-border {
+  box-shadow: var(--shadow-nav);
+}

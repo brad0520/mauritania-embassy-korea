@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import { useI18n } from '@/i18n/context'
@@ -86,6 +86,18 @@ export default function Header({ className }: HeaderProps) {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [mobileSubmenuOpen, setMobileSubmenuOpen] = useState<string | null>(null)
+  const [isScrolled, setIsScrolled] = useState(false)
+
+  // 스크롤 감지하여 헤더 고정
+  useEffect(() => {
+    const handleScroll = () => {
+      // 유틸리티 바(44px) + 로고 영역(약 80px) 이후 스크롤 시 고정
+      setIsScrolled(window.scrollY > 120)
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   const toggleMobileSubmenu = (href: string) => {
     setMobileSubmenuOpen(mobileSubmenuOpen === href ? null : href)
@@ -223,12 +235,44 @@ export default function Header({ className }: HeaderProps) {
       </div>
 
       {/* ========== 메인 네비게이션 (#gnb) - 세네갈 대사관 스타일 ========== */}
-      <nav className="bg-white relative">
+      {/* 스크롤 시 고정 네비게이션을 위한 placeholder */}
+      {isScrolled && <div className="h-[68px] lg:block hidden" />}
+      {isScrolled && <div className="h-[52px] lg:hidden block" />}
+
+      <nav className={cn(
+        'bg-white relative transition-shadow duration-300',
+        isScrolled && 'fixed top-0 left-0 right-0 z-50 shadow-lg'
+      )}>
         <div className="max-w-[1280px] mx-auto">
           <div className="flex items-center justify-between">
+            {/* 스크롤 시 미니 로고 (데스크톱) */}
+            {isScrolled && (
+              <Link
+                href="/"
+                className="hidden lg:flex items-center gap-2 px-4 flex-shrink-0"
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/images/mauritania-seal.svg"
+                  alt="Seal"
+                  className="w-10 h-10"
+                />
+                <span className={cn(
+                  'text-theme-nav text-sm font-bold whitespace-nowrap',
+                  isRTL && 'font-arabic'
+                )}>
+                  {locale === 'ko' ? '주한 모리타니아 대사관' :
+                   locale === 'en' ? 'Embassy of Mauritania' :
+                   locale === 'fr' ? "Ambassade de Mauritanie" :
+                   'سفارة موريتانيا'}
+                </span>
+              </Link>
+            )}
+
             {/* 데스크톱 메뉴 - 5개 항목 */}
             <ul className={cn(
-              'hidden lg:flex flex-1',
+              'hidden lg:flex',
+              isScrolled ? 'flex-1' : 'flex-1',
               isRTL && 'flex-row-reverse'
             )}>
               {navItems.map((item) => (
@@ -277,11 +321,8 @@ export default function Header({ className }: HeaderProps) {
               ))}
             </ul>
 
-            {/* 모바일: 언어 + 햄버거 + 관리자 */}
+            {/* 모바일: 햄버거 + 관리자 (언어 선택은 상단 유틸리티 바에서) */}
             <div className="lg:hidden flex items-center bg-theme-nav w-full justify-end">
-              <div className="px-4 py-3">
-                <LanguageSwitcher variant="compact" />
-              </div>
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 className="flex items-center px-4 py-3 text-white"

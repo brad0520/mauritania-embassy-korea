@@ -18,7 +18,7 @@ export default function LanguageSwitcher({
   const { locale, setLocale } = useI18n()
   const { currentTheme } = useTheme()
 
-  // Compact variant - 유틸바용 작은 크기
+  // Compact variant - 모바일 헤더용 (어두운 배경)
   if (variant === 'compact') {
     return (
       <div className={cn('flex items-center gap-1', className)}>
@@ -27,16 +27,16 @@ export default function LanguageSwitcher({
             <button
               onClick={() => setLocale(lang)}
               className={cn(
-                'text-sm transition-colors',
+                'text-sm transition-colors px-1',
                 locale === lang
-                  ? 'text-gray-900 font-semibold'
-                  : 'text-gray-500 hover:text-gray-700'
+                  ? 'text-yellow-300 font-bold'  // 선택된 언어: 밝은 노란색
+                  : 'text-white/70 hover:text-white'  // 미선택: 반투명 흰색
               )}
             >
               {localeNames[lang]}
             </button>
             {index < locales.length - 1 && (
-              <span className="text-gray-300">|</span>
+              <span className="text-white/40">|</span>
             )}
           </React.Fragment>
         ))}

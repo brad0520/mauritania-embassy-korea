@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils'
 import { useI18n } from '@/i18n/context'
 import { useTheme } from '@/contexts/ThemeContext'
 import LanguageSwitcher from '@/components/ui/LanguageSwitcher'
-import { ChevronDownIcon, Bars3Icon, XMarkIcon, Cog6ToothIcon } from '@heroicons/react/24/outline'
+import { ChevronDownIcon, Bars3Icon, XMarkIcon, UserCircleIcon } from '@heroicons/react/24/outline'
 import { useSimpleAdminAuth } from '@/contexts/SimpleAdminAuth'
 
 interface NavigationItem {
@@ -196,7 +196,7 @@ export default function Header({ className }: HeaderProps) {
                     href="/admin/news"
                     className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-white bg-theme-header hover:bg-theme-header-hover rounded transition-colors"
                   >
-                    <Cog6ToothIcon className="h-3.5 w-3.5" />
+                    <UserCircleIcon className="h-4 w-4" />
                     <span>Admin</span>
                   </Link>
                 </li>
@@ -321,8 +321,19 @@ export default function Header({ className }: HeaderProps) {
               ))}
             </ul>
 
-            {/* 모바일: 햄버거 + 관리자 (언어 선택은 상단 유틸리티 바에서) */}
+            {/* 모바일: 관리자 + 햄버거 (햄버거가 가장 오른쪽) */}
             <div className="lg:hidden flex items-center bg-theme-nav w-full justify-end">
+              {/* 관리자 버튼 - 햄버거 메뉴 왼쪽 */}
+              {isAuthenticated && (
+                <Link
+                  href="/admin/news"
+                  className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-white bg-white/20 hover:bg-white/30 rounded transition-colors"
+                >
+                  <UserCircleIcon className="h-4 w-4" />
+                  <span>Admin</span>
+                </Link>
+              )}
+              {/* 햄버거 메뉴 - 가장 오른쪽 */}
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 className="flex items-center px-4 py-3 text-white"
@@ -333,15 +344,6 @@ export default function Header({ className }: HeaderProps) {
                   <Bars3Icon className="w-6 h-6" />
                 )}
               </button>
-              {/* 관리자 버튼 - 가장 오른쪽 */}
-              {isAuthenticated && (
-                <Link
-                  href="/admin/news"
-                  className="flex items-center gap-1 px-3 py-1.5 mr-2 text-xs font-medium text-white bg-theme-header hover:bg-theme-header-hover rounded transition-colors"
-                >
-                  <Cog6ToothIcon className="h-3.5 w-3.5" />
-                </Link>
-              )}
             </div>
           </div>
 

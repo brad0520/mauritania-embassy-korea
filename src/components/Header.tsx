@@ -112,14 +112,14 @@ export default function Header({ className }: HeaderProps) {
             'flex items-center justify-between h-[44px]',
             isRTL && 'flex-row-reverse'
           )}>
-            {/* 좌측: 정부 기관 링크 (MOFA, Presidential Office 스타일) */}
-            <ul className={cn('flex items-center', isRTL && 'flex-row-reverse')}>
+            {/* 좌측: 정부 기관 링크 (MOFA, Presidential Office 스타일) - 모바일에서 숨김 */}
+            <ul className={cn('hidden sm:flex items-center', isRTL && 'flex-row-reverse')}>
               <li className="flex items-center">
                 <a
                   href="https://www.diplomatie.gov.mr"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-4 text-[13px] text-gray-600 hover:text-gray-900"
+                  className="flex items-center gap-2 px-4 text-[13px] text-gray-600 hover:text-gray-900 whitespace-nowrap"
                 >
                   <span className="text-sm">🌐</span>
                   <span>MAEC</span>
@@ -130,7 +130,7 @@ export default function Header({ className }: HeaderProps) {
                   href="https://www.mauritania.mr"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-4 text-[13px] text-gray-600 hover:text-gray-900"
+                  className="flex items-center gap-2 px-4 text-[13px] text-gray-600 hover:text-gray-900 whitespace-nowrap"
                 >
                   <span className="text-sm">🇲🇷</span>
                   <span>{locale === 'ko' ? '대통령실' : locale === 'en' ? 'Presidential Office' : locale === 'fr' ? 'Présidence' : 'الرئاسة'}</span>
@@ -156,7 +156,7 @@ export default function Header({ className }: HeaderProps) {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
                 </button>
-                <ul className="hidden group-hover:block absolute right-0 top-full bg-white shadow-lg border border-gray-200 min-w-[150px] py-1 z-50">
+                <ul className="hidden group-hover:block absolute left-0 sm:left-auto sm:right-0 top-full bg-white shadow-lg border border-gray-200 min-w-[150px] py-1 z-50">
                   <li>
                     <a
                       href="https://facebook.com"
@@ -189,18 +189,7 @@ export default function Header({ className }: HeaderProps) {
               <li className="flex items-center h-[44px] before:content-[''] before:w-px before:h-3 before:bg-gray-300">
                 <LanguageSwitcher variant="mofa" />
               </li>
-              {/* 관리자 버튼 (로그인 시에만 표시) - 가장 오른쪽 */}
-              {isAuthenticated && (
-                <li className="flex items-center h-[44px] before:content-[''] before:w-px before:h-3 before:bg-gray-300">
-                  <Link
-                    href="/admin/news"
-                    className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-white bg-theme-header hover:bg-theme-header-hover rounded transition-colors"
-                  >
-                    <UserCircleIcon className="h-4 w-4" />
-                    <span>Admin</span>
-                  </Link>
-                </li>
-              )}
+              {/* 관리자 버튼은 네비게이션 바에만 표시 (중복 방지) */}
             </ol>
           </div>
         </div>

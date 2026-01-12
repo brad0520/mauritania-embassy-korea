@@ -48,12 +48,12 @@ export default function LanguageSwitcher({
   if (variant === 'mofa') {
     return (
       <div className={cn('relative group h-[44px] flex items-center', className)}>
-        <button className="flex items-center gap-2 px-4 h-full text-[13px] text-gray-600 hover:text-gray-900">
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <button className="flex items-center gap-2 px-4 h-full text-[13px] text-gray-600 hover:text-gray-900 whitespace-nowrap">
+          <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
           </svg>
-          <span>{localeNames[locale]}</span>
-          <svg className="w-3 h-3 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <span className="whitespace-nowrap">{localeNames[locale]}</span>
+          <svg className="w-3 h-3 transition-transform group-hover:rotate-180 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
           </svg>
         </button>

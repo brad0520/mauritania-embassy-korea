@@ -43,10 +43,11 @@ const slides = [
   }
 ]
 
-// 국기 이미지 컴포넌트
+// 국기 이미지 컴포넌트 (SVG 사용으로 선명한 렌더링)
 function FlagImage({ country, emoji }: { country: 'korea' | 'mauritania'; emoji: string }) {
   const [imageError, setImageError] = useState(false)
-  const src = country === 'korea' ? '/images/flag-korea.png' : '/images/flag-mauritania.png'
+  // SVG 파일 우선 사용 (벡터라 어떤 크기에서도 선명)
+  const src = country === 'korea' ? '/images/flag-korea.svg' : '/images/flag-mauritania.svg'
   const alt = country === 'korea' ? 'Korean Flag' : 'Mauritanian Flag'
 
   if (imageError) {

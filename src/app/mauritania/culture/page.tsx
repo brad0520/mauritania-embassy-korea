@@ -1,187 +1,11 @@
 'use client'
 
-import React, { useState } from 'react'
+import React from 'react'
 import { useI18n } from '@/i18n/context'
-import { cn } from '@/lib/utils'
 import SubPageLayout from '@/components/layouts/SubPageLayout'
 
 export default function MauritaniaCulturePage() {
   const { locale } = useI18n()
-  const [selectedTopic, setSelectedTopic] = useState('traditions')
-
-  const culturalTopics = [
-    {
-      id: 'traditions',
-      title: '전통문화',
-      icon: '🏺',
-      description: '수백 년간 이어져 온 풍부한 전통'
-    },
-    {
-      id: 'music',
-      title: '음악과 춤',
-      icon: '🎵',
-      description: '베르베르와 아랍의 선율이 어우러진 예술'
-    },
-    {
-      id: 'literature',
-      title: '문학과 시',
-      icon: '📖',
-      description: '구전문학과 현대문학의 조화'
-    },
-    {
-      id: 'crafts',
-      title: '전통공예',
-      icon: '🎨',
-      description: '사막의 지혜가 담긴 수공예품'
-    },
-    {
-      id: 'cuisine',
-      title: '전통요리',
-      icon: '🍲',
-      description: '사막과 바다가 만난 독특한 맛'
-    },
-    {
-      id: 'festivals',
-      title: '축제와 행사',
-      icon: '🎭',
-      description: '공동체를 하나로 만드는 전통축제'
-    }
-  ]
-
-  const traditions = {
-    traditions: [
-      {
-        name: '차 문화 (Atay)',
-        description: '모리타니아의 상징적인 차 문화로, 하루 세 번의 차를 마시는 전통이 있습니다. 첫 번째는 죽음처럼 쓰고, 두 번째는 인생처럼 달고, 세 번째는 사랑처럼 부드럽다고 표현합니다.',
-        importance: '사회적 유대감과 환대의 상징'
-      },
-      {
-        name: '헤나 의식',
-        description: '결혼식이나 종교적 축제에서 여성들이 손과 발에 헤나로 아름다운 문양을 그리는 전통입니다.',
-        importance: '여성의 아름다움과 축복을 상징'
-      },
-      {
-        name: '구전 역사 (Griot)',
-        description: '그리오(음유시인)들이 부족의 역사와 전설을 노래와 이야기로 전승하는 전통입니다.',
-        importance: '역사와 문화 보존의 핵심'
-      },
-      {
-        name: '사막 생활 지혜',
-        description: '유목민들이 사막에서 생존하기 위해 발달시킨 천문학, 기후 예측, 동물 사육 등의 지혜입니다.',
-        importance: '자연과 조화로운 삶의 철학'
-      }
-    ],
-    music: [
-      {
-        name: '티딘트 (Tidinit)',
-        description: '4현의 전통 현악기로, 그리오들이 역사와 영웅담을 노래할 때 사용하는 대표적인 악기입니다.',
-        importance: '구전문학의 동반자'
-      },
-      {
-        name: '아르딘 (Ardine)',
-        description: '여성들이 연주하는 하프 형태의 악기로, 섬세하고 아름다운 선율을 만들어냅니다.',
-        importance: '여성의 예술적 표현'
-      },
-      {
-        name: '무어 음악',
-        description: '아랍과 베르베르 음악이 융합된 독특한 장르로, 복잡한 리듬과 선율이 특징입니다.',
-        importance: '문화적 정체성의 표현'
-      },
-      {
-        name: '전통무용',
-        description: '부족별로 다양한 형태의 무용이 있으며, 종교적 의식이나 축제에서 공동체 결속을 위해 춤을 춥니다.',
-        importance: '공동체 화합의 매개'
-      }
-    ],
-    literature: [
-      {
-        name: '고전 아랍 시',
-        description: '이슬람 문화의 영향으로 아랍 고전시가 발달했으며, 종교적 주제와 사막의 삶을 노래합니다.',
-        importance: '종교적·문화적 정체성'
-      },
-      {
-        name: '하산니야 구전시',
-        description: '현지 방언인 하산니야로 전해지는 구전시로, 일상생활과 사랑, 영웅담을 다룹니다.',
-        importance: '현지 언어와 문화 보존'
-      },
-      {
-        name: '현대 문학',
-        description: '독립 이후 프랑스어와 아랍어로 쓰인 현대 소설과 시가 발전하고 있습니다.',
-        importance: '현대적 정체성 탐구'
-      },
-      {
-        name: '속담과 격언',
-        description: '사막 생활의 지혜와 철학이 담긴 풍부한 속담과 격언이 전해져 내려옵니다.',
-        importance: '생활 지혜의 전수'
-      }
-    ],
-    crafts: [
-      {
-        name: '은 세공',
-        description: '정교한 은 장신구와 장식품을 만드는 전통 공예로, 베르베르족의 전통 기법이 사용됩니다.',
-        importance: '베르베르 문화 유산'
-      },
-      {
-        name: '가죽 공예',
-        description: '양가죽과 염소가죽을 이용해 신발, 가방, 쿠션 등을 만드는 전통 기술입니다.',
-        importance: '실용적 예술의 결합'
-      },
-      {
-        name: '카펫 직조',
-        description: '복잡한 기하학적 무늬의 카펫과 러그를 손으로 직조하는 전통 공예입니다.',
-        importance: '여성의 예술적 기량'
-      },
-      {
-        name: '도자기',
-        description: '일상용품부터 장식용품까지 다양한 도자기를 만드는 전통이 있습니다.',
-        importance: '생활 문화의 예술화'
-      }
-    ],
-    cuisine: [
-      {
-        name: '티에부젠 (Thieboudienne)',
-        description: '생선과 쌀을 야채와 함께 끓인 모리타니아의 대표 음식입니다.',
-        importance: '국민 음식의 지위'
-      },
-      {
-        name: '메쇠이 (Mechoui)',
-        description: '양고기를 통째로 구워 특별한 날에 먹는 전통 요리입니다.',
-        importance: '축제와 환대의 음식'
-      },
-      {
-        name: '쿠스쿠스',
-        description: '베르베르족의 전통 음식으로, 특별한 날에 가족들과 함께 나누어 먹습니다.',
-        importance: '가족 공동체 문화'
-      },
-      {
-        name: '낙타고기',
-        description: '사막 지역의 전통 단백질 공급원으로, 특별한 조리법으로 요리됩니다.',
-        importance: '사막 생활의 지혜'
-      }
-    ],
-    festivals: [
-      {
-        name: '이드 알 피트르',
-        description: '라마단 금식 후 맞이하는 가장 중요한 이슬람 축제로, 가족과 함께 축하합니다.',
-        importance: '종교적 화합과 기쁨'
-      },
-      {
-        name: '이드 알 아드하',
-        description: '희생제로 불리는 이슬람 축제로, 동물을 희생하고 나누어 먹는 전통이 있습니다.',
-        importance: '나눔과 자선의 정신'
-      },
-      {
-        name: '독립기념일',
-        description: '11월 28일 독립을 기념하는 국가 축제로, 전국에서 다양한 행사가 열립니다.',
-        importance: '국가적 자긍심과 단합'
-      },
-      {
-        name: '문화축제',
-        description: '지역별로 열리는 전통문화 축제로, 음악과 무용, 시 낭송 등이 펼쳐집니다.',
-        importance: '문화 유산의 계승'
-      }
-    ]
-  }
 
   const mauritaniaMenuItems = [
     { label: locale === 'ko' ? '역사' : locale === 'en' ? 'History' : locale === 'fr' ? 'Histoire' : 'التاريخ', href: '/mauritania/history' },
@@ -201,7 +25,8 @@ export default function MauritaniaCulturePage() {
       currentPageTitle={pageTitle}
       breadcrumbs={[{ label: menuTitle, href: '/mauritania' }, { label: pageTitle }]}
     >
-      {/* 문화 개요 */}
+      {/* ===== 기존 내용 (백업용 - false를 true로 바꾸면 표시됨) ===== */}
+      {false && (<>
       <section className="bg-white rounded-lg shadow-sm border p-8 mb-8">
         <h2 className="text-2xl font-bold mb-6 pb-3 border-b-2 border-theme-header text-theme-header">
           문화적 배경
@@ -375,8 +200,361 @@ export default function MauritaniaCulturePage() {
           </div>
         </div>
       </section>
+      </>)}
+      {/* ===== 기존 내용 끝 ===== */}
 
-      {/* 종교와 철학 */}
+      {/* 사막의 도서관과 마드라사 */}
+      <section className="bg-white rounded-lg shadow-sm border p-8 mb-8">
+        <h2 className="text-2xl font-bold mb-6 pb-3 border-b-2 border-theme-header text-theme-header">
+          📚 사막의 도서관과 마드라사
+        </h2>
+
+        <div className="prose prose-lg max-w-none mb-8">
+          <p className="text-gray-700 leading-relaxed mb-6">
+            모리타니아는 북아프리카와 사하라 이남 국가들 사이의 문화적 교차로입니다.
+            UNESCO 세계유산으로 등재된 4개의 고대 도시는 위대하고 풍요로운 문명의 유산을 간직하고 있습니다.
+          </p>
+          <p className="text-gray-700 leading-relaxed">
+            이 도시들은 지역 간의 다리 역할을 하며 경제적·문화적 활동의 발전에 기여했습니다.
+            오늘날 이 4개 도시는 국내 최고의 관광지입니다.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="bg-theme-header/10 p-6 rounded-lg">
+            <h3 className="font-bold text-lg mb-3 text-theme-header">
+              🕌 전통 건축
+            </h3>
+            <ul className="text-sm text-gray-700 space-y-2">
+              <li>• 매력적이고 독특한 건축 양식 (모스크, 주택)</li>
+              <li>• 중세 이슬람 도시의 원형이 보존됨</li>
+              <li>• 사막 환경에 적응한 건축 기법</li>
+            </ul>
+          </div>
+
+          <div className="bg-theme-nav/10 p-6 rounded-lg">
+            <h3 className="font-bold text-lg mb-3 text-theme-header">
+              📖 마드라사 (이동 대학)
+            </h3>
+            <ul className="text-sm text-gray-700 space-y-2">
+              <li>• "사막의 대학" 또는 "이동 대학"으로 불림</li>
+              <li>• 이슬람 세계의 학문 중심지 역할</li>
+              <li>• 종교, 법학, 문학 등 다양한 분야 교육</li>
+            </ul>
+          </div>
+
+          <div className="bg-theme-nav/10 p-6 rounded-lg">
+            <h3 className="font-bold text-lg mb-3 text-theme-header">
+              📜 고대 도서관
+            </h3>
+            <ul className="text-sm text-gray-700 space-y-2">
+              <li>• 이슬람 세계에서 가장 인상적인 필사본 소장</li>
+              <li>• 거의 모든 지식 분야를 다루는 문헌</li>
+              <li>• 최근 20년간 100개 이상의 도서관 건립</li>
+            </ul>
+          </div>
+
+          <div className="bg-theme-header/10 p-6 rounded-lg">
+            <h3 className="font-bold text-lg mb-3 text-theme-header">
+              🎭 남부 문화
+            </h3>
+            <ul className="text-sm text-gray-700 space-y-2">
+              <li>• 풍부한 민속 문화 (음악, 구전 문학)</li>
+              <li>• 다양한 민족 그룹의 전통 보존</li>
+              <li>• 문맹 퇴치와 교육 진흥 정책 추진</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* 카라반 무역 */}
+      <section className="bg-white rounded-lg shadow-sm border p-8 mb-8">
+        <h2 className="text-2xl font-bold mb-6 pb-3 border-b-2 border-theme-header text-theme-header">
+          {locale === 'ko' ? '카라반 무역' : locale === 'en' ? 'Caravan Trade' : locale === 'fr' ? 'Commerce de Caravanes' : 'تجارة القوافل'}
+        </h2>
+
+        <div className="mb-8 overflow-hidden">
+          <img
+            src="/images/unesco/chinguetti.jpg"
+            alt="Caravan route"
+            className="float-right ml-6 mb-4 w-80 h-56 object-cover rounded-lg shadow-md"
+          />
+          <p className="text-gray-800 text-[15px] leading-relaxed mb-4">
+            {locale === 'ko'
+              ? '카라반(대상)은 낙타를 이용해 상품을 운송하는 모리타니아의 오랜 전통입니다. 사하라 사막 지역에서 카라반은 오래전부터 잘 알려진 교통수단으로, 교역로를 통해 다양한 물자를 운반해 왔습니다.'
+              : locale === 'en'
+              ? 'Caravan is the transport of goods using camels. Caravan is well known in the Sahara region since a long time ago. It has been used to transport various goods through trade routes.'
+              : locale === 'fr'
+              ? "La caravane est le transport de marchandises à dos de chameaux. La caravane est bien connue dans la région du Sahara depuis longtemps. Elle a été utilisée pour transporter diverses marchandises via les routes commerciales."
+              : 'القافلة هي نقل البضائع باستخدام الجمال. القافلة معروفة جيداً في منطقة الصحراء منذ زمن طويل.'
+            }
+          </p>
+          <p className="text-gray-800 text-[15px] leading-relaxed mb-4">
+            {locale === 'ko'
+              ? '역사적으로 카라반은 사하라 이남 아프리카와 지중해 연안을 연결하는 무역의 핵심이었습니다. 금, 소금, 상아, 직물 등 다양한 상품이 이 루트를 통해 거래되었고, 이는 모리타니아 경제와 문화 발전에 크게 기여했습니다.'
+              : locale === 'en'
+              ? 'Historically, caravans were the backbone of trade connecting Sub-Saharan Africa with the Mediterranean coast. Gold, salt, ivory, and textiles were traded through these routes, significantly contributing to Mauritania\'s economic and cultural development.'
+              : locale === 'fr'
+              ? "Historiquement, les caravanes étaient l'épine dorsale du commerce reliant l'Afrique subsaharienne à la côte méditerranéenne. L'or, le sel, l'ivoire et les textiles étaient échangés via ces routes."
+              : 'تاريخياً، كانت القوافل العمود الفقري للتجارة التي تربط أفريقيا جنوب الصحراء بساحل البحر الأبيض المتوسط.'
+            }
+          </p>
+          <p className="text-gray-800 text-[15px] leading-relaxed">
+            {locale === 'ko'
+              ? '오늘날에도 일부 지역에서는 전통적인 카라반 방식이 유지되고 있으며, 이는 관광 명소로도 인기가 있습니다. 카라반 문화는 모리타니아의 정체성과 역사를 이해하는 데 중요한 요소입니다.'
+              : locale === 'en'
+              ? 'Today, traditional caravan methods are still maintained in some areas, and they are popular as tourist attractions. Caravan culture is an important element in understanding Mauritania\'s identity and history.'
+              : locale === 'fr'
+              ? "Aujourd'hui, les méthodes traditionnelles de caravane sont encore maintenues dans certaines régions et sont populaires comme attractions touristiques."
+              : 'اليوم، لا تزال الطرق التقليدية للقوافل محفوظة في بعض المناطق، وهي شعبية كمعالم سياحية.'
+            }
+          </p>
+          <div className="clear-both"></div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="bg-amber-50 p-5 rounded-lg border border-amber-200">
+            <h3 className="font-bold text-lg mb-2 text-amber-800">
+              {locale === 'ko' ? '주요 교역품' : 'Main Trade Goods'}
+            </h3>
+            <ul className="text-sm text-gray-700 space-y-1">
+              <li>• {locale === 'ko' ? '금 (사하라 이남에서)' : 'Gold (from Sub-Saharan)'}</li>
+              <li>• {locale === 'ko' ? '소금 (사하라에서)' : 'Salt (from Sahara)'}</li>
+              <li>• {locale === 'ko' ? '상아, 향신료' : 'Ivory, Spices'}</li>
+              <li>• {locale === 'ko' ? '직물, 가죽 제품' : 'Textiles, Leather goods'}</li>
+            </ul>
+          </div>
+          <div className="bg-amber-50 p-5 rounded-lg border border-amber-200">
+            <h3 className="font-bold text-lg mb-2 text-amber-800">
+              {locale === 'ko' ? '주요 경유 도시' : 'Major Transit Cities'}
+            </h3>
+            <ul className="text-sm text-gray-700 space-y-1">
+              <li>• {locale === 'ko' ? '쉥게티 (Chinguetti)' : 'Chinguetti'}</li>
+              <li>• {locale === 'ko' ? '우아단 (Ouadane)' : 'Ouadane'}</li>
+              <li>• {locale === 'ko' ? '아타르 (Atar)' : 'Atar'}</li>
+              <li>• {locale === 'ko' ? '누악쇼트 (Nouakchott)' : 'Nouakchott'}</li>
+            </ul>
+          </div>
+          <div className="bg-amber-50 p-5 rounded-lg border border-amber-200">
+            <h3 className="font-bold text-lg mb-2 text-amber-800">
+              {locale === 'ko' ? '문화적 영향' : 'Cultural Impact'}
+            </h3>
+            <ul className="text-sm text-gray-700 space-y-1">
+              <li>• {locale === 'ko' ? '이슬람 문화 전파' : 'Spread of Islamic culture'}</li>
+              <li>• {locale === 'ko' ? '도서관과 학문 발전' : 'Libraries & scholarship'}</li>
+              <li>• {locale === 'ko' ? '다민족 교류 촉진' : 'Multi-ethnic exchange'}</li>
+              <li>• {locale === 'ko' ? '도시 발전의 기반' : 'Foundation for urban growth'}</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* 예술과 공예 */}
+      <section className="bg-white rounded-lg shadow-sm border p-8 mb-8">
+        <h2 className="text-2xl font-bold mb-6 pb-3 border-b-2 border-theme-header text-theme-header">
+          {locale === 'ko' ? '예술과 공예' : locale === 'en' ? 'Art and Craft' : locale === 'fr' ? 'Art et Artisanat' : 'الفن والحرف'}
+        </h2>
+
+        <div className="mb-8 overflow-hidden">
+          <img
+            src="/images/unesco/oualata.jpg"
+            alt="Mauritanian art"
+            className="float-right ml-6 mb-4 w-80 h-56 object-cover rounded-lg shadow-md"
+          />
+          <p className="text-gray-800 text-[15px] leading-relaxed mb-4">
+            {locale === 'ko'
+              ? '벽 장식, 헤나, 민속 음악, 수공예품 및 유물 등 모리타니아의 예술과 공예는 일상생활에 깊이 스며들어 있습니다. 특히 우알라타(Oualata)의 전통 벽화 장식은 여성들이 수세기 동안 발전시켜 온 독특한 예술 형태입니다.'
+              : locale === 'en'
+              ? 'Wall decoration, henna, folk music, handicrafts and artifacts are very present in Mauritanian daily life. The traditional wall decoration of Oualata in particular is a unique art form developed by women over centuries.'
+              : locale === 'fr'
+              ? "La décoration murale, le henné, la musique folklorique, l'artisanat et les artefacts sont très présents dans la vie quotidienne mauritanienne."
+              : 'الزخرفة الجدارية والحناء والموسيقى الشعبية والحرف اليدوية موجودة بشكل كبير في الحياة اليومية الموريتانية.'
+            }
+          </p>
+          <p className="text-gray-800 text-[15px] leading-relaxed mb-4">
+            {locale === 'ko'
+              ? '붉은색과 흰색의 기하학적 문양으로 장식된 건물들은 세계문화유산으로 인정받은 예술적 가치를 지닙니다. 이 전통은 어머니에서 딸로 전해지며 모리타니아 여성 문화의 중요한 부분을 차지합니다.'
+              : locale === 'en'
+              ? 'Buildings decorated with red and white geometric patterns have artistic value recognized as World Cultural Heritage. This tradition is passed from mother to daughter and represents an important part of Mauritanian women\'s culture.'
+              : locale === 'fr'
+              ? "Les bâtiments décorés de motifs géométriques rouges et blancs ont une valeur artistique reconnue comme patrimoine culturel mondial."
+              : 'المباني المزينة بأنماط هندسية حمراء وبيضاء لها قيمة فنية معترف بها كتراث ثقافي عالمي.'
+            }
+          </p>
+          <div className="clear-both"></div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="bg-rose-50 p-6 rounded-lg border border-rose-200">
+            <h3 className="font-bold text-lg mb-3 text-rose-800">
+              {locale === 'ko' ? '벽화 장식' : 'Wall Decoration'}
+            </h3>
+            <p className="text-sm text-gray-700 mb-3">
+              {locale === 'ko'
+                ? '우알라타의 독특한 벽화 예술은 기하학적 문양과 상징적 디자인을 결합합니다.'
+                : 'Oualata\'s unique mural art combines geometric patterns with symbolic designs.'
+              }
+            </p>
+            <ul className="text-sm text-gray-600 space-y-1">
+              <li>• {locale === 'ko' ? '붉은색, 흰색, 검은색 사용' : 'Red, white, and black colors'}</li>
+              <li>• {locale === 'ko' ? '기하학적 문양과 자연 모티프' : 'Geometric patterns and natural motifs'}</li>
+              <li>• {locale === 'ko' ? '여성들의 전승 예술' : 'Women\'s inherited art form'}</li>
+            </ul>
+          </div>
+
+          <div className="bg-rose-50 p-6 rounded-lg border border-rose-200">
+            <h3 className="font-bold text-lg mb-3 text-rose-800">
+              {locale === 'ko' ? '헤나 예술' : 'Henna Art'}
+            </h3>
+            <p className="text-sm text-gray-700 mb-3">
+              {locale === 'ko'
+                ? '결혼식과 축제에서 여성들의 손과 발을 아름답게 장식하는 전통입니다.'
+                : 'A tradition of beautifully decorating women\'s hands and feet during weddings and festivals.'
+              }
+            </p>
+            <ul className="text-sm text-gray-600 space-y-1">
+              <li>• {locale === 'ko' ? '복잡한 기하학적 패턴' : 'Complex geometric patterns'}</li>
+              <li>• {locale === 'ko' ? '자연 염료 사용' : 'Natural dyes used'}</li>
+              <li>• {locale === 'ko' ? '축복과 아름다움의 상징' : 'Symbol of blessing and beauty'}</li>
+            </ul>
+          </div>
+
+          <div className="bg-rose-50 p-6 rounded-lg border border-rose-200">
+            <h3 className="font-bold text-lg mb-3 text-rose-800">
+              {locale === 'ko' ? '민속 음악' : 'Folk Music'}
+            </h3>
+            <p className="text-sm text-gray-700 mb-3">
+              {locale === 'ko'
+                ? '그리오(음유시인)가 전통 악기로 연주하며 역사와 영웅담을 노래합니다.'
+                : 'Griots (troubadours) perform with traditional instruments, singing of history and heroic tales.'
+              }
+            </p>
+            <ul className="text-sm text-gray-600 space-y-1">
+              <li>• {locale === 'ko' ? '티딘트 (4현 악기)' : 'Tidinit (4-string instrument)'}</li>
+              <li>• {locale === 'ko' ? '아르딘 (여성용 하프)' : 'Ardine (women\'s harp)'}</li>
+              <li>• {locale === 'ko' ? '구전 역사의 전승' : 'Oral history transmission'}</li>
+            </ul>
+          </div>
+
+          <div className="bg-rose-50 p-6 rounded-lg border border-rose-200">
+            <h3 className="font-bold text-lg mb-3 text-rose-800">
+              {locale === 'ko' ? '전통 수공예' : 'Traditional Handicrafts'}
+            </h3>
+            <p className="text-sm text-gray-700 mb-3">
+              {locale === 'ko'
+                ? '은세공, 가죽공예, 직물 등 사막 생활에서 발전한 정교한 공예품들입니다.'
+                : 'Silverwork, leathercraft, textiles - refined crafts developed from desert life.'
+              }
+            </p>
+            <ul className="text-sm text-gray-600 space-y-1">
+              <li>• {locale === 'ko' ? '은 장신구와 장식품' : 'Silver jewelry and ornaments'}</li>
+              <li>• {locale === 'ko' ? '가죽 가방, 신발, 쿠션' : 'Leather bags, shoes, cushions'}</li>
+              <li>• {locale === 'ko' ? '전통 텐트 직물' : 'Traditional tent fabrics'}</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* 축제와 행사 */}
+      <section className="bg-white rounded-lg shadow-sm border p-8 mb-8">
+        <h2 className="text-2xl font-bold mb-6 pb-3 border-b-2 border-theme-header text-theme-header">
+          {locale === 'ko' ? '축제와 행사' : locale === 'en' ? 'Festivals and Events' : locale === 'fr' ? 'Festivals et Événements' : 'المهرجانات والفعاليات'}
+        </h2>
+
+        <div className="mb-8 overflow-hidden">
+          <img
+            src="/images/unesco/tichitt.jpg"
+            alt="Mauritanian festival"
+            className="float-right ml-6 mb-4 w-80 h-56 object-cover rounded-lg shadow-md"
+          />
+          <p className="text-gray-800 text-[15px] leading-relaxed mb-4">
+            {locale === 'ko'
+              ? '모리타니아에서는 다양한 관광 행사, 계절 행사, 연례 행사가 열립니다. 사하라 도전(Challenge of the Sahara), 누아디부 요트 경주, 메하레(낙타 타기), 누악쇼트 국제 마라톤 등의 관광 이벤트가 유명합니다.'
+              : locale === 'en'
+              ? 'Mauritania hosts various tourist events, seasonal events, and annual events. Tourist events include Challenge of the Sahara, Race of Sailing boats in Nouadhibou, Meharee (camel riding), and Nouakchott International Marathon.'
+              : locale === 'fr'
+              ? "La Mauritanie accueille divers événements touristiques, saisonniers et annuels. Les événements touristiques comprennent le Défi du Sahara et le Marathon International de Nouakchott."
+              : 'تستضيف موريتانيا العديد من الفعاليات السياحية والموسمية والسنوية.'
+            }
+          </p>
+          <p className="text-gray-800 text-[15px] leading-relaxed">
+            {locale === 'ko'
+              ? '문화 카라반(Cultural Caravans)과 같은 계절 행사, 민속 음악 국가 축제, 유목민 음악 축제, 게트나(대추 수확 축제) 등의 연례 행사도 모리타니아 문화의 중요한 부분입니다.'
+              : locale === 'en'
+              ? 'Seasonal events like Cultural Caravans, and annual events such as National Festival of Folk Music, Festival of Nomads Music, and Guetna (Dates harvest festival) are important parts of Mauritanian culture.'
+              : locale === 'fr'
+              ? "Les événements saisonniers comme les Caravanes Culturelles et les événements annuels tels que le Festival National de Musique Folklorique sont des parties importantes de la culture mauritanienne."
+              : 'الأحداث الموسمية مثل القوافل الثقافية والأحداث السنوية مثل المهرجان الوطني للموسيقى الشعبية هي أجزاء مهمة من الثقافة الموريتانية.'
+            }
+          </p>
+          <div className="clear-both"></div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+          <div className="bg-indigo-50 p-5 rounded-lg border border-indigo-200">
+            <h3 className="font-bold text-lg mb-3 text-indigo-800">
+              {locale === 'ko' ? '관광 이벤트' : 'Tourist Events'}
+            </h3>
+            <ul className="text-sm text-gray-700 space-y-2">
+              <li>• {locale === 'ko' ? '사하라 도전 (Challenge of the Sahara)' : 'Challenge of the Sahara'}</li>
+              <li>• {locale === 'ko' ? '누아디부 요트 경주' : 'Race of Sailing boats in Nouadhibou'}</li>
+              <li>• {locale === 'ko' ? '메하레 (낙타 타기)' : 'Meharee (Camel riding)'}</li>
+              <li>• {locale === 'ko' ? '누악쇼트 국제 마라톤' : 'Nouakchott International Marathon'}</li>
+            </ul>
+          </div>
+
+          <div className="bg-indigo-50 p-5 rounded-lg border border-indigo-200">
+            <h3 className="font-bold text-lg mb-3 text-indigo-800">
+              {locale === 'ko' ? '연례 행사' : 'Annual Events'}
+            </h3>
+            <ul className="text-sm text-gray-700 space-y-2">
+              <li>• {locale === 'ko' ? '민속 음악 국가 축제' : 'National Festival of Folk Music'}</li>
+              <li>• {locale === 'ko' ? '유목민 음악 축제' : 'Festival of Nomads Music'}</li>
+              <li>• {locale === 'ko' ? '게트나 (대추 수확 축제)' : 'Guetna (Dates harvest festival)'}</li>
+              <li>• {locale === 'ko' ? '문화 카라반' : 'Cultural Caravans'}</li>
+            </ul>
+          </div>
+
+          <div className="bg-indigo-50 p-5 rounded-lg border border-indigo-200">
+            <h3 className="font-bold text-lg mb-3 text-indigo-800">
+              {locale === 'ko' ? '스포츠 활동' : 'Sports Activities'}
+            </h3>
+            <ul className="text-sm text-gray-700 space-y-2">
+              <li>• {locale === 'ko' ? '낙타 경주' : 'Camel Race'}</li>
+              <li>• {locale === 'ko' ? '말 경주' : 'Horse Race'}</li>
+              <li>• {locale === 'ko' ? '축구, 농구' : 'Soccer, Basketball'}</li>
+              <li>• {locale === 'ko' ? '전통 레슬링' : 'Traditional Wrestling'}</li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="bg-gray-50 p-6 rounded-lg">
+          <h3 className="font-bold text-lg mb-4 text-theme-header">
+            {locale === 'ko' ? '누악쇼트 관광 명소' : 'Tourist Spots in Nouakchott'}
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="text-center p-4 bg-white rounded-lg shadow-sm">
+              <div className="text-2xl mb-2">🏛️</div>
+              <div className="font-medium text-gray-900">{locale === 'ko' ? '국립박물관' : 'National Museum'}</div>
+            </div>
+            <div className="text-center p-4 bg-white rounded-lg shadow-sm">
+              <div className="text-2xl mb-2">🐟</div>
+              <div className="font-medium text-gray-900">{locale === 'ko' ? '어부의 해변' : "Fishermen's Beach"}</div>
+            </div>
+            <div className="text-center p-4 bg-white rounded-lg shadow-sm">
+              <div className="text-2xl mb-2">🛒</div>
+              <div className="font-medium text-gray-900">{locale === 'ko' ? '전통 시장' : 'Traditional Markets'}</div>
+            </div>
+            <div className="text-center p-4 bg-white rounded-lg shadow-sm">
+              <div className="text-2xl mb-2">🏪</div>
+              <div className="font-medium text-gray-900">{locale === 'ko' ? '무역 박람회장' : 'Trade Fair'}</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== 종교/철학/추가정보 (백업용) ===== */}
+      {false && (<>
       <section className="bg-white rounded-lg shadow-sm border p-8 mb-8">
         <h2 className="text-2xl font-bold mb-6 pb-3 border-b-2 border-theme-header text-theme-header">
           종교와 철학
@@ -520,6 +698,8 @@ export default function MauritaniaCulturePage() {
           </div>
         </div>
       </div>
+      </>)}
+      {/* ===== 백업 끝 ===== */}
     </SubPageLayout>
   )
 }

@@ -30,7 +30,7 @@ interface AdminRecord {
   username: string
   password_hash: string
   display_name: string | null
-  role: string
+  role?: string  // 선택적 - 테이블에 없을 수 있음
 }
 
 /**
@@ -47,12 +47,17 @@ export async function loginAdmin(username: string, password: string): Promise<{
   error?: string
 }> {
   try {
-    // Supabase에서 관리자 조회
+    // Supabase에서 관리자 조회 (role 컬럼은 없을 수 있음)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { data, error } = await (supabase.from('admins') as any)
-      .select('id, username, password_hash, display_name, role')
+      .select('id, username, password_hash, display_name')
       .eq('username', username)
       .single()
+
+    // 디버깅: 에러 및 데이터 로그
+    console.log('🔍 Login attempt for:', username)
+    console.log('🔍 Supabase error:', error ? JSON.stringify(error) : 'none')
+    console.log('🔍 Data received:', data ? 'yes (user found)' : 'no')
 
     const admin = data as AdminRecord | null
 
@@ -76,15 +81,21 @@ export async function loginAdmin(username: string, password: string): Promise<{
           id: admin.id,
           username: admin.username,
           displayName: admin.display_name,
-          role: admin.role
+          role: admin.role || 'admin'  // role이 없으면 기본값 사용
         }
       }
     }
 
     // DB 오류 또는 테이블 미존재 시 개발용 폴백
-    if (process.env.NODE_ENV === 'development' || error?.code === '42P01' || error?.code === 'PGRST116') {
+    // PGRST116: no rows returned, 42P01: table not found
+    // 개발 환경이거나 DB에 사용자가 없는 경우 폴백
+    const isDevelopment = process.env.NODE_ENV === 'development' ||
+      (typeof window !== 'undefined' && window.location.hostname === 'localhost')
+    const isDbError = error?.code === '42P01' || error?.code === 'PGRST116' || !admin
+
+    if (isDevelopment || isDbError) {
       if (username === DEV_ADMIN.username && password === DEV_ADMIN.password) {
-        console.log('⚠️ 개발용 관리자 계정으로 로그인 (DB 미설정)')
+        console.log('⚠️ 개발용 관리자 계정으로 로그인 (DB 미설정 또는 사용자 미존재)')
         return {
           success: true,
           admin: {
@@ -98,11 +109,14 @@ export async function loginAdmin(username: string, password: string): Promise<{
     }
 
     return { success: false, error: '사용자를 찾을 수 없습니다.' }
-  } catch (error) {
-    console.error('Login error:', error)
+  } catch (err) {
+    console.error('Login error:', err)
 
     // 예외 발생 시에도 개발용 폴백 시도
-    if (process.env.NODE_ENV === 'development') {
+    const isDevelopment = process.env.NODE_ENV === 'development' ||
+      (typeof window !== 'undefined' && window.location.hostname === 'localhost')
+
+    if (isDevelopment) {
       if (username === DEV_ADMIN.username && password === DEV_ADMIN.password) {
         console.log('⚠️ 개발용 관리자 계정으로 로그인 (DB 연결 실패)')
         return {

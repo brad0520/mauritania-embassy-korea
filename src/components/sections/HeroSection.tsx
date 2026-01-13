@@ -202,7 +202,7 @@ export default function HeroSection({ className }: HeroSectionProps) {
             {/* 대통령 사진 영역 (40%) */}
             <div className="w-[40%] h-full flex items-center justify-center">
               <div className="text-center">
-                <div className="w-40 h-52 mx-auto rounded-lg overflow-hidden mb-4 border-2 border-white/10 shadow-2xl">
+                <div className="w-52 h-68 mx-auto rounded-lg overflow-hidden mb-4 border-2 border-white/10 shadow-2xl" style={{ height: '272px' }}>
                   <img
                     src="/images/president.png"
                     alt="Mohamed Ould Ghazouani"
@@ -331,7 +331,7 @@ export default function HeroSection({ className }: HeroSectionProps) {
         {/* 대통령 사진 */}
         <div className="bg-gradient-to-br from-[#1a1a2e] to-[#0f0f1a] py-8">
           <div className="text-center">
-            <div className="w-28 h-36 mx-auto rounded-lg overflow-hidden mb-3 border border-white/10">
+            <div className="w-36 h-48 mx-auto rounded-lg overflow-hidden mb-3 border border-white/10">
               <img
                 src="/images/president.png"
                 alt="Mohamed Ould Ghazouani"

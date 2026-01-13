@@ -24,12 +24,12 @@ export default function Header({ className }: HeaderProps) {
   const { currentTheme } = useTheme()
   const { isAuthenticated } = useSimpleAdminAuth()
 
-  // 네비게이션 구조 (5개 메뉴 - 대사관 활동을 대메뉴로 분리)
+  // 네비게이션 구조 (6개 메뉴 - 프랑스어는 Corée 메뉴 추가)
   const navItems: NavigationItem[] = [
     {
       label: locale === 'ko' ? '대사관' :
              locale === 'en' ? "Embassy" :
-             locale === 'fr' ? "l'Ambassade" :
+             locale === 'fr' ? "Ambassade" :
              'السفارة',
       href: '/embassy',
       children: [
@@ -45,7 +45,7 @@ export default function Header({ className }: HeaderProps) {
       href: '/embassy/activities'
     },
     {
-      label: locale === 'ko' ? '영사 서비스' :
+      label: locale === 'ko' ? '영사업무' :
              locale === 'en' ? 'Consular Services' :
              locale === 'fr' ? 'Services Consulaires' :
              'الخدمات القنصلية',
@@ -70,7 +70,7 @@ export default function Header({ className }: HeaderProps) {
     {
       label: locale === 'ko' ? '모리타니아 소개' :
              locale === 'en' ? 'About Mauritania' :
-             locale === 'fr' ? 'Zoom sur la Mauritanie' :
+             locale === 'fr' ? 'Mauritanie' :
              'عن موريتانيا',
       href: '/mauritania',
       children: [
@@ -79,6 +79,19 @@ export default function Header({ className }: HeaderProps) {
         { label: locale === 'ko' ? '경제' : locale === 'en' ? 'Economy' : locale === 'fr' ? 'Économie' : 'الاقتصاد', href: '/mauritania/economy' },
         { label: locale === 'ko' ? '문화' : locale === 'en' ? 'Culture' : locale === 'fr' ? 'Culture' : 'الثقافة', href: '/mauritania/culture' },
         { label: locale === 'ko' ? '헌법기관' : locale === 'en' ? 'Constitutional Institutions' : locale === 'fr' ? 'Institutions constitutionnelles' : 'المؤسسات الدستورية', href: '/mauritania/institutions' }
+      ]
+    },
+    // 한국 소개 메뉴 (프랑스어: Corée) - 마지막 위치
+    {
+      label: locale === 'ko' ? '한국 소개' :
+             locale === 'en' ? 'About Korea' :
+             locale === 'fr' ? 'Corée' :
+             'عن كوريا',
+      href: '/korea',
+      children: [
+        { label: locale === 'ko' ? '한국 개요' : locale === 'en' ? 'Overview' : locale === 'fr' ? 'Aperçu' : 'نظرة عامة', href: '/korea/overview' },
+        { label: locale === 'ko' ? '한국 문화' : locale === 'en' ? 'Korean Culture' : locale === 'fr' ? 'Culture coréenne' : 'الثقافة الكورية', href: '/korea/culture' },
+        { label: locale === 'ko' ? '한국 관광' : locale === 'en' ? 'Tourism' : locale === 'fr' ? 'Tourisme' : 'السياحة', href: '/korea/tourism' }
       ]
     }
   ]
@@ -122,7 +135,7 @@ export default function Header({ className }: HeaderProps) {
                   className="flex items-center gap-2 px-4 text-[13px] text-gray-600 hover:text-gray-900 whitespace-nowrap"
                 >
                   <span className="text-sm">🌐</span>
-                  <span>MAEC</span>
+                  <span>MAECME</span>
                 </a>
               </li>
               <li className="flex items-center before:content-[''] before:w-px before:h-3 before:bg-gray-300">
@@ -258,11 +271,9 @@ export default function Header({ className }: HeaderProps) {
               </Link>
             )}
 
-            {/* 데스크톱 메뉴 - 5개 항목 */}
+            {/* 데스크톱 메뉴 - 5개 항목 (RTL은 dir="rtl"로 자동 처리) */}
             <ul className={cn(
-              'hidden lg:flex',
-              isScrolled ? 'flex-1' : 'flex-1',
-              isRTL && 'flex-row-reverse'
+              'hidden lg:flex flex-1'
             )}>
               {navItems.map((item) => (
                 <li

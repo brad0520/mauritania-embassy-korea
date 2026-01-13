@@ -224,7 +224,7 @@ export default function HeroSection({ className }: HeroSectionProps) {
           </div>
         </div>
 
-        {/* === 2행: 시계 + 긴급연락처 === */}
+        {/* === 2행: 모리타니아 시계 + 한국 시계 === */}
         <div className="relative h-[120px]" suppressHydrationWarning>
           {/* 배경 - 전체 너비 */}
           <div className="absolute inset-0 flex">
@@ -234,8 +234,8 @@ export default function HeroSection({ className }: HeroSectionProps) {
 
           {/* 콘텐츠 - 중앙 정렬 */}
           <div className="relative max-w-[1280px] mx-auto h-full flex">
-            {/* 시계 영역 (60%) */}
-            <div className="w-[60%] h-full flex items-center justify-around px-8">
+            {/* 모리타니아 시계 영역 (60%) */}
+            <div className="w-[60%] h-full flex items-center justify-center px-8">
               {/* 모리타니아 */}
               <div className={cn('flex items-center gap-5', isRTL && 'flex-row-reverse')}>
                 <div className="w-16 h-11 bg-white rounded overflow-hidden shadow-lg flex items-center justify-center">
@@ -249,10 +249,10 @@ export default function HeroSection({ className }: HeroSectionProps) {
                   <p className="text-white/50 text-xs">{formatDate(nouakchottTime)}</p>
                 </div>
               </div>
+            </div>
 
-              <div className="w-px h-16 bg-white/20" />
-
-              {/* 한국 */}
+            {/* 한국 시계 영역 (40%) */}
+            <div className="w-[40%] h-full flex items-center justify-center">
               <div className={cn('flex items-center gap-5', isRTL && 'flex-row-reverse')}>
                 <div className="w-16 h-11 bg-white rounded overflow-hidden shadow-lg flex items-center justify-center">
                   <FlagImage country="korea" emoji="🇰🇷" />
@@ -263,22 +263,6 @@ export default function HeroSection({ className }: HeroSectionProps) {
                   </p>
                   <p className="text-white text-2xl font-bold">{formatTime(seoulTime)}</p>
                   <p className="text-white/50 text-xs">{formatDate(seoulTime)}</p>
-                </div>
-              </div>
-            </div>
-
-            {/* 긴급연락처 영역 (40%) */}
-            <div className="w-[40%] h-full flex items-center justify-center">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-red-500/20 rounded-full flex items-center justify-center border-2 border-red-500/30">
-                  <span className="text-xl">📞</span>
-                </div>
-                <div>
-                  <p className="text-white/60 text-xs uppercase tracking-wider">
-                    {locale === 'ko' ? '긴급연락처' : 'Emergency'}
-                  </p>
-                  <p className="text-white text-lg font-bold">+82-2-790-6458</p>
-                  <p className="text-white/50 text-xs">24h</p>
                 </div>
               </div>
             </div>

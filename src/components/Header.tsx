@@ -140,7 +140,7 @@ export default function Header({ className }: HeaderProps) {
               </li>
               <li className="flex items-center before:content-[''] before:w-px before:h-3 before:bg-gray-300">
                 <a
-                  href="https://www.mauritania.mr"
+                  href="https://presidence.mr/index.php/fr"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 px-4 text-[13px] text-gray-600 hover:text-gray-900 whitespace-nowrap"

@@ -43,11 +43,11 @@ const slides = [
   }
 ]
 
-// 국기 이미지 컴포넌트 (SVG 사용으로 선명한 렌더링)
+// 국기 이미지 컴포넌트 (고해상도 PNG 사용)
 function FlagImage({ country, emoji }: { country: 'korea' | 'mauritania'; emoji: string }) {
   const [imageError, setImageError] = useState(false)
-  // SVG 파일 우선 사용 (벡터라 어떤 크기에서도 선명)
-  const src = country === 'korea' ? '/images/flag-korea.svg' : '/images/flag-mauritania.svg'
+  // 고해상도 PNG 사용 (640px 원본 → 작은 크기로 표시하면 선명)
+  const src = country === 'korea' ? '/images/flag-korea.png' : '/images/flag-mauritania.png'
   const alt = country === 'korea' ? 'Korean Flag' : 'Mauritanian Flag'
 
   if (imageError) {
@@ -60,6 +60,7 @@ function FlagImage({ country, emoji }: { country: 'korea' | 'mauritania'; emoji:
       src={src}
       alt={alt}
       className="w-full h-full object-cover"
+      style={{ imageRendering: 'auto' }}
       onError={() => setImageError(true)}
     />
   )
@@ -206,6 +207,7 @@ export default function HeroSection({ className }: HeroSectionProps) {
                     src="/images/president.png"
                     alt="Mohamed Ould Ghazouani"
                     className="w-full h-full object-cover object-top"
+                    style={{ imageRendering: 'auto', WebkitFontSmoothing: 'antialiased' }}
                   />
                 </div>
                 <p className="text-white text-lg font-semibold">
@@ -334,6 +336,7 @@ export default function HeroSection({ className }: HeroSectionProps) {
                 src="/images/president.png"
                 alt="Mohamed Ould Ghazouani"
                 className="w-full h-full object-cover object-top"
+                style={{ imageRendering: 'auto', WebkitFontSmoothing: 'antialiased' }}
               />
             </div>
             <p className="text-white text-base font-semibold">Mohamed Ould Ghazouani</p>

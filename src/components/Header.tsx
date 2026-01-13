@@ -134,11 +134,7 @@ export default function Header({ className }: HeaderProps) {
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 px-4 text-[13px] text-gray-600 hover:text-gray-900 whitespace-nowrap"
                 >
-                  <svg className="w-4 h-3 rounded-sm" viewBox="0 0 3000 2000">
-                    <path fill="#d01c1f" d="M0 0H3000V2000H0z"/>
-                    <path fill="#00a95c" d="M0 400H3000V1600H0z"/>
-                    <path fill="#ffd700" d="M1299 744h153l48-144 48 144h153l-126 92 51 146-126-90-126 90 51-146zM750 670a 760.092776 628 0 0 0 1500 0 750 730 0 0 1-1500 0z"/>
-                  </svg>
+                  <span>🌐</span>
                   <span>MAECME</span>
                 </a>
               </li>

@@ -199,10 +199,10 @@ export default function HeroSection({ className }: HeroSectionProps) {
               </div>
             </div>
 
-            {/* 대통령 사진 영역 (40%) */}
-            <div className="w-[40%] h-full flex items-center justify-center">
+            {/* 대통령 사진 + 비상전화 영역 (40%) */}
+            <div className="w-[40%] h-full flex flex-col items-center justify-center">
               <div className="text-center">
-                <div className="w-52 h-68 mx-auto rounded-lg overflow-hidden mb-4 border-2 border-white/10 shadow-2xl" style={{ height: '272px' }}>
+                <div className="w-44 h-56 mx-auto rounded-lg overflow-hidden mb-3 border-2 border-white/10 shadow-2xl">
                   <img
                     src="/images/president.png"
                     alt="Mohamed Ould Ghazouani"
@@ -210,60 +210,58 @@ export default function HeroSection({ className }: HeroSectionProps) {
                     style={{ imageRendering: 'auto', WebkitFontSmoothing: 'antialiased' }}
                   />
                 </div>
-                <p className="text-white text-lg font-semibold">
+                <p className="text-white text-base font-semibold">
                   {locale === 'ko' ? '모하메드 울드 가주아니' : 'Mohamed Ould Ghazouani'}
                 </p>
-                <p className="text-white/60 text-sm mt-1">
+                <p className="text-white/60 text-xs mt-1">
                   {locale === 'ko' ? '모리타니아 이슬람 공화국 대통령' :
                    locale === 'en' ? 'President of the Islamic Republic of Mauritania' :
                    locale === 'fr' ? 'Président de la République Islamique de Mauritanie' :
                    'رئيس الجمهورية الإسلامية الموريتانية'}
                 </p>
+                {/* 비상전화 */}
+                <div className="mt-4 bg-white/10 rounded-lg px-4 py-2">
+                  <p className="text-white/60 text-xs uppercase tracking-wider mb-1">
+                    {locale === 'ko' ? '긴급연락처' : locale === 'en' ? 'Emergency' : locale === 'fr' ? 'Urgence' : 'طوارئ'}
+                  </p>
+                  <p className="text-white text-sm font-bold">📞 +82-2-790-6458</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* === 2행: 모리타니아 시계 + 한국 시계 === */}
-        <div className="relative h-[120px]" suppressHydrationWarning>
-          {/* 배경 - 전체 너비 */}
-          <div className="absolute inset-0 flex">
-            <div className="w-[60%] bg-theme-nav" />
-            <div className="w-[40%] bg-theme-dark" />
-          </div>
-
-          {/* 콘텐츠 - 중앙 정렬 */}
-          <div className="relative max-w-[1280px] mx-auto h-full flex">
-            {/* 모리타니아 시계 영역 (60%) */}
-            <div className="w-[60%] h-full flex items-center justify-center px-8">
-              {/* 모리타니아 */}
-              <div className={cn('flex items-center gap-5', isRTL && 'flex-row-reverse')}>
-                <div className="w-16 h-11 bg-white rounded overflow-hidden shadow-lg flex items-center justify-center">
-                  <FlagImage country="mauritania" emoji="🇲🇷" />
-                </div>
-                <div>
-                  <p className="text-white/60 text-sm mb-1">
-                    {locale === 'ko' ? '누악쇼트' : 'Nouakchott'}
-                  </p>
-                  <p className="text-white text-2xl font-bold">{formatTime(nouakchottTime)}</p>
-                  <p className="text-white/50 text-xs">{formatDate(nouakchottTime)}</p>
-                </div>
+        {/* === 2행: 양국 시계 나란히 === */}
+        <div className="relative h-[100px] bg-theme-nav" suppressHydrationWarning>
+          <div className="max-w-[1280px] mx-auto h-full flex items-center justify-center gap-16">
+            {/* 모리타니아 시계 */}
+            <div className={cn('flex items-center gap-4', isRTL && 'flex-row-reverse')}>
+              <div className="w-14 h-10 bg-white rounded overflow-hidden shadow-lg flex items-center justify-center">
+                <FlagImage country="mauritania" emoji="🇲🇷" />
+              </div>
+              <div>
+                <p className="text-white/60 text-sm mb-1">
+                  {locale === 'ko' ? '누악쇼트' : 'Nouakchott'}
+                </p>
+                <p className="text-white text-2xl font-bold">{formatTime(nouakchottTime)}</p>
+                <p className="text-white/50 text-xs">{formatDate(nouakchottTime)}</p>
               </div>
             </div>
 
-            {/* 한국 시계 영역 (40%) */}
-            <div className="w-[40%] h-full flex items-center justify-center">
-              <div className={cn('flex items-center gap-5', isRTL && 'flex-row-reverse')}>
-                <div className="w-16 h-11 bg-white rounded overflow-hidden shadow-lg flex items-center justify-center">
-                  <FlagImage country="korea" emoji="🇰🇷" />
-                </div>
-                <div>
-                  <p className="text-white/60 text-sm mb-1">
-                    {locale === 'ko' ? '서울' : 'Seoul'}
-                  </p>
-                  <p className="text-white text-2xl font-bold">{formatTime(seoulTime)}</p>
-                  <p className="text-white/50 text-xs">{formatDate(seoulTime)}</p>
-                </div>
+            {/* 구분선 */}
+            <div className="w-px h-16 bg-white/20" />
+
+            {/* 한국 시계 */}
+            <div className={cn('flex items-center gap-4', isRTL && 'flex-row-reverse')}>
+              <div className="w-14 h-10 bg-white rounded overflow-hidden shadow-lg flex items-center justify-center">
+                <FlagImage country="korea" emoji="🇰🇷" />
+              </div>
+              <div>
+                <p className="text-white/60 text-sm mb-1">
+                  {locale === 'ko' ? '서울' : 'Seoul'}
+                </p>
+                <p className="text-white text-2xl font-bold">{formatTime(seoulTime)}</p>
+                <p className="text-white/50 text-xs">{formatDate(seoulTime)}</p>
               </div>
             </div>
           </div>
@@ -312,10 +310,29 @@ export default function HeroSection({ className }: HeroSectionProps) {
           </div>
         </div>
 
-        {/* 대통령 사진 */}
-        <div className="bg-gradient-to-br from-[#1a1a2e] to-[#0f0f1a] py-8">
+        {/* 양국 시계 나란히 */}
+        <div className="bg-theme-nav flex items-center justify-around py-5" suppressHydrationWarning>
           <div className="text-center">
-            <div className="w-36 h-48 mx-auto rounded-lg overflow-hidden mb-3 border border-white/10">
+            <div className="w-12 h-8 mx-auto mb-2 bg-white rounded overflow-hidden">
+              <FlagImage country="mauritania" emoji="🇲🇷" />
+            </div>
+            <p className="text-white/60 text-xs">누악쇼트</p>
+            <p className="text-white text-lg font-bold">{formatTime(nouakchottTime)}</p>
+          </div>
+          <div className="w-px h-12 bg-white/20" />
+          <div className="text-center">
+            <div className="w-12 h-8 mx-auto mb-2 bg-white rounded overflow-hidden">
+              <FlagImage country="korea" emoji="🇰🇷" />
+            </div>
+            <p className="text-white/60 text-xs">서울</p>
+            <p className="text-white text-lg font-bold">{formatTime(seoulTime)}</p>
+          </div>
+        </div>
+
+        {/* 대통령 사진 + 비상전화 */}
+        <div className="bg-gradient-to-br from-[#1a1a2e] to-[#0f0f1a] py-6">
+          <div className="text-center">
+            <div className="w-32 h-44 mx-auto rounded-lg overflow-hidden mb-3 border border-white/10">
               <img
                 src="/images/president.png"
                 alt="Mohamed Ould Ghazouani"
@@ -327,32 +344,13 @@ export default function HeroSection({ className }: HeroSectionProps) {
             <p className="text-white/60 text-xs mt-1">
               {locale === 'ko' ? '모리타니아 대통령' : 'President of Mauritania'}
             </p>
-          </div>
-        </div>
-
-        {/* 시계 + 긴급연락처 */}
-        <div suppressHydrationWarning>
-          <div className="bg-theme-nav flex items-center justify-around py-5">
-            <div className="text-center">
-              <div className="w-12 h-8 mx-auto mb-2 bg-white rounded overflow-hidden">
-                <FlagImage country="mauritania" emoji="🇲🇷" />
-              </div>
-              <p className="text-white/60 text-xs">누악쇼트</p>
-              <p className="text-white text-lg font-bold">{formatTime(nouakchottTime)}</p>
+            {/* 비상전화 */}
+            <div className="mt-4 mx-auto max-w-[200px] bg-white/10 rounded-lg px-4 py-2">
+              <p className="text-white/60 text-xs uppercase tracking-wider mb-1">
+                {locale === 'ko' ? '긴급연락처' : 'Emergency'}
+              </p>
+              <p className="text-white text-sm font-bold">📞 +82-2-790-6458</p>
             </div>
-            <div className="w-px h-12 bg-white/20" />
-            <div className="text-center">
-              <div className="w-12 h-8 mx-auto mb-2 bg-white rounded overflow-hidden">
-                <FlagImage country="korea" emoji="🇰🇷" />
-              </div>
-              <p className="text-white/60 text-xs">서울</p>
-              <p className="text-white text-lg font-bold">{formatTime(seoulTime)}</p>
-            </div>
-          </div>
-
-          <div className="bg-[#1e2746] py-4 text-center">
-            <p className="text-white/60 text-xs uppercase tracking-wider mb-1">긴급연락처</p>
-            <p className="text-white text-lg font-bold">📞 +82-2-790-6458</p>
           </div>
         </div>
       </div>

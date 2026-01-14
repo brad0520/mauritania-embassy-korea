@@ -202,7 +202,7 @@ export default function HeroSection({ className }: HeroSectionProps) {
             {/* 대통령 사진 영역 (40%) */}
             <div className="w-[40%] h-full flex items-center justify-center">
               <div className="text-center">
-                <div className="w-56 h-72 mx-auto rounded-lg overflow-hidden mb-3 border-2 border-white/10 shadow-2xl">
+                <div className="w-64 h-80 mx-auto rounded-lg overflow-hidden mb-3 border-2 border-white/10 shadow-2xl">
                   <img
                     src="/images/president.png"
                     alt="Mohamed Ould Ghazouani"
@@ -210,7 +210,7 @@ export default function HeroSection({ className }: HeroSectionProps) {
                     style={{ imageRendering: 'auto', WebkitFontSmoothing: 'antialiased' }}
                   />
                 </div>
-                <p className="text-white text-lg font-semibold">
+                <p className="text-white text-xl font-semibold">
                   {locale === 'ko' ? '모하메드 울드 가주아니' : 'Mohamed Ould Ghazouani'}
                 </p>
                 <p className="text-white/60 text-sm mt-1">
@@ -343,9 +343,9 @@ export default function HeroSection({ className }: HeroSectionProps) {
         </div>
 
         {/* 대통령 사진 + 비상전화 */}
-        <div className="bg-gradient-to-br from-[#1a1a2e] to-[#0f0f1a] py-6">
+        <div className="bg-gradient-to-br from-[#1a1a2e] to-[#0f0f1a] py-8">
           <div className="text-center">
-            <div className="w-32 h-44 mx-auto rounded-lg overflow-hidden mb-3 border border-white/10">
+            <div className="w-44 h-56 mx-auto rounded-lg overflow-hidden mb-3 border-2 border-white/10 shadow-xl">
               <img
                 src="/images/president.png"
                 alt="Mohamed Ould Ghazouani"
@@ -353,16 +353,16 @@ export default function HeroSection({ className }: HeroSectionProps) {
                 style={{ imageRendering: 'auto', WebkitFontSmoothing: 'antialiased' }}
               />
             </div>
-            <p className="text-white text-base font-semibold">Mohamed Ould Ghazouani</p>
-            <p className="text-white/60 text-xs mt-1">
+            <p className="text-white text-lg font-semibold">Mohamed Ould Ghazouani</p>
+            <p className="text-white/60 text-sm mt-1">
               {locale === 'ko' ? '모리타니아 대통령' : 'President of Mauritania'}
             </p>
             {/* 비상전화 */}
-            <div className="mt-4 mx-auto max-w-[200px] bg-white/10 rounded-lg px-4 py-2">
+            <div className="mt-5 mx-auto max-w-[220px] bg-white/10 rounded-lg px-5 py-3">
               <p className="text-white/60 text-xs uppercase tracking-wider mb-1">
                 {locale === 'ko' ? '긴급연락처' : 'Emergency'}
               </p>
-              <p className="text-white text-sm font-bold">📞 +82-2-790-6458</p>
+              <p className="text-white text-base font-bold">📞 +82-2-790-6458</p>
             </div>
           </div>
         </div>

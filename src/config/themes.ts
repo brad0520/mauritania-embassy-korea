@@ -1,5 +1,25 @@
 import type { Organization } from '@/types'
 
+// ========== 레이아웃 시스템 ==========
+// 각 섹션별 사용 가능한 레이아웃 타입
+export type HeroLayoutType = 'modern' | 'classic' | 'minimal'
+export type HeaderLayoutType = 'mofa' | 'compact' | 'centered'
+export type FooterLayoutType = '4-column' | '2-column' | 'minimal'
+
+export interface LayoutConfig {
+  hero: HeroLayoutType
+  header: HeaderLayoutType
+  footer: FooterLayoutType
+}
+
+// 기본 레이아웃 설정
+export const defaultLayout: LayoutConfig = {
+  hero: 'modern',      // 현재 사용 중인 슬라이드+대통령+시계 레이아웃
+  header: 'mofa',      // 현재 사용 중인 유틸리티바+로고+네비 레이아웃
+  footer: '4-column'   // 현재 사용 중인 4열 푸터 레이아웃
+}
+
+// ========== 테마 시스템 ==========
 export interface CountryTheme {
   id: string
   name: {
@@ -38,6 +58,8 @@ export interface CountryTheme {
     government: string
     tourism: string
   }
+  // 레이아웃 설정 (선택적 - 미지정 시 defaultLayout 사용)
+  layout?: Partial<LayoutConfig>
 }
 
 export const countryThemes: Record<string, CountryTheme> = {
@@ -78,6 +100,12 @@ export const countryThemes: Record<string, CountryTheme> = {
     links: {
       government: 'http://www.gouvernement.gov.mr',
       tourism: 'http://www.mauritania.mr'
+    },
+    // 현재 사용 중인 레이아웃 (명시적 지정)
+    layout: {
+      hero: 'modern',
+      header: 'mofa',
+      footer: '4-column'
     }
   },
 
@@ -251,4 +279,12 @@ export const availableCountries = Object.keys(countryThemes)
 // 특정 국가 테마 가져오기
 export function getCountryTheme(countryId: string): CountryTheme {
   return countryThemes[countryId] || defaultTheme
+}
+
+// 테마의 레이아웃 설정 가져오기 (기본값과 병합)
+export function getLayoutConfig(theme: CountryTheme): LayoutConfig {
+  return {
+    ...defaultLayout,
+    ...theme.layout
+  }
 }

@@ -128,7 +128,7 @@ export default function HeroSection({ className }: HeroSectionProps) {
       {/* ========== 데스크톱: 2x2 그리드 ========== */}
       <div className="hidden lg:block">
         {/* === 1행: 슬라이드 + 대통령 사진 === */}
-        <div className="relative h-[380px]">
+        <div className="relative h-[480px]">
           {/* 배경 - 전체 너비 */}
           <div className="absolute inset-0 flex">
             <div
@@ -202,7 +202,7 @@ export default function HeroSection({ className }: HeroSectionProps) {
             {/* 대통령 사진 + 비상전화 영역 (40%) */}
             <div className="w-[40%] h-full flex flex-col items-center justify-center">
               <div className="text-center">
-                <div className="w-44 h-56 mx-auto rounded-lg overflow-hidden mb-3 border-2 border-white/10 shadow-2xl">
+                <div className="w-56 h-72 mx-auto rounded-lg overflow-hidden mb-3 border-2 border-white/10 shadow-2xl">
                   <img
                     src="/images/president.png"
                     alt="Mohamed Ould Ghazouani"
@@ -210,21 +210,21 @@ export default function HeroSection({ className }: HeroSectionProps) {
                     style={{ imageRendering: 'auto', WebkitFontSmoothing: 'antialiased' }}
                   />
                 </div>
-                <p className="text-white text-base font-semibold">
+                <p className="text-white text-lg font-semibold">
                   {locale === 'ko' ? '모하메드 울드 가주아니' : 'Mohamed Ould Ghazouani'}
                 </p>
-                <p className="text-white/60 text-xs mt-1">
+                <p className="text-white/60 text-sm mt-1">
                   {locale === 'ko' ? '모리타니아 이슬람 공화국 대통령' :
                    locale === 'en' ? 'President of the Islamic Republic of Mauritania' :
                    locale === 'fr' ? 'Président de la République Islamique de Mauritanie' :
                    'رئيس الجمهورية الإسلامية الموريتانية'}
                 </p>
                 {/* 비상전화 */}
-                <div className="mt-4 bg-white/10 rounded-lg px-4 py-2">
+                <div className="mt-4 bg-white/10 rounded-lg px-5 py-3">
                   <p className="text-white/60 text-xs uppercase tracking-wider mb-1">
                     {locale === 'ko' ? '긴급연락처' : locale === 'en' ? 'Emergency' : locale === 'fr' ? 'Urgence' : 'طوارئ'}
                   </p>
-                  <p className="text-white text-sm font-bold">📞 +82-2-790-6458</p>
+                  <p className="text-white text-base font-bold">📞 +82-2-790-6458</p>
                 </div>
               </div>
             </div>

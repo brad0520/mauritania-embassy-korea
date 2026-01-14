@@ -199,7 +199,7 @@ export default function GeographyPage() {
 
         <div className="mb-8 overflow-hidden">
           <img
-            src="/images/unesco/chinguetti.jpg"
+            src="/images/tourism/tourism-main.jpg"
             alt="Mauritania landscape"
             className="float-right ml-6 mb-4 w-80 h-56 object-cover rounded-lg shadow-md"
           />
@@ -336,7 +336,7 @@ export default function GeographyPage() {
         {/* 사막 */}
         <div className="mb-8 overflow-hidden">
           <img
-            src="/images/unesco/tichitt.jpg"
+            src="/images/tourism/desert-camel.jpg"
             alt="Sahara Desert"
             className="float-right ml-6 mb-4 w-72 h-48 object-cover rounded-lg shadow-md"
           />
@@ -431,7 +431,7 @@ export default function GeographyPage() {
 
         <div className="mb-8 overflow-hidden">
           <img
-            src="/images/unesco/ouadane.jpg"
+            src="/images/tourism/coast-beach.jpg"
             alt="Nouakchott"
             className="float-right ml-6 mb-4 w-72 h-48 object-cover rounded-lg shadow-md"
           />

@@ -316,7 +316,7 @@ export default function MauritaniaCulturePage() {
 
         <div className="mb-8 overflow-hidden">
           <img
-            src="/images/unesco/tichitt.jpg"
+            src="/images/tourism/desert-camel.jpg"
             alt="Mauritanian festival"
             className="float-right ml-6 mb-4 w-80 h-56 object-cover rounded-lg shadow-md"
           />

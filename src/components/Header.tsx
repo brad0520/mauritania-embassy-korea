@@ -74,8 +74,8 @@ export default function Header({ className }: HeaderProps) {
              'عن موريتانيا',
       href: '/mauritania',
       children: [
+        { label: locale === 'ko' ? '지정학' : locale === 'en' ? 'Geopolitics' : locale === 'fr' ? 'Géopolitique' : 'الجيوسياسة', href: '/mauritania/geography' },
         { label: locale === 'ko' ? '역사' : locale === 'en' ? 'History' : locale === 'fr' ? 'Histoire' : 'التاريخ', href: '/mauritania/history' },
-        { label: locale === 'ko' ? '지리' : locale === 'en' ? 'Geography' : locale === 'fr' ? 'Géographie' : 'الجغرافيا', href: '/mauritania/geography' },
         { label: locale === 'ko' ? '경제' : locale === 'en' ? 'Economy' : locale === 'fr' ? 'Économie' : 'الاقتصاد', href: '/mauritania/economy' },
         { label: locale === 'ko' ? '문화' : locale === 'en' ? 'Culture' : locale === 'fr' ? 'Culture' : 'الثقافة', href: '/mauritania/culture' },
         { label: locale === 'ko' ? '헌법기관' : locale === 'en' ? 'Constitutional Institutions' : locale === 'fr' ? 'Institutions constitutionnelles' : 'المؤسسات الدستورية', href: '/mauritania/institutions' }
@@ -89,9 +89,11 @@ export default function Header({ className }: HeaderProps) {
              'عن كوريا',
       href: '/korea',
       children: [
-        { label: locale === 'ko' ? '한국 개요' : locale === 'en' ? 'Overview' : locale === 'fr' ? 'Aperçu' : 'نظرة عامة', href: '/korea/overview' },
-        { label: locale === 'ko' ? '한국 문화' : locale === 'en' ? 'Korean Culture' : locale === 'fr' ? 'Culture coréenne' : 'الثقافة الكورية', href: '/korea/culture' },
-        { label: locale === 'ko' ? '한국 관광' : locale === 'en' ? 'Tourism' : locale === 'fr' ? 'Tourisme' : 'السياحة', href: '/korea/tourism' }
+        { label: locale === 'ko' ? '지정학' : locale === 'en' ? 'Geopolitics' : locale === 'fr' ? 'Géopolitique' : 'الجيوسياسة', href: '/korea/geography' },
+        { label: locale === 'ko' ? '역사' : locale === 'en' ? 'History' : locale === 'fr' ? 'Histoire' : 'التاريخ', href: '/korea/history' },
+        { label: locale === 'ko' ? '경제' : locale === 'en' ? 'Economy' : locale === 'fr' ? 'Économie' : 'الاقتصاد', href: '/korea/economy' },
+        { label: locale === 'ko' ? '문화' : locale === 'en' ? 'Culture' : locale === 'fr' ? 'Culture' : 'الثقافة', href: '/korea/culture' },
+        { label: locale === 'ko' ? '헌법기관' : locale === 'en' ? 'Constitutional Institutions' : locale === 'fr' ? 'Institutions constitutionnelles' : 'المؤسسات الدستورية', href: '/korea/institutions' }
       ]
     }
   ]

@@ -909,8 +909,8 @@ export const messages: Record<Locale, Record<MessageKey, string>> = {
     // Header
     'header.embassyTitle': 'Embassy of {country} in Korea',
     'header.embassySubtitle': 'Embassy of {country} in Korea',
-    'header.title': 'Embassy of the Islamic Republic of Mauritania in Korea',
-    'header.subtitle': 'Embassy of the Islamic Republic of Mauritania in Korea',
+    'header.title': 'Embassy of the Islamic Republic of Mauritania in the Republic of Korea',
+    'header.subtitle': 'Embassy of the Islamic Republic of Mauritania in the Republic of Korea',
     'header.presidentialOffice': 'Presidential Office',
     
     // Hero
@@ -1369,8 +1369,8 @@ export const messages: Record<Locale, Record<MessageKey, string>> = {
     // Header
     'header.embassyTitle': 'Ambassade de {country} en Corée',
     'header.embassySubtitle': 'Ambassade de {country} en Corée',
-    'header.title': 'Ambassade de la République Islamique de Mauritanie en Corée',
-    'header.subtitle': 'Ambassade de la République Islamique de Mauritanie en Corée',
+    'header.title': 'Ambassade de la République Islamique de Mauritanie en République de Corée',
+    'header.subtitle': 'Ambassade de la République Islamique de Mauritanie en République de Corée',
     'header.presidentialOffice': 'Bureau du Président',
     
     // Hero

@@ -142,8 +142,8 @@ export default function Footer({ className }: FooterProps) {
               <p className="text-white/60 text-sm">
                 © {new Date().getFullYear()} {
                   locale === 'ko' ? '주한 모리타니아 이슬람 공화국 대사관' :
-                  locale === 'en' ? 'Embassy of the Islamic Republic of Mauritania in Korea' :
-                  locale === 'fr' ? "Ambassade de la République Islamique de Mauritanie en Corée" :
+                  locale === 'en' ? 'Embassy of the Islamic Republic of Mauritania in the Republic of Korea' :
+                  locale === 'fr' ? "Ambassade de la République Islamique de Mauritanie en République de Corée" :
                   'سفارة الجمهورية الإسلامية الموريتانية في كوريا'
                 }
               </p>

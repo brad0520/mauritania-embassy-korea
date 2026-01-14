@@ -71,13 +71,16 @@ export default function KoreaInstitutionsPage() {
             <div className="text-4xl">🇰🇷</div>
             <div>
               <h3 className="font-bold text-lg text-blue-800 mb-2">
-                {locale === 'ko' ? '윤석열 대통령' : 'President Yoon Suk Yeol'}
+                {locale === 'ko' ? '이재명 대통령' : locale === 'en' ? 'President Lee Jae-myung' : locale === 'fr' ? 'Président Lee Jae-myung' : 'الرئيس لي جاي ميونغ'}
               </h3>
               <p className="text-sm text-gray-700 mb-2">
-                {locale === 'ko' ? '제20대 대한민국 대통령 (2022년 5월 취임)' : '20th President of the Republic of Korea (inaugurated May 2022)'}
+                {locale === 'ko' ? '제21대 대한민국 대통령 (2025년 6월 취임)' : locale === 'en' ? '21st President of the Republic of Korea (inaugurated June 2025)' : locale === 'fr' ? '21e Président de la République de Corée (investi en juin 2025)' : 'الرئيس الحادي والعشرون لجمهورية كوريا (تنصيب يونيو 2025)'}
+              </p>
+              <p className="text-xs text-gray-500 mb-2">
+                {locale === 'ko' ? '임기: 2025년 6월 ~ 2030년 6월' : locale === 'en' ? 'Term: June 2025 ~ June 2030' : locale === 'fr' ? 'Mandat: juin 2025 ~ juin 2030' : 'الفترة: يونيو 2025 ~ يونيو 2030'}
               </p>
               <div className="flex gap-4 text-sm">
-                <span className="text-blue-600">🏢 {locale === 'ko' ? '청와대 (용산)' : 'Yongsan Presidential Office'}</span>
+                <span className="text-blue-600">🏢 {locale === 'ko' ? '용산 대통령실' : 'Yongsan Presidential Office'}</span>
               </div>
             </div>
           </div>

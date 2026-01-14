@@ -202,7 +202,7 @@ export default function HeroSection({ className }: HeroSectionProps) {
             {/* 대통령 사진 영역 (40%) */}
             <div className="w-[40%] h-full flex items-center justify-center">
               <div className="text-center">
-                <div className="w-64 h-80 mx-auto rounded-lg overflow-hidden mb-3 border-2 border-white/10 shadow-2xl">
+                <div className="w-72 h-96 mx-auto rounded-lg overflow-hidden mb-2 border-2 border-white/10 shadow-2xl">
                   <img
                     src="/images/president.png"
                     alt="Mohamed Ould Ghazouani"

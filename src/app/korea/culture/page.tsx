@@ -31,6 +31,12 @@ export default function KoreaCulturePage() {
           {locale === 'ko' ? '한국 문화 개요' : locale === 'en' ? 'Korean Culture Overview' : locale === 'fr' ? 'Aperçu de la culture coréenne' : 'نظرة عامة على الثقافة الكورية'}
         </h2>
 
+        <div className="mb-6 overflow-hidden">
+          <img
+            src="/images/korea/bukchon.jpg"
+            alt="Bukchon Hanok Village"
+            className="float-right ml-6 mb-4 w-72 h-48 object-cover rounded-lg shadow-md"
+          />
         <p className="text-gray-800 text-[15px] leading-relaxed mb-4">
           {locale === 'ko'
             ? '한국 문화는 5천년의 역사를 바탕으로 독자적인 전통과 현대적 창의성이 조화를 이루고 있습니다. 오늘날 한류(Hallyu)로 불리는 한국 대중문화는 전 세계적으로 큰 인기를 얻으며 글로벌 문화 트렌드를 선도하고 있습니다.'
@@ -40,6 +46,7 @@ export default function KoreaCulturePage() {
             ? 'La culture coréenne allie harmonieusement des traditions uniques basées sur 5 000 ans d\'histoire avec une créativité moderne.'
             : 'الثقافة الكورية تمزج بين التقاليد الفريدة القائمة على 5000 عام من التاريخ مع الإبداع الحديث.'}
         </p>
+        </div>
       </section>
 
       {/* 한류 (K-Culture) */}
@@ -173,11 +180,18 @@ export default function KoreaCulturePage() {
           {locale === 'ko' ? 'UNESCO 세계유산' : locale === 'en' ? 'UNESCO World Heritage' : locale === 'fr' ? 'Patrimoine mondial de l\'UNESCO' : 'التراث العالمي لليونسكو'}
         </h2>
 
+        <div className="mb-6 overflow-hidden">
+          <img
+            src="/images/korea/changdeokgung.jpg"
+            alt="Changdeokgung Palace - UNESCO World Heritage"
+            className="float-right ml-6 mb-4 w-72 h-48 object-cover rounded-lg shadow-md"
+          />
         <p className="text-gray-700 text-sm mb-4">
           {locale === 'ko'
             ? '대한민국은 16개의 세계문화유산, 2개의 세계자연유산, 22개의 인류무형문화유산을 보유하고 있습니다.'
             : 'South Korea has 16 World Cultural Heritage Sites, 2 World Natural Heritage Sites, and 22 Intangible Cultural Heritage items.'}
         </p>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="p-4 bg-blue-50 rounded-lg">

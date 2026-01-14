@@ -31,7 +31,13 @@ export default function KoreaHistoryPage() {
           {locale === 'ko' ? '한국 역사 개요' : locale === 'en' ? 'Korean History Overview' : locale === 'fr' ? 'Aperçu de l\'histoire coréenne' : 'نظرة عامة على التاريخ الكوري'}
         </h2>
 
-        <p className="text-gray-800 text-[15px] leading-relaxed mb-4">
+        <div className="mb-6 overflow-hidden">
+          <img
+            src="/images/korea/gyeongbokgung.jpg"
+            alt="Gyeongbokgung Palace"
+            className="float-right ml-6 mb-4 w-72 h-48 object-cover rounded-lg shadow-md"
+          />
+          <p className="text-gray-800 text-[15px] leading-relaxed mb-4">
           {locale === 'ko'
             ? '한국은 5천년 이상의 유구한 역사를 가진 나라입니다. 고조선부터 시작하여 삼국시대, 통일신라, 고려, 조선을 거쳐 현재의 대한민국에 이르기까지 독자적인 문화와 전통을 발전시켜 왔습니다.'
             : locale === 'en'
@@ -40,6 +46,7 @@ export default function KoreaHistoryPage() {
             ? 'La Corée a une longue histoire de plus de 5 000 ans. De Gojoseon à la période des Trois Royaumes, Silla unifié, Goryeo, Joseon et jusqu\'à l\'actuelle République de Corée, elle a développé sa propre culture et ses traditions.'
             : 'تمتلك كوريا تاريخًا طويلاً يمتد لأكثر من 5000 عام.'}
         </p>
+        </div>
       </section>
 
       {/* 시대별 역사 */}

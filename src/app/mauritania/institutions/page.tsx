@@ -30,7 +30,7 @@ export default function InstitutionsPage() {
         {
           name: '대통령실 (Présidence)',
           description: '국가 원수이자 행정부 수반으로서 국정을 총괄합니다.',
-          url: 'http://www.presidence.mr'
+          url: 'https://presidence.mr/index.php/fr'
         },
         {
           name: '총리실 (Primature)',
@@ -66,7 +66,7 @@ export default function InstitutionsPage() {
         {
           name: 'Presidency (Présidence)',
           description: 'The Head of State and Chief Executive who oversees national affairs.',
-          url: 'http://www.presidence.mr'
+          url: 'https://presidence.mr/index.php/fr'
         },
         {
           name: 'Prime Minister\'s Office (Primature)',
@@ -102,7 +102,7 @@ export default function InstitutionsPage() {
         {
           name: 'Présidence',
           description: 'Le Chef de l\'État et de l\'Exécutif qui supervise les affaires nationales.',
-          url: 'http://www.presidence.mr'
+          url: 'https://presidence.mr/index.php/fr'
         },
         {
           name: 'Primature',
@@ -138,7 +138,7 @@ export default function InstitutionsPage() {
         {
           name: 'الرئاسة',
           description: 'رئيس الدولة والسلطة التنفيذية الذي يشرف على الشؤون الوطنية.',
-          url: 'http://www.presidence.mr'
+          url: 'https://presidence.mr/index.php/fr'
         },
         {
           name: 'الوزارة الأولى',

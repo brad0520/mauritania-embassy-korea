@@ -31,14 +31,6 @@ export default function KoreaGeographyPage() {
           {locale === 'ko' ? '대한민국 개요' : locale === 'en' ? 'Republic of Korea Overview' : locale === 'fr' ? 'Aperçu de la République de Corée' : 'نظرة عامة على جمهورية كوريا'}
         </h2>
 
-        <div className="mb-6 overflow-hidden">
-          <img
-            src="/images/korea/seoul-skyline.jpg"
-            alt="Seoul Skyline"
-            className="float-right ml-6 mb-4 w-72 h-48 object-cover rounded-lg shadow-md"
-          />
-        </div>
-
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           <div className="text-center p-4 rounded-lg bg-theme-header/10">
             <div className="text-2xl font-bold mb-1 text-theme-header">100,210 km²</div>
@@ -91,14 +83,11 @@ export default function KoreaGeographyPage() {
             <h3 className="font-bold text-lg mb-3 text-green-800">
               {locale === 'ko' ? '🏔️ 지형' : '🏔️ Terrain'}
             </h3>
-            <div className="flex gap-4">
-              <img src="/images/korea/hallasan.jpg" alt="Hallasan Mountain" className="w-24 h-24 object-cover rounded-lg shadow-sm" />
-              <ul className="text-sm text-gray-700 space-y-2 flex-1">
-                <li>• {locale === 'ko' ? '국토의 70%가 산악 지형' : '70% of the land is mountainous'}</li>
-                <li>• {locale === 'ko' ? '최고봉: 한라산 (1,947m)' : 'Highest peak: Hallasan (1,947m)'}</li>
-                <li>• {locale === 'ko' ? '주요 강: 한강, 낙동강, 금강' : 'Major rivers: Han, Nakdong, Geum'}</li>
-              </ul>
-            </div>
+            <ul className="text-sm text-gray-700 space-y-2">
+              <li>• {locale === 'ko' ? '국토의 70%가 산악 지형' : '70% of the land is mountainous'}</li>
+              <li>• {locale === 'ko' ? '최고봉: 한라산 (1,947m)' : 'Highest peak: Hallasan (1,947m)'}</li>
+              <li>• {locale === 'ko' ? '주요 강: 한강, 낙동강, 금강' : 'Major rivers: Han, Nakdong, Geum'}</li>
+            </ul>
           </div>
         </div>
 

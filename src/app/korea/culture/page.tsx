@@ -180,18 +180,11 @@ export default function KoreaCulturePage() {
           {locale === 'ko' ? 'UNESCO 세계유산' : locale === 'en' ? 'UNESCO World Heritage' : locale === 'fr' ? 'Patrimoine mondial de l\'UNESCO' : 'التراث العالمي لليونسكو'}
         </h2>
 
-        <div className="mb-6 overflow-hidden">
-          <img
-            src="/images/korea/changdeokgung.jpg"
-            alt="Changdeokgung Palace - UNESCO World Heritage"
-            className="float-right ml-6 mb-4 w-72 h-48 object-cover rounded-lg shadow-md"
-          />
         <p className="text-gray-700 text-sm mb-4">
           {locale === 'ko'
             ? '대한민국은 16개의 세계문화유산, 2개의 세계자연유산, 22개의 인류무형문화유산을 보유하고 있습니다.'
             : 'South Korea has 16 World Cultural Heritage Sites, 2 World Natural Heritage Sites, and 22 Intangible Cultural Heritage items.'}
         </p>
-        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="p-4 bg-blue-50 rounded-lg">

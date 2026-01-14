@@ -28,18 +28,34 @@ export default function MauritaniaCulturePage() {
       {/* 사막의 도서관과 마드라사 */}
       <section className="bg-white rounded-lg shadow-sm border p-8 mb-8">
         <h2 className="text-2xl font-bold mb-6 pb-3 border-b-2 border-theme-header text-theme-header">
-          📚 사막의 도서관과 마드라사
+          📚 {locale === 'ko' ? '사막의 도서관과 마드라사' : locale === 'en' ? 'Desert Libraries and Madrasas' : locale === 'fr' ? 'Bibliothèques du Désert et Madrasas' : 'مكتبات الصحراء والمدارس'}
         </h2>
 
-        <div className="prose prose-lg max-w-none mb-8">
-          <p className="text-gray-700 leading-relaxed mb-6">
-            모리타니아는 북아프리카와 사하라 이남 국가들 사이의 문화적 교차로입니다.
-            UNESCO 세계유산으로 등재된 4개의 고대 도시는 위대하고 풍요로운 문명의 유산을 간직하고 있습니다.
+        <div className="mb-8 overflow-hidden">
+          <img
+            src="/images/culture/culture-main.jpg"
+            alt="Mauritanian culture"
+            className="float-right ml-6 mb-4 w-80 h-56 object-cover rounded-lg shadow-md"
+          />
+          <p className="text-gray-700 leading-relaxed mb-4">
+            {locale === 'ko'
+              ? '모리타니아는 북아프리카와 사하라 이남 국가들 사이의 문화적 교차로입니다. UNESCO 세계유산으로 등재된 4개의 고대 도시는 위대하고 풍요로운 문명의 유산을 간직하고 있습니다.'
+              : locale === 'en'
+              ? 'Mauritania is a cultural crossroads between North Africa and sub-Saharan countries. The 4 ancient cities classified by UNESCO as world heritage still hold the vestige of a great and rich civilization.'
+              : locale === 'fr'
+              ? "La Mauritanie est un carrefour culturel entre l'Afrique du Nord et les pays subsahariens. Les 4 anciennes villes classées par l'UNESCO conservent encore les vestiges d'une grande et riche civilisation."
+              : 'موريتانيا هي ملتقى ثقافي بين شمال أفريقيا ودول جنوب الصحراء.'}
           </p>
-          <p className="text-gray-700 leading-relaxed">
-            이 도시들은 지역 간의 다리 역할을 하며 경제적·문화적 활동의 발전에 기여했습니다.
-            오늘날 이 4개 도시는 국내 최고의 관광지입니다.
+          <p className="text-gray-700 leading-relaxed mb-4">
+            {locale === 'ko'
+              ? '이 도시들은 지역 간의 다리 역할을 하며 경제적·문화적 활동의 발전에 기여했습니다. 오늘날 이 4개 도시는 국내 최고의 관광지입니다.'
+              : locale === 'en'
+              ? 'These cities served as a bridge for the regions and helped to develop economic and cultural activities. Today, these 4 cities are the most popular tourist destinations in the country.'
+              : locale === 'fr'
+              ? "Ces villes ont servi de pont pour les régions et ont contribué au développement des activités économiques et culturelles."
+              : 'خدمت هذه المدن كجسر بين المناطق وساعدت في تطوير الأنشطة الاقتصادية والثقافية.'}
           </p>
+          <div className="clear-both"></div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -204,6 +220,21 @@ export default function MauritaniaCulturePage() {
             }
           </p>
           <div className="clear-both"></div>
+        </div>
+
+        {/* 공예품 갤러리 */}
+        <div className="mb-8">
+          <h3 className="font-bold text-lg mb-4 text-theme-header">
+            {locale === 'ko' ? '전통 공예품 갤러리' : locale === 'en' ? 'Traditional Crafts Gallery' : locale === 'fr' ? 'Galerie d\'Artisanat Traditionnel' : 'معرض الحرف التقليدية'}
+          </h3>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+            <img src="/images/culture/craft-01.jpg" alt="Mauritanian craft" className="w-full h-24 object-cover rounded-lg shadow-sm hover:shadow-md transition-shadow" />
+            <img src="/images/culture/craft-02.jpg" alt="Mauritanian craft" className="w-full h-24 object-cover rounded-lg shadow-sm hover:shadow-md transition-shadow" />
+            <img src="/images/culture/craft-03.jpg" alt="Mauritanian craft" className="w-full h-24 object-cover rounded-lg shadow-sm hover:shadow-md transition-shadow" />
+            <img src="/images/culture/craft-04.jpg" alt="Mauritanian craft" className="w-full h-24 object-cover rounded-lg shadow-sm hover:shadow-md transition-shadow" />
+            <img src="/images/culture/craft-05.jpg" alt="Mauritanian craft" className="w-full h-24 object-cover rounded-lg shadow-sm hover:shadow-md transition-shadow" />
+            <img src="/images/culture/craft-06.jpg" alt="Mauritanian craft" className="w-full h-24 object-cover rounded-lg shadow-sm hover:shadow-md transition-shadow" />
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

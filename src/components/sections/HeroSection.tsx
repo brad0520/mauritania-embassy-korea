@@ -271,10 +271,13 @@ export default function HeroSection({ className }: HeroSectionProps) {
             {/* 긴급연락처 영역 (40%) */}
             <div className="w-[40%] h-full flex items-center justify-center">
               <div className="text-center">
-                <p className="text-white/60 text-xs uppercase tracking-wider mb-1">
+                <p className="text-white/60 text-xs uppercase tracking-wider mb-2">
                   {locale === 'ko' ? '긴급연락처' : locale === 'en' ? 'Emergency' : locale === 'fr' ? 'Urgence' : 'طوارئ'}
                 </p>
-                <p className="text-white text-xl font-bold">📞 +82-2-790-6458</p>
+                <div className="flex items-center justify-center gap-3">
+                  <span className="text-3xl">📞</span>
+                  <span className="text-white text-xl font-bold">+82-2-790-6458</span>
+                </div>
               </div>
             </div>
           </div>
@@ -358,11 +361,14 @@ export default function HeroSection({ className }: HeroSectionProps) {
               {locale === 'ko' ? '모리타니아 대통령' : 'President of Mauritania'}
             </p>
             {/* 비상전화 */}
-            <div className="mt-5 mx-auto max-w-[220px] bg-white/10 rounded-lg px-5 py-3">
-              <p className="text-white/60 text-xs uppercase tracking-wider mb-1">
+            <div className="mt-5 mx-auto max-w-[240px] bg-white/10 rounded-lg px-5 py-3">
+              <p className="text-white/60 text-xs uppercase tracking-wider mb-2">
                 {locale === 'ko' ? '긴급연락처' : 'Emergency'}
               </p>
-              <p className="text-white text-base font-bold">📞 +82-2-790-6458</p>
+              <div className="flex items-center justify-center gap-2">
+                <span className="text-2xl">📞</span>
+                <span className="text-white text-base font-bold">+82-2-790-6458</span>
+              </div>
             </div>
           </div>
         </div>

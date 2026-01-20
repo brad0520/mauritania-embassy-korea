@@ -250,7 +250,7 @@ export default function HeroModern({ className }: HeroLayoutProps) {
               </div>
 
               {/* 슬라이드 인디케이터 */}
-              <div className="absolute bottom-6 left-8 flex items-center gap-3">
+              <div className="absolute bottom-6 left-0 right-0 flex items-center justify-center gap-3">
                 {slides.map((_, index) => (
                   <button
                     key={index}

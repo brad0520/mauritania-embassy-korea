@@ -19,7 +19,7 @@ const slides = [
       fr: "Bienvenue à l'Ambassade de Mauritanie",
       ar: 'مرحباً بكم في سفارة موريتانيا'
     },
-    image: '/images/slides/모리타니아2.jpeg'
+    image: '/images/slides/mauritania-slide-1.jpeg'
   },
   {
     id: 2,
@@ -29,7 +29,7 @@ const slides = [
       fr: 'Coopération bilatérale',
       ar: 'التعاون الثنائي'
     },
-    image: '/images/slides/모리타니아3.jpeg'
+    image: '/images/slides/mauritania-slide-2.jpeg'
   },
   {
     id: 3,
@@ -39,7 +39,7 @@ const slides = [
       fr: 'Événements culturels',
       ar: 'الفعاليات الثقافية'
     },
-    image: '/images/slides/모리타니아4.jpeg'
+    image: '/images/slides/mauritania-slide-3.jpeg'
   },
   {
     id: 4,
@@ -49,7 +49,7 @@ const slides = [
       fr: 'Nature et culture de Mauritanie',
       ar: 'طبيعة وثقافة موريتانيا'
     },
-    image: '/images/slides/모리타니아5.jpeg'
+    image: '/images/slides/mauritania-slide-4.jpeg'
   },
   {
     id: 5,
@@ -59,7 +59,7 @@ const slides = [
       fr: 'Beaux paysages du Sahara',
       ar: 'مناظر الصحراء الجميلة'
     },
-    image: '/images/slides/모리타니아6.jpeg'
+    image: '/images/slides/mauritania-slide-5.jpeg'
   },
   {
     id: 6,
@@ -69,7 +69,7 @@ const slides = [
       fr: 'Traditions et patrimoine de Mauritanie',
       ar: 'تقاليد وتراث موريتانيا'
     },
-    image: '/images/slides/모리타니아7.jpeg'
+    image: '/images/slides/mauritania-slide-6.jpeg'
   }
 ]
 

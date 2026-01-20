@@ -211,6 +211,25 @@ export default function HeroModern({ className }: HeroLayoutProps) {
                   </div>
                 ))}
               </div>
+              {/* 슬라이드 인디케이터 - 슬라이드 이미지 영역 중앙 */}
+              <div className="absolute bottom-6 left-0 right-0 flex items-center justify-center gap-3 z-10">
+                {slides.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => goToSlide(index)}
+                    className={cn(
+                      'w-3 h-3 rounded-full transition-all',
+                      index === (currentSlide % slides.length) ? 'bg-white' : 'bg-white/40 hover:bg-white/60'
+                    )}
+                  />
+                ))}
+                <button
+                  onClick={() => setIsAutoPlaying(!isAutoPlaying)}
+                  className="ml-2 text-white/60 hover:text-white text-sm"
+                >
+                  {isAutoPlaying ? '⏸' : '▶'}
+                </button>
+              </div>
             </div>
             <div className="w-[40%] bg-gradient-to-br from-theme-dark to-black" />
           </div>
@@ -249,25 +268,6 @@ export default function HeroModern({ className }: HeroLayoutProps) {
                 ))}
               </div>
 
-              {/* 슬라이드 인디케이터 */}
-              <div className="absolute bottom-6 left-0 right-0 flex items-center justify-center gap-3">
-                {slides.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => goToSlide(index)}
-                    className={cn(
-                      'w-3 h-3 rounded-full transition-all',
-                      index === (currentSlide % slides.length) ? 'bg-white' : 'bg-white/40 hover:bg-white/60'
-                    )}
-                  />
-                ))}
-                <button
-                  onClick={() => setIsAutoPlaying(!isAutoPlaying)}
-                  className="ml-2 text-white/60 hover:text-white text-sm"
-                >
-                  {isAutoPlaying ? '⏸' : '▶'}
-                </button>
-              </div>
             </div>
 
             {/* 대통령 사진 영역 (40%) */}

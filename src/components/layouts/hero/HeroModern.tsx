@@ -19,7 +19,7 @@ const slides = [
       fr: "Bienvenue à l'Ambassade de Mauritanie",
       ar: 'مرحباً بكم في سفارة موريتانيا'
     },
-    image: '/images/slides/slide-1.jpg'
+    image: '/images/slides/모리타니아2.jpeg'
   },
   {
     id: 2,
@@ -29,7 +29,7 @@ const slides = [
       fr: 'Coopération bilatérale',
       ar: 'التعاون الثنائي'
     },
-    image: '/images/slides/slide-2.jpg'
+    image: '/images/slides/모리타니아3.jpeg'
   },
   {
     id: 3,
@@ -39,7 +39,37 @@ const slides = [
       fr: 'Événements culturels',
       ar: 'الفعاليات الثقافية'
     },
-    image: '/images/slides/slide-3.jpg'
+    image: '/images/slides/모리타니아4.jpeg'
+  },
+  {
+    id: 4,
+    title: {
+      ko: '모리타니아의 자연과 문화',
+      en: 'Nature and Culture of Mauritania',
+      fr: 'Nature et culture de Mauritanie',
+      ar: 'طبيعة وثقافة موريتانيا'
+    },
+    image: '/images/slides/모리타니아5.jpeg'
+  },
+  {
+    id: 5,
+    title: {
+      ko: '사하라의 아름다운 풍경',
+      en: 'Beautiful Landscapes of the Sahara',
+      fr: 'Beaux paysages du Sahara',
+      ar: 'مناظر الصحراء الجميلة'
+    },
+    image: '/images/slides/모리타니아6.jpeg'
+  },
+  {
+    id: 6,
+    title: {
+      ko: '모리타니아의 전통과 유산',
+      en: 'Traditions and Heritage of Mauritania',
+      fr: 'Traditions et patrimoine de Mauritanie',
+      ar: 'تقاليد وتراث موريتانيا'
+    },
+    image: '/images/slides/모리타니아7.jpeg'
   }
 ]
 
@@ -76,15 +106,37 @@ export default function HeroModern({ className }: HeroLayoutProps) {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [isAutoPlaying, setIsAutoPlaying] = useState(true)
   const [currentTime, setCurrentTime] = useState<Date>(new Date())
+  const [isTransitioning, setIsTransitioning] = useState(true)
+
+  // 무한 루프를 위한 확장 슬라이드 (마지막에 첫 번째 슬라이드 복제)
+  const extendedSlides = [...slides, slides[0]]
 
   // 자동 슬라이드
   useEffect(() => {
     if (!isAutoPlaying) return
     const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % slides.length)
+      setCurrentSlide((prev) => prev + 1)
     }, 5000)
     return () => clearInterval(timer)
   }, [isAutoPlaying])
+
+  // 마지막 복제 슬라이드에서 실제 첫 번째로 점프
+  useEffect(() => {
+    if (currentSlide === slides.length) {
+      // 복제된 첫 번째 슬라이드에 도달하면
+      const timer = setTimeout(() => {
+        setIsTransitioning(false) // transition 비활성화
+        setCurrentSlide(0) // 실제 첫 번째로 점프
+        // 다음 프레임에서 transition 다시 활성화
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            setIsTransitioning(true)
+          })
+        })
+      }, 1000) // 전환 애니메이션 완료 후
+      return () => clearTimeout(timer)
+    }
+  }, [currentSlide])
 
   // 실시간 시간 업데이트
   useEffect(() => {
@@ -135,20 +187,30 @@ export default function HeroModern({ className }: HeroLayoutProps) {
         <div className="relative h-[480px]">
           {/* 배경 - 전체 너비 */}
           <div className="absolute inset-0 flex">
-            <div
-              className="w-[60%]"
-              style={{
-                background: 'linear-gradient(135deg, var(--theme-hero-start) 0%, var(--theme-hero-mid) 50%, var(--theme-hero-end) 100%)'
-              }}
-            >
-              {/* 배경 패턴 */}
+            {/* 슬라이드 배경 이미지 영역 (60%) */}
+            <div className="w-[60%] relative overflow-hidden">
               <div
-                className="absolute inset-0 opacity-10"
+                className="flex h-full"
                 style={{
-                  backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-                  backgroundRepeat: 'repeat'
+                  transform: `translateX(-${currentSlide * 100}%)`,
+                  transition: isTransitioning ? 'transform 1s cubic-bezier(0.4, 0, 0.2, 1)' : 'none'
                 }}
-              />
+              >
+                {extendedSlides.map((slide, index) => (
+                  <div
+                    key={`bg-${slide.id}-${index}`}
+                    className="min-w-full h-full relative flex-shrink-0"
+                  >
+                    <img
+                      src={slide.image}
+                      alt=""
+                      className="w-full h-full object-cover"
+                    />
+                    {/* 어두운 오버레이 - 텍스트 가독성 */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-black/60" />
+                  </div>
+                ))}
+              </div>
             </div>
             <div className="w-[40%] bg-gradient-to-br from-theme-dark to-black" />
           </div>
@@ -156,31 +218,36 @@ export default function HeroModern({ className }: HeroLayoutProps) {
           {/* 콘텐츠 - 중앙 정렬 */}
           <div className="relative max-w-[1280px] mx-auto h-full flex">
             {/* 슬라이드 영역 (60%) */}
-            <div className="w-[60%] h-full flex items-center relative">
-              {slides.map((slide, index) => (
-                <div
-                  key={slide.id}
-                  className={cn(
-                    'absolute inset-0 transition-opacity duration-700 flex items-center',
-                    index === currentSlide ? 'opacity-100' : 'opacity-0'
-                  )}
-                >
-                  <div className="px-8">
-                    <h2 className={cn(
-                      'text-white text-3xl font-bold mb-4 leading-tight max-w-lg',
-                      isRTL && 'text-right'
-                    )}>
-                      {slide.title[locale as keyof typeof slide.title] || slide.title.ko}
-                    </h2>
-                    <p className="text-white/70 text-lg">
-                      {locale === 'ko' ? '주한 모리타니아 이슬람 공화국 대사관' :
-                       locale === 'en' ? 'Embassy of the Islamic Republic of Mauritania in the Republic of Korea' :
-                       locale === 'fr' ? "Ambassade de la République Islamique de Mauritanie en République de Corée" :
-                       'سفارة الجمهورية الإسلامية الموريتانية في كوريا'}
-                    </p>
+            <div className="w-[60%] h-full flex items-center relative overflow-hidden">
+              <div
+                className="flex h-full"
+                style={{
+                  transform: `translateX(-${currentSlide * 100}%)`,
+                  transition: isTransitioning ? 'transform 1s cubic-bezier(0.4, 0, 0.2, 1)' : 'none'
+                }}
+              >
+                {extendedSlides.map((slide, index) => (
+                  <div
+                    key={`text-${slide.id}-${index}`}
+                    className="min-w-full h-full flex items-center flex-shrink-0"
+                  >
+                    <div className="px-8">
+                      <h2 className={cn(
+                        'text-white text-3xl font-bold mb-4 leading-tight max-w-lg',
+                        isRTL && 'text-right'
+                      )}>
+                        {slide.title[locale as keyof typeof slide.title] || slide.title.ko}
+                      </h2>
+                      <p className="text-white/70 text-lg">
+                        {locale === 'ko' ? '주한 모리타니아 이슬람 공화국 대사관' :
+                         locale === 'en' ? 'Embassy of the Islamic Republic of Mauritania in the Republic of Korea' :
+                         locale === 'fr' ? "Ambassade de la République Islamique de Mauritanie en République de Corée" :
+                         'سفارة الجمهورية الإسلامية الموريتانية في كوريا'}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
 
               {/* 슬라이드 인디케이터 */}
               <div className="absolute bottom-6 left-8 flex items-center gap-3">
@@ -190,7 +257,7 @@ export default function HeroModern({ className }: HeroLayoutProps) {
                     onClick={() => goToSlide(index)}
                     className={cn(
                       'w-3 h-3 rounded-full transition-all',
-                      index === currentSlide ? 'bg-white' : 'bg-white/40 hover:bg-white/60'
+                      index === (currentSlide % slides.length) ? 'bg-white' : 'bg-white/40 hover:bg-white/60'
                     )}
                   />
                 ))}
@@ -298,30 +365,55 @@ export default function HeroModern({ className }: HeroLayoutProps) {
       {/* ========== 모바일/태블릿 ========== */}
       <div className="lg:hidden">
         {/* 슬라이드 */}
-        <div
-          className="relative h-[280px] overflow-hidden"
-          style={{
-            background: 'linear-gradient(135deg, var(--theme-hero-start) 0%, var(--theme-hero-mid) 50%, var(--theme-hero-end) 100%)'
-          }}
-        >
-          {slides.map((slide, index) => (
-            <div
-              key={slide.id}
-              className={cn(
-                'absolute inset-0 transition-opacity duration-700 flex items-center justify-center',
-                index === currentSlide ? 'opacity-100' : 'opacity-0'
-              )}
-            >
-              <div className="px-6 text-center">
-                <h2 className="text-white text-2xl font-bold mb-3 leading-tight">
-                  {slide.title[locale as keyof typeof slide.title] || slide.title.ko}
-                </h2>
-                <p className="text-white/70 text-sm">
-                  {locale === 'ko' ? '주한 모리타니아 대사관' : 'Embassy of Mauritania in Korea'}
-                </p>
+        <div className="relative h-[280px] overflow-hidden">
+          {/* 배경 이미지들 - 슬라이드 효과 */}
+          <div
+            className="flex h-full"
+            style={{
+              transform: `translateX(-${currentSlide * 100}%)`,
+              transition: isTransitioning ? 'transform 1s cubic-bezier(0.4, 0, 0.2, 1)' : 'none'
+            }}
+          >
+            {extendedSlides.map((slide, index) => (
+              <div
+                key={`mobile-bg-${slide.id}-${index}`}
+                className="min-w-full h-full relative flex-shrink-0"
+              >
+                <img
+                  src={slide.image}
+                  alt=""
+                  className="w-full h-full object-cover"
+                />
+                {/* 어두운 오버레이 */}
+                <div className="absolute inset-0 bg-black/50" />
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+
+          {/* 텍스트 콘텐츠 - 슬라이드 효과 */}
+          <div
+            className="absolute inset-0 flex"
+            style={{
+              transform: `translateX(-${currentSlide * 100}%)`,
+              transition: isTransitioning ? 'transform 1s cubic-bezier(0.4, 0, 0.2, 1)' : 'none'
+            }}
+          >
+            {extendedSlides.map((slide, index) => (
+              <div
+                key={`mobile-text-${slide.id}-${index}`}
+                className="min-w-full h-full flex items-center justify-center flex-shrink-0"
+              >
+                <div className="px-6 text-center">
+                  <h2 className="text-white text-2xl font-bold mb-3 leading-tight drop-shadow-lg">
+                    {slide.title[locale as keyof typeof slide.title] || slide.title.ko}
+                  </h2>
+                  <p className="text-white/80 text-sm drop-shadow">
+                    {locale === 'ko' ? '주한 모리타니아 대사관' : 'Embassy of Mauritania in Korea'}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
 
           <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
             {slides.map((_, index) => (
@@ -330,7 +422,7 @@ export default function HeroModern({ className }: HeroLayoutProps) {
                 onClick={() => goToSlide(index)}
                 className={cn(
                   'w-2 h-2 rounded-full transition-all',
-                  index === currentSlide ? 'bg-white' : 'bg-white/40'
+                  index === (currentSlide % slides.length) ? 'bg-white' : 'bg-white/40'
                 )}
               />
             ))}

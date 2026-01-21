@@ -365,7 +365,7 @@ export default function HeroModern({ className }: HeroLayoutProps) {
       {/* ========== 모바일/태블릿 ========== */}
       <div className="lg:hidden">
         {/* 슬라이드 */}
-        <div className="relative h-[280px] overflow-hidden">
+        <div className="relative h-[320px] sm:h-[380px] overflow-hidden">
           {/* 배경 이미지들 - 슬라이드 효과 */}
           <div
             className="flex h-full"
@@ -382,10 +382,10 @@ export default function HeroModern({ className }: HeroLayoutProps) {
                 <img
                   src={slide.image}
                   alt=""
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover object-center"
                 />
-                {/* 어두운 오버레이 */}
-                <div className="absolute inset-0 bg-black/50" />
+                {/* 어두운 오버레이 - 그라데이션으로 텍스트 가독성 향상 */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/30" />
               </div>
             ))}
           </div>
@@ -401,10 +401,10 @@ export default function HeroModern({ className }: HeroLayoutProps) {
             {extendedSlides.map((slide, index) => (
               <div
                 key={`mobile-text-${slide.id}-${index}`}
-                className="min-w-full h-full flex items-center justify-center flex-shrink-0"
+                className="min-w-full h-full flex items-end pb-14 justify-center flex-shrink-0"
               >
-                <div className="px-6 text-center">
-                  <h2 className="text-white text-2xl font-bold mb-3 leading-tight drop-shadow-lg">
+                <div className="px-4 sm:px-8 text-center max-w-[90%]">
+                  <h2 className="text-white text-xl sm:text-2xl font-bold mb-2 leading-snug drop-shadow-lg">
                     {slide.title[locale as keyof typeof slide.title] || slide.title.ko}
                   </h2>
                   <p className="text-white/80 text-sm drop-shadow">
@@ -421,7 +421,7 @@ export default function HeroModern({ className }: HeroLayoutProps) {
                 key={index}
                 onClick={() => goToSlide(index)}
                 className={cn(
-                  'w-2 h-2 rounded-full transition-all',
+                  'w-2.5 h-2.5 rounded-full transition-all',
                   index === (currentSlide % slides.length) ? 'bg-white' : 'bg-white/40'
                 )}
               />

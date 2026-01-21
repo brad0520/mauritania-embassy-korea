@@ -370,14 +370,16 @@ export default function HeroModern({ className }: HeroLayoutProps) {
           <div
             className="flex h-full"
             style={{
-              transform: `translateX(-${currentSlide * 100}%)`,
+              width: `${extendedSlides.length * 100}%`,
+              transform: `translateX(-${currentSlide * (100 / extendedSlides.length)}%)`,
               transition: isTransitioning ? 'transform 1s cubic-bezier(0.4, 0, 0.2, 1)' : 'none'
             }}
           >
             {extendedSlides.map((slide, index) => (
               <div
                 key={`mobile-bg-${slide.id}-${index}`}
-                className="min-w-full h-full relative flex-shrink-0"
+                className="h-full relative"
+                style={{ width: `${100 / extendedSlides.length}%` }}
               >
                 <img
                   src={slide.image}
@@ -394,14 +396,16 @@ export default function HeroModern({ className }: HeroLayoutProps) {
           <div
             className="absolute inset-0 flex"
             style={{
-              transform: `translateX(-${currentSlide * 100}%)`,
+              width: `${extendedSlides.length * 100}%`,
+              transform: `translateX(-${currentSlide * (100 / extendedSlides.length)}%)`,
               transition: isTransitioning ? 'transform 1s cubic-bezier(0.4, 0, 0.2, 1)' : 'none'
             }}
           >
             {extendedSlides.map((slide, index) => (
               <div
                 key={`mobile-text-${slide.id}-${index}`}
-                className="min-w-full h-full flex items-end pb-14 justify-center flex-shrink-0"
+                className="h-full flex items-end pb-14 justify-center"
+                style={{ width: `${100 / extendedSlides.length}%` }}
               >
                 <div className="px-4 sm:px-8 text-center max-w-[90%]">
                   <h2 className="text-white text-xl sm:text-2xl font-bold mb-2 leading-snug drop-shadow-lg">

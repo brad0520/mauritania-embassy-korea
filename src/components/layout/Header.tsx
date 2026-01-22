@@ -60,10 +60,7 @@ export default function Header({ organization, className }: HeaderProps) {
     },
     {
       label: t('nav.relations'),
-      href: '/relations',
-      children: [
-        { label: t('nav.relations.bilateral'), href: '/relations/bilateral' }
-      ]
+      href: '/relations/bilateral'
     },
     {
       label: t('nav.mauritania'),

@@ -11,19 +11,21 @@ const TEST_MODE = true
 export default function BilateralRelationsPage() {
   const { locale } = useI18n()
 
-  const relationsMenuItems = [
-    { label: locale === 'ko' ? '양자관계' : 'Bilateral Relations', href: '/relations/bilateral' }
-  ]
+  // 사이드바 메뉴 없음 (공관활동과 동일하게 단독 페이지)
+  const menuItems: { label: string; href: string }[] = []
 
-  const menuTitle = locale === 'ko' ? '양국 관계' : 'Bilateral Relations'
-  const pageTitle = locale === 'ko' ? '양자관계' : 'Bilateral Relations'
+  const menuTitle = locale === 'ko' ? '양국 관계' :
+                    locale === 'en' ? 'Bilateral Relations' :
+                    locale === 'fr' ? 'Relations Bilatérales' :
+                    'العلاقات الثنائية'
+  const pageTitle = menuTitle
 
   return (
     <SubPageLayout
       menuTitle={menuTitle}
-      menuItems={relationsMenuItems}
+      menuItems={menuItems}
       currentPageTitle={pageTitle}
-      breadcrumbs={[{ label: menuTitle, href: '/relations' }, { label: pageTitle }]}
+      breadcrumbs={[{ label: pageTitle }]}
     >
       {TEST_MODE ? <TestEnCours /> : <>
       {/* 외교 관계 수립 */}

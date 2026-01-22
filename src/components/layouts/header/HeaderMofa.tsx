@@ -72,10 +72,7 @@ export default function HeaderMofa({ className }: HeaderMofaProps) {
              locale === 'en' ? 'Bilateral Relations' :
              locale === 'fr' ? 'Relations Bilatérales' :
              'العلاقات الثنائية',
-      href: '/relations',
-      children: [
-        { label: locale === 'ko' ? '양국 관계' : locale === 'en' ? 'Bilateral Relations' : locale === 'fr' ? 'Relations bilatérales' : 'العلاقات الثنائية', href: '/relations/bilateral' }
-      ]
+      href: '/relations/bilateral'
     },
     {
       label: locale === 'ko' ? '모리타니아 소개' :

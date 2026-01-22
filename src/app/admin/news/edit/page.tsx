@@ -50,6 +50,7 @@ function EditNewsContent() {
   const { t, locale } = useI18n()
 
   const [activeTab, setActiveTab] = useState<Language>('ko')
+  const [editorMounted, setEditorMounted] = useState(true)
   const [saving, setSaving] = useState(false)
   const [loading, setLoading] = useState(true)
   const [title, setTitle] = useState<MultilingualContent>({ ko: '', en: '', fr: '', ar: '' })
@@ -102,6 +103,21 @@ function EditNewsContent() {
   const handleContentChange = (lang: Language, value: string) => {
     setContent(prev => ({ ...prev, [lang]: value }))
   }
+
+  // 탭 전환 시 에디터를 완전히 재마운트
+  const handleTabChange = (lang: Language) => {
+    if (lang === activeTab) return
+    setEditorMounted(false)
+    setActiveTab(lang)
+  }
+
+  // 탭이 변경되면 에디터를 다시 마운트
+  useEffect(() => {
+    if (!editorMounted) {
+      const timer = setTimeout(() => setEditorMounted(true), 50)
+      return () => clearTimeout(timer)
+    }
+  }, [editorMounted])
 
   const getCompletionStatus = () => {
     const completed = LANGUAGES.filter(lang =>
@@ -301,7 +317,7 @@ function EditNewsContent() {
               {LANGUAGES.map(lang => (
                 <button
                   key={lang.code}
-                  onClick={() => setActiveTab(lang.code)}
+                  onClick={() => handleTabChange(lang.code)}
                   className={`py-4 px-6 text-sm font-medium border-b-2 transition-colors ${
                     activeTab === lang.code
                       ? 'border-theme-header text-theme-header'
@@ -344,13 +360,19 @@ function EditNewsContent() {
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 {t('admin.news.content')} ({currentLang.label})
               </label>
-              <RichTextEditor
-                key={activeTab}
-                content={content[activeTab]}
-                onChange={(value) => handleContentChange(activeTab, value)}
-                placeholder={t('admin.news.contentPlaceholder').replace('{lang}', currentLang.label)}
-                locale={locale}
-              />
+              {editorMounted ? (
+                <RichTextEditor
+                  key={activeTab}
+                  content={content[activeTab]}
+                  onChange={(value) => handleContentChange(activeTab, value)}
+                  placeholder={t('admin.news.contentPlaceholder').replace('{lang}', currentLang.label)}
+                  locale={locale}
+                />
+              ) : (
+                <div className="border border-gray-300 rounded-lg p-4 h-[400px] flex items-center justify-center bg-gray-50">
+                  <div className="text-gray-500">Loading editor...</div>
+                </div>
+              )}
             </div>
           </div>
         </div>

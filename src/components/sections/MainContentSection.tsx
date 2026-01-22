@@ -14,16 +14,16 @@ interface NoticeItem {
   category: 'notice' | 'news' | 'event'
 }
 
-// 더미 공지사항 데이터
+// 더미 공지사항 데이터 (test en cours)
 const noticeItems: NoticeItem[] = [
   {
     id: '1',
     date: '2026.01.10',
     title: {
-      ko: '한-모리타니아 경제협력위원회 제5차 회의 개최',
-      en: 'Korea-Mauritania Economic Cooperation Committee 5th Meeting',
-      fr: '5ème réunion du Comité de coopération économique Corée-Mauritanie',
-      ar: 'الاجتماع الخامس للجنة التعاون الاقتصادي الكورية الموريتانية'
+      ko: 'test en cours',
+      en: 'test en cours',
+      fr: 'test en cours',
+      ar: 'test en cours'
     },
     category: 'news'
   },
@@ -31,10 +31,10 @@ const noticeItems: NoticeItem[] = [
     id: '2',
     date: '2026.01.08',
     title: {
-      ko: '모리타니아 문화주간 행사 안내',
-      en: 'Mauritania Cultural Week Event Notice',
-      fr: 'Annonce de la Semaine culturelle mauritanienne',
-      ar: 'إعلان أسبوع الثقافة الموريتانية'
+      ko: 'test en cours',
+      en: 'test en cours',
+      fr: 'test en cours',
+      ar: 'test en cours'
     },
     category: 'event'
   },
@@ -42,10 +42,10 @@ const noticeItems: NoticeItem[] = [
     id: '3',
     date: '2026.01.05',
     title: {
-      ko: '비자 신청 절차 변경 안내',
-      en: 'Visa Application Procedure Change Notice',
-      fr: 'Avis de modification de la procédure de demande de visa',
-      ar: 'إشعار بتغيير إجراءات طلب التأشيرة'
+      ko: 'test en cours',
+      en: 'test en cours',
+      fr: 'test en cours',
+      ar: 'test en cours'
     },
     category: 'notice'
   },
@@ -53,10 +53,10 @@ const noticeItems: NoticeItem[] = [
     id: '4',
     date: '2025.12.28',
     title: {
-      ko: '모리타니아 독립기념일 기념 리셉션',
-      en: 'Mauritania Independence Day Reception',
-      fr: 'Réception de la fête de l\'indépendance de la Mauritanie',
-      ar: 'حفل استقبال عيد استقلال موريتانيا'
+      ko: 'test en cours',
+      en: 'test en cours',
+      fr: 'test en cours',
+      ar: 'test en cours'
     },
     category: 'event'
   },
@@ -64,10 +64,10 @@ const noticeItems: NoticeItem[] = [
     id: '5',
     date: '2025.12.20',
     title: {
-      ko: '연말연시 휴무 안내',
-      en: 'Year-end and New Year Holiday Notice',
-      fr: 'Avis de vacances de fin d\'année',
-      ar: 'إشعار عطلة نهاية العام'
+      ko: 'test en cours',
+      en: 'test en cours',
+      fr: 'test en cours',
+      ar: 'test en cours'
     },
     category: 'notice'
   }

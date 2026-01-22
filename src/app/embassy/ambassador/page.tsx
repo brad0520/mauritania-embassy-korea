@@ -54,10 +54,10 @@ export default function AmbassadorPage() {
           </div>
           <div className="md:w-2/3">
             <h2 className="text-2xl font-bold mb-4 text-theme-header">
-              모하메드 압둘 카데르
+              알파 이브라히마 티암
             </h2>
             <p className="text-lg text-gray-600 mb-6">
-              Mohamed Abdul Kader
+              Alpha Ibrahima THIAM
             </p>
             <div className="space-y-3 text-[15px]">
               <div className="flex">

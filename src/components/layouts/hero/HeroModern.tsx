@@ -276,19 +276,19 @@ export default function HeroModern({ className }: HeroLayoutProps) {
                 <div className="w-72 h-96 mx-auto rounded-lg overflow-hidden mb-2 border-2 border-white/10 shadow-2xl">
                   <img
                     src="/images/president.png"
-                    alt="Mohamed Ould Ghazouani"
+                    alt="Alpha Ibrahima THIAM"
                     className="w-full h-full object-cover object-top"
                     style={{ imageRendering: 'auto', WebkitFontSmoothing: 'antialiased' }}
                   />
                 </div>
                 <p className="text-white text-xl font-semibold">
-                  {locale === 'ko' ? '모하메드 울드 가주아니' : 'Mohamed Ould Ghazouani'}
+                  {locale === 'ko' ? '알파 이브라히마 티암' : 'Alpha Ibrahima THIAM'}
                 </p>
                 <p className="text-white/60 text-sm mt-1">
-                  {locale === 'ko' ? '모리타니아 이슬람 공화국 대통령' :
-                   locale === 'en' ? 'President of the Islamic Republic of Mauritania' :
-                   locale === 'fr' ? 'Président de la République Islamique de Mauritanie' :
-                   'رئيس الجمهورية الإسلامية الموريتانية'}
+                  {locale === 'ko' ? '주한 모리타니아 대사' :
+                   locale === 'en' ? 'Ambassador of Mauritania to Korea' :
+                   locale === 'fr' ? 'Ambassadeur de Mauritanie en Corée' :
+                   'سفير موريتانيا لدى كوريا'}
                 </p>
               </div>
             </div>
@@ -433,20 +433,20 @@ export default function HeroModern({ className }: HeroLayoutProps) {
           </div>
         </div>
 
-        {/* 대통령 사진 */}
+        {/* 대사 사진 */}
         <div className="bg-gradient-to-br from-[#1a1a2e] to-[#0f0f1a] py-8">
           <div className="text-center">
             <div className="w-44 h-56 mx-auto rounded-lg overflow-hidden mb-3 border-2 border-white/10 shadow-xl">
               <img
                 src="/images/president.png"
-                alt="Mohamed Ould Ghazouani"
+                alt="Alpha Ibrahima THIAM"
                 className="w-full h-full object-cover object-top"
                 style={{ imageRendering: 'auto', WebkitFontSmoothing: 'antialiased' }}
               />
             </div>
-            <p className="text-white text-lg font-semibold">Mohamed Ould Ghazouani</p>
+            <p className="text-white text-lg font-semibold">Alpha Ibrahima THIAM</p>
             <p className="text-white/60 text-sm mt-1">
-              {locale === 'ko' ? '모리타니아 대통령' : 'President of Mauritania'}
+              {locale === 'ko' ? '주한 모리타니아 대사' : 'Ambassador of Mauritania'}
             </p>
           </div>
         </div>

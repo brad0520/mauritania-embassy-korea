@@ -3,6 +3,10 @@
 import React from 'react'
 import { useI18n } from '@/i18n/context'
 import SubPageLayout from '@/components/layouts/SubPageLayout'
+import TestEnCours from '@/components/TestEnCours'
+
+// TODO: 실제 데이터 준비 후 TEST_MODE를 false로 변경
+const TEST_MODE = true
 
 export default function KoreaInstitutionsPage() {
   const { locale } = useI18n()
@@ -25,6 +29,7 @@ export default function KoreaInstitutionsPage() {
       currentPageTitle={pageTitle}
       breadcrumbs={[{ label: menuTitle, href: '/korea' }, { label: pageTitle }]}
     >
+      {TEST_MODE ? <TestEnCours /> : <>
       {/* 정치체제 개요 */}
       <section className="bg-white rounded-lg shadow-sm border p-8 mb-8">
         <h2 className="text-2xl font-bold mb-6 pb-3 border-b-2 border-theme-header text-theme-header">
@@ -264,6 +269,8 @@ export default function KoreaInstitutionsPage() {
           </div>
         </div>
       </section>
+    </>}
+
     </SubPageLayout>
   )
 }

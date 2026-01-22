@@ -4,6 +4,10 @@ import React, { useState } from 'react'
 import { useI18n } from '@/i18n/context'
 import { useTheme } from '@/contexts/ThemeContext'
 import SubPageLayout from '@/components/layouts/SubPageLayout'
+import TestEnCours from '@/components/TestEnCours'
+
+// TODO: 실제 데이터 준비 후 TEST_MODE를 false로 변경
+const TEST_MODE = true
 import { cn } from '@/lib/utils'
 
 export default function PassportPage() {
@@ -37,6 +41,7 @@ export default function PassportPage() {
 
   return (
     <SubPageLayout menuTitle={menuTitle} menuItems={consularMenuItems} currentPageTitle={pageTitle} breadcrumbs={[{ label: menuTitle, href: '/consular' }, { label: pageTitle }]}>
+      {TEST_MODE ? <TestEnCours /> : <>
       {/* 서비스 선택 탭 */}
       <section className="mb-12">
         <h2 className="text-xl font-bold mb-6 pb-3 border-b-2 border-theme-header text-theme-header">여권 서비스 종류</h2>
@@ -124,6 +129,8 @@ export default function PassportPage() {
           </div>
         </div>
       </section>
+    </>}
+
     </SubPageLayout>
   )
 }

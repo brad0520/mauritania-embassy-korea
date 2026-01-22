@@ -3,6 +3,10 @@
 import React from 'react'
 import { useI18n } from '@/i18n/context'
 import SubPageLayout from '@/components/layouts/SubPageLayout'
+import TestEnCours from '@/components/TestEnCours'
+
+// TODO: 실제 데이터 준비 후 TEST_MODE를 false로 변경
+const TEST_MODE = true
 
 export default function StudyKoreaPage() {
   const { locale } = useI18n()
@@ -117,6 +121,7 @@ export default function StudyKoreaPage() {
       currentPageTitle={pageTitle}
       breadcrumbs={[{ label: menuTitle, href: '/consular' }, { label: pageTitle }]}
     >
+      {TEST_MODE ? <TestEnCours /> : <>
       {/* 설명 */}
       <section className="mb-12">
         <p className="text-gray-700 text-lg leading-relaxed">{c.description}</p>
@@ -169,6 +174,8 @@ export default function StudyKoreaPage() {
           ))}
         </div>
       </section>
+    </>}
+
     </SubPageLayout>
   )
 }

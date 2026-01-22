@@ -3,6 +3,10 @@
 import React from 'react'
 import { useI18n } from '@/i18n/context'
 import SubPageLayout from '@/components/layouts/SubPageLayout'
+import TestEnCours from '@/components/TestEnCours'
+
+// TODO: 실제 데이터 준비 후 TEST_MODE를 false로 변경
+const TEST_MODE = true
 
 export default function DiplomaticRelationsPage() {
   const { locale } = useI18n()
@@ -43,6 +47,7 @@ export default function DiplomaticRelationsPage() {
 
   return (
     <SubPageLayout menuTitle={menuTitle} menuItems={relationsMenuItems} currentPageTitle={pageTitle} breadcrumbs={[{ label: menuTitle, href: '/relations' }, { label: pageTitle }]}>
+      {TEST_MODE ? <TestEnCours /> : <>
       {/* 외교관계 개요 */}
       <section className="mb-12">
         <h2 className="text-xl font-bold mb-6 pb-3 border-b-2 border-theme-header text-theme-header">외교관계 개요</h2>
@@ -155,6 +160,8 @@ export default function DiplomaticRelationsPage() {
           </div>
         </div>
       </section>
+    </>}
+
     </SubPageLayout>
   )
 }

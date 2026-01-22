@@ -4,6 +4,10 @@ import React, { useState } from 'react'
 import { useI18n } from '@/i18n/context'
 import { useTheme } from '@/contexts/ThemeContext'
 import { cn } from '@/lib/utils'
+import TestEnCours from '@/components/TestEnCours'
+
+// TODO: 실제 데이터 준비 후 TEST_MODE를 false로 변경
+const TEST_MODE = true
 
 export default function MauritaniaTourismPage() {
   const { t, locale } = useI18n()

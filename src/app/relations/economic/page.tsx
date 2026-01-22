@@ -3,6 +3,10 @@
 import React, { useState } from 'react'
 import { useI18n } from '@/i18n/context'
 import SubPageLayout from '@/components/layouts/SubPageLayout'
+import TestEnCours from '@/components/TestEnCours'
+
+// TODO: 실제 데이터 준비 후 TEST_MODE를 false로 변경
+const TEST_MODE = true
 import { cn } from '@/lib/utils'
 
 export default function EconomicRelationsPage() {
@@ -44,6 +48,7 @@ export default function EconomicRelationsPage() {
 
   return (
     <SubPageLayout menuTitle={menuTitle} menuItems={relationsMenuItems} currentPageTitle={pageTitle} breadcrumbs={[{ label: menuTitle, href: '/relations' }, { label: pageTitle }]}>
+      {TEST_MODE ? <TestEnCours /> : <>
       {/* 경제협력 현황 */}
       <section className="mb-12">
         <h2 className="text-xl font-bold mb-6 pb-3 border-b-2 border-theme-header text-theme-header">경제협력 현황</h2>
@@ -200,6 +205,8 @@ export default function EconomicRelationsPage() {
           </div>
         </div>
       </section>
+    </>}
+
     </SubPageLayout>
   )
 }

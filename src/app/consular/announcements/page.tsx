@@ -3,6 +3,10 @@
 import React from 'react'
 import { useI18n } from '@/i18n/context'
 import SubPageLayout from '@/components/layouts/SubPageLayout'
+import TestEnCours from '@/components/TestEnCours'
+
+// TODO: 실제 데이터 준비 후 TEST_MODE를 false로 변경
+const TEST_MODE = true
 
 export default function ConsularAnnouncementsPage() {
   const { locale } = useI18n()
@@ -43,6 +47,7 @@ export default function ConsularAnnouncementsPage() {
       currentPageTitle={pageTitle}
       breadcrumbs={[{ label: menuTitle, href: '/consular' }, { label: pageTitle }]}
     >
+      {TEST_MODE ? <TestEnCours /> : <>
       {/* 공지사항 목록 */}
       <section className="mb-12">
         <h2 className="text-xl font-bold mb-6 pb-3 border-b-2 border-theme-header text-theme-header">
@@ -80,6 +85,8 @@ export default function ConsularAnnouncementsPage() {
           <p>• {locale === 'ko' ? '업무시간' : 'Hours'}: 09:00 - 17:00 ({locale === 'ko' ? '평일' : 'Weekdays'})</p>
         </div>
       </section>
+    </>}
+
     </SubPageLayout>
   )
 }

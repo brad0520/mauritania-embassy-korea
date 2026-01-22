@@ -4,6 +4,10 @@ import React from 'react'
 import Image from 'next/image'
 import { useI18n } from '@/i18n/context'
 import SubPageLayout from '@/components/layouts/SubPageLayout'
+import TestEnCours from '@/components/TestEnCours'
+
+// TODO: 실제 데이터 준비 후 TEST_MODE를 false로 변경
+const TEST_MODE = true
 
 export default function MauritaniaEconomyPage() {
   const { locale } = useI18n()
@@ -26,6 +30,7 @@ export default function MauritaniaEconomyPage() {
       currentPageTitle={pageTitle}
       breadcrumbs={[{ label: menuTitle, href: '/mauritania' }, { label: pageTitle }]}
     >
+      {TEST_MODE ? <TestEnCours /> : <>
       {/* 경제 개요 (Outline) */}
       <section className="bg-white rounded-lg shadow-sm border p-8 mb-8">
         <h2 className="text-2xl font-bold mb-6 pb-3 border-b-2 border-theme-header text-theme-header">
@@ -503,6 +508,8 @@ export default function MauritaniaEconomyPage() {
           </ul>
         </div>
       </section>
+    </>}
+
     </SubPageLayout>
   )
 }

@@ -4,6 +4,10 @@ import React, { useState } from 'react'
 import { useI18n } from '@/i18n/context'
 import { useTheme } from '@/contexts/ThemeContext'
 import SubPageLayout from '@/components/layouts/SubPageLayout'
+import TestEnCours from '@/components/TestEnCours'
+
+// TODO: 실제 데이터 준비 후 TEST_MODE를 false로 변경
+const TEST_MODE = true
 
 export default function VisaPage() {
   const { t, locale } = useI18n()
@@ -117,6 +121,7 @@ export default function VisaPage() {
         { label: pageTitle }
       ]}
     >
+      {TEST_MODE ? <TestEnCours /> : <>
       {/* 중요 공지 */}
       <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6 mb-8">
         <div className="flex">
@@ -257,6 +262,7 @@ export default function VisaPage() {
           </div>
         </div>
       </section>
+      </>}
     </SubPageLayout>
   )
 }

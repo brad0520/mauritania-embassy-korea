@@ -3,6 +3,10 @@
 import React from 'react'
 import { useI18n } from '@/i18n/context'
 import SubPageLayout from '@/components/layouts/SubPageLayout'
+import TestEnCours from '@/components/TestEnCours'
+
+// TODO: 실제 데이터 준비 후 TEST_MODE를 false로 변경
+const TEST_MODE = true
 
 export default function UsefulLinksPage() {
   const { locale } = useI18n()
@@ -94,6 +98,7 @@ export default function UsefulLinksPage() {
       currentPageTitle={pageTitle}
       breadcrumbs={[{ label: menuTitle, href: '/mauritania' }, { label: pageTitle }]}
     >
+      {TEST_MODE ? <TestEnCours /> : <>
       {/* 유용한 링크 */}
       <section className="mb-12">
         <h2 className="text-xl font-bold mb-6 pb-3 border-b-2 border-theme-header text-theme-header">
@@ -127,6 +132,8 @@ export default function UsefulLinksPage() {
             : 'External links are operated according to the policies of each respective site. The responsibility for the content lies with the linked sites.'}
         </p>
       </section>
+    </>}
+
     </SubPageLayout>
   )
 }

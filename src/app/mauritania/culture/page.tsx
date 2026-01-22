@@ -3,6 +3,10 @@
 import React from 'react'
 import { useI18n } from '@/i18n/context'
 import SubPageLayout from '@/components/layouts/SubPageLayout'
+import TestEnCours from '@/components/TestEnCours'
+
+// TODO: 실제 데이터 준비 후 TEST_MODE를 false로 변경
+const TEST_MODE = true
 
 export default function MauritaniaCulturePage() {
   const { locale } = useI18n()
@@ -25,6 +29,7 @@ export default function MauritaniaCulturePage() {
       currentPageTitle={pageTitle}
       breadcrumbs={[{ label: menuTitle, href: '/mauritania' }, { label: pageTitle }]}
     >
+      {TEST_MODE ? <TestEnCours /> : <>
       {/* 사막의 도서관과 마드라사 */}
       <section className="bg-white rounded-lg shadow-sm border p-8 mb-8">
         <h2 className="text-2xl font-bold mb-6 pb-3 border-b-2 border-theme-header text-theme-header">
@@ -553,6 +558,8 @@ export default function MauritaniaCulturePage() {
       </div>
       </>)}
       {/* ===== 백업 끝 ===== */}
+    </>}
+
     </SubPageLayout>
   )
 }

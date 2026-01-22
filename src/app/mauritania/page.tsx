@@ -2,6 +2,10 @@
 
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import TestEnCours from '@/components/TestEnCours'
+
+// TODO: 실제 데이터 준비 후 TEST_MODE를 false로 변경
+const TEST_MODE = true
 
 // 메인 메뉴 클릭 시 첫 번째 하위 메뉴로 리다이렉트
 export default function MauritaniaPage() {

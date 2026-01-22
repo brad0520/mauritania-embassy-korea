@@ -216,7 +216,18 @@ export default function HeaderMofa({ className }: HeaderMofaProps) {
               <li className="flex items-center h-[44px] before:content-[''] before:w-px before:h-3 before:bg-gray-300">
                 <LanguageSwitcher variant="mofa" />
               </li>
-              {/* 관리자 버튼은 네비게이션 바에만 표시 (중복 방지) */}
+              {/* 관리자 버튼 (로그인 시에만 표시) */}
+              {isAuthenticated && (
+                <li className="flex items-center h-[44px] before:content-[''] before:w-px before:h-3 before:bg-gray-300">
+                  <Link
+                    href="/admin/news"
+                    className="flex items-center gap-1.5 px-3 h-full text-[13px] font-medium text-white bg-theme-nav hover:bg-theme-nav-hover transition-colors"
+                  >
+                    <UserCircleIcon className="h-4 w-4" />
+                    <span>Admin</span>
+                  </Link>
+                </li>
+              )}
             </ol>
           </div>
         </div>

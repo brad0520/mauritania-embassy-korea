@@ -226,7 +226,7 @@ function ActivityDetailContent() {
     <SubPageLayout
       menuTitle={menuTitle}
       menuItems={menuItems}
-      currentPageTitle={getLocalizedText(activity.title)}
+      currentPageTitle={menuTitle}
       breadcrumbs={[
         { label: menuTitle, href: '/embassy/activities' },
         { label: getLocalizedText(activity.title) }

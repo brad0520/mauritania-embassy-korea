@@ -263,6 +263,7 @@ function NewNewsContent() {
                 {t('admin.news.content')} ({currentLang.label})
               </label>
               <RichTextEditor
+                key={activeTab}
                 content={content[activeTab]}
                 onChange={(value) => handleContentChange(activeTab, value)}
                 placeholder={t('admin.news.contentPlaceholder').replace('{lang}', currentLang.label)}

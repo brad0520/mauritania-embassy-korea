@@ -37,9 +37,9 @@ interface NewsItem {
 
 const LANGUAGES: { code: Language; label: string; dir: 'ltr' | 'rtl' }[] = [
   { code: 'ko', label: '한국어', dir: 'ltr' },
+  { code: 'ar', label: 'العربية', dir: 'rtl' },
   { code: 'en', label: 'English', dir: 'ltr' },
   { code: 'fr', label: 'Français', dir: 'ltr' },
-  { code: 'ar', label: 'العربية', dir: 'rtl' },
 ]
 
 function EditNewsContent() {

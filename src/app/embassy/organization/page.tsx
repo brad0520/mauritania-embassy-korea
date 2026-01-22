@@ -12,7 +12,7 @@ export default function EmbassyOrganizationPage() {
   const departments = [
     {
       name: '대사실',
-      head: '모하메드 압둘 카데르 대사',
+      head: '알파 이브라히마 티암 대사',
       members: ['김영희 비서관', '이철수 통역관'],
       responsibilities: ['외교정책 총괄', '대외관계 조정', '주요 행사 주관', '정부 간 협의']
     },

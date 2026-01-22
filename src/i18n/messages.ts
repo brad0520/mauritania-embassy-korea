@@ -573,7 +573,7 @@ export const messages: Record<Locale, Record<MessageKey, string>> = {
     'ambassador.title': '대사',
     'ambassador.subtitle': '주한 {country} 대사관 대사 소개',
     'ambassador.greeting': '대사 인사말',
-    'ambassador.greetingText1': '안녕하십니까. 주한 {country} 특명전권대사 모하메드 압둘 카데르입니다.',
+    'ambassador.greetingText1': '안녕하십니까. 주한 {country} 특명전권대사 알파 이브라히마 티암입니다.',
     'ambassador.greetingText2': '한국과 {country}의 우호적인 외교관계는 1962년 외교관계 수립 이래 꾸준히 발전해 왔습니다.',
     'ambassador.greetingText3': '저는 {country} 대사로서 양국 관계 발전에 최선을 다하겠으며, 한국에 거주하는 {country} 국민들의 권익 보호와 복리 증진을 위해 노력하겠습니다.',
     'ambassador.greetingText4': '앞으로도 한국과 {country}의 우정이 더욱 깊어지고 발전하기를 기원합니다.',

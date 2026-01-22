@@ -5,6 +5,9 @@ import { useI18n } from '@/i18n/context'
 import { useTheme } from '@/contexts/ThemeContext'
 import SubPageLayout from '@/components/layouts/SubPageLayout'
 
+// TODO: 실제 데이터 준비 후 TEST_MODE를 false로 변경
+const TEST_MODE = true
+
 export default function AmbassadorPage() {
   const { t, locale } = useI18n()
   const { currentTheme } = useTheme()
@@ -62,19 +65,19 @@ export default function AmbassadorPage() {
             <div className="space-y-3 text-[15px]">
               <div className="flex">
                 <span className="font-medium text-gray-700 w-28">{t('common.position')}:</span>
-                <span className="text-gray-600">{currentTheme.name[locale]} {t('ambassador.role')}</span>
+                <span className="text-gray-400 italic">{TEST_MODE ? 'test en cours' : `${currentTheme.name[locale]} ${t('ambassador.role')}`}</span>
               </div>
               <div className="flex">
                 <span className="font-medium text-gray-700 w-28">{t('ambassador.appointmentDate')}:</span>
-                <span className="text-gray-600">{t('ambassador.appointed')}</span>
+                <span className="text-gray-400 italic">{TEST_MODE ? 'test en cours' : t('ambassador.appointed')}</span>
               </div>
               <div className="flex">
                 <span className="font-medium text-gray-700 w-28">{t('ambassador.origin')}:</span>
-                <span className="text-gray-600">{t('ambassador.birthplace')}</span>
+                <span className="text-gray-400 italic">{TEST_MODE ? 'test en cours' : t('ambassador.birthplace')}</span>
               </div>
               <div className="flex">
                 <span className="font-medium text-gray-700 w-28">{t('ambassador.education')}:</span>
-                <span className="text-gray-600">{t('ambassador.university')}</span>
+                <span className="text-gray-400 italic">{TEST_MODE ? 'test en cours' : t('ambassador.university')}</span>
               </div>
             </div>
           </div>
@@ -86,20 +89,24 @@ export default function AmbassadorPage() {
         <h2 className="text-xl font-bold mb-6 pb-3 border-b-2 border-theme-header text-theme-header">
           {t('ambassador.greeting')}
         </h2>
-        <div className="prose prose-lg max-w-none text-[15px] leading-relaxed">
-          <p className="text-gray-700 mb-6">
-            {t('ambassador.greetingText1').replace('{country}', currentTheme.name[locale])}
-          </p>
-          <p className="text-gray-700 mb-6">
-            {t('ambassador.greetingText2').replace('{country}', currentTheme.name[locale])}
-          </p>
-          <p className="text-gray-700 mb-6">
-            {t('ambassador.greetingText3').replace('{country}', currentTheme.name[locale])}
-          </p>
-          <p className="text-gray-700">
-            {t('ambassador.greetingText4').replace('{country}', currentTheme.name[locale])}
-          </p>
-        </div>
+        {TEST_MODE ? (
+          <p className="text-gray-400 italic text-center py-8">test en cours</p>
+        ) : (
+          <div className="prose prose-lg max-w-none text-[15px] leading-relaxed">
+            <p className="text-gray-700 mb-6">
+              {t('ambassador.greetingText1').replace('{country}', currentTheme.name[locale])}
+            </p>
+            <p className="text-gray-700 mb-6">
+              {t('ambassador.greetingText2').replace('{country}', currentTheme.name[locale])}
+            </p>
+            <p className="text-gray-700 mb-6">
+              {t('ambassador.greetingText3').replace('{country}', currentTheme.name[locale])}
+            </p>
+            <p className="text-gray-700">
+              {t('ambassador.greetingText4').replace('{country}', currentTheme.name[locale])}
+            </p>
+          </div>
+        )}
       </section>
 
       {/* 주요 경력 */}
@@ -107,28 +114,32 @@ export default function AmbassadorPage() {
         <h2 className="text-xl font-bold mb-6 pb-3 border-b-2 border-theme-header text-theme-header">
           {t('ambassador.career')}
         </h2>
-        <div className="space-y-4 text-[15px]">
-          <div className="flex gap-4">
-            <span className="text-gray-500 w-32 flex-shrink-0">{t('ambassador.career1Period')}</span>
-            <span className="text-gray-700">{t('ambassador.career1').replace('{country}', currentTheme.name[locale])}</span>
+        {TEST_MODE ? (
+          <p className="text-gray-400 italic text-center py-8">test en cours</p>
+        ) : (
+          <div className="space-y-4 text-[15px]">
+            <div className="flex gap-4">
+              <span className="text-gray-500 w-32 flex-shrink-0">{t('ambassador.career1Period')}</span>
+              <span className="text-gray-700">{t('ambassador.career1').replace('{country}', currentTheme.name[locale])}</span>
+            </div>
+            <div className="flex gap-4">
+              <span className="text-gray-500 w-32 flex-shrink-0">{t('ambassador.career2Period')}</span>
+              <span className="text-gray-700">{t('ambassador.career2').replace('{country}', currentTheme.name[locale])}</span>
+            </div>
+            <div className="flex gap-4">
+              <span className="text-gray-500 w-32 flex-shrink-0">{t('ambassador.career3Period')}</span>
+              <span className="text-gray-700">{t('ambassador.career3').replace('{country}', currentTheme.name[locale])}</span>
+            </div>
+            <div className="flex gap-4">
+              <span className="text-gray-500 w-32 flex-shrink-0">{t('ambassador.career4Period')}</span>
+              <span className="text-gray-700">{t('ambassador.career4').replace('{country}', currentTheme.name[locale])}</span>
+            </div>
+            <div className="flex gap-4">
+              <span className="text-gray-500 w-32 flex-shrink-0">{t('ambassador.career5Period')}</span>
+              <span className="text-gray-700">{t('ambassador.career5').replace('{country}', currentTheme.name[locale])}</span>
+            </div>
           </div>
-          <div className="flex gap-4">
-            <span className="text-gray-500 w-32 flex-shrink-0">{t('ambassador.career2Period')}</span>
-            <span className="text-gray-700">{t('ambassador.career2').replace('{country}', currentTheme.name[locale])}</span>
-          </div>
-          <div className="flex gap-4">
-            <span className="text-gray-500 w-32 flex-shrink-0">{t('ambassador.career3Period')}</span>
-            <span className="text-gray-700">{t('ambassador.career3').replace('{country}', currentTheme.name[locale])}</span>
-          </div>
-          <div className="flex gap-4">
-            <span className="text-gray-500 w-32 flex-shrink-0">{t('ambassador.career4Period')}</span>
-            <span className="text-gray-700">{t('ambassador.career4').replace('{country}', currentTheme.name[locale])}</span>
-          </div>
-          <div className="flex gap-4">
-            <span className="text-gray-500 w-32 flex-shrink-0">{t('ambassador.career5Period')}</span>
-            <span className="text-gray-700">{t('ambassador.career5').replace('{country}', currentTheme.name[locale])}</span>
-          </div>
-        </div>
+        )}
       </section>
     </SubPageLayout>
   )

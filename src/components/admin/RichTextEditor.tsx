@@ -161,8 +161,9 @@ export default function RichTextEditor({
 
   // content prop 변경 시 에디터 내용 업데이트 (언어 탭 전환 시)
   useEffect(() => {
-    if (editor && content !== editor.getHTML()) {
-      editor.commands.setContent(content)
+    if (editor) {
+      // 빈 content도 처리하기 위해 조건 없이 항상 업데이트
+      editor.commands.setContent(content || '')
     }
   }, [editor, content])
 

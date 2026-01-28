@@ -189,34 +189,36 @@ export default function HeroModern({ className }: HeroLayoutProps) {
       <div className="hidden lg:block">
         {/* === 1행: 슬라이드 + 대통령 사진 === */}
         <div className="relative h-[480px]">
-          {/* 배경 - 전체 너비 슬라이드 이미지 */}
-          <div className="absolute inset-0 overflow-hidden">
-            <div
-              className="flex h-full"
-              style={{
-                transform: `translateX(-${currentSlide * 100}%)`,
-                transition: isTransitioning ? 'transform 1s cubic-bezier(0.4, 0, 0.2, 1)' : 'none'
-              }}
-            >
-              {extendedSlides.map((slide, index) => (
-                <div
-                  key={`bg-${slide.id}-${index}`}
-                  className="min-w-full h-full relative flex-shrink-0"
-                >
-                  <img
-                    src={slide.image}
-                    alt=""
-                    className="w-full h-full object-cover"
-                  />
-                  {/* 어두운 오버레이 - 텍스트 가독성 */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-black/30" />
-                </div>
-              ))}
+          {/* 배경 - 60/40 분리 */}
+          <div className="absolute inset-0 flex">
+            {/* 슬라이드 배경 (60%) */}
+            <div className="w-[60%] h-full relative overflow-hidden">
+              <div
+                className="flex h-full"
+                style={{
+                  transform: `translateX(-${currentSlide * 100}%)`,
+                  transition: isTransitioning ? 'transform 1s cubic-bezier(0.4, 0, 0.2, 1)' : 'none'
+                }}
+              >
+                {extendedSlides.map((slide, index) => (
+                  <div
+                    key={`bg-${slide.id}-${index}`}
+                    className="min-w-full h-full relative flex-shrink-0"
+                  >
+                    <img
+                      src={slide.image}
+                      alt=""
+                      className="w-full h-full object-cover"
+                    />
+                    {/* 어두운 오버레이 - 텍스트 가독성 */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-black/30" />
+                  </div>
+                ))}
+              </div>
             </div>
+            {/* 대통령 사진 배경 (40%) - 독립된 어두운 배경 */}
+            <div className="w-[40%] h-full bg-gradient-to-br from-[#1a1a2e] to-[#0f0f1a]" />
           </div>
-
-          {/* 대통령 사진 영역 어두운 오버레이 (오른쪽 40%) */}
-          <div className="absolute top-0 right-0 w-[40%] h-full bg-gradient-to-br from-theme-dark/95 to-black/95" />
 
           {/* 콘텐츠 - 중앙 정렬 */}
           <div className="relative max-w-[1280px] mx-auto h-full flex">

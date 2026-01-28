@@ -189,54 +189,34 @@ export default function HeroModern({ className }: HeroLayoutProps) {
       <div className="hidden lg:block">
         {/* === 1행: 슬라이드 + 대통령 사진 === */}
         <div className="relative h-[480px]">
-          {/* 배경 - 전체 너비 */}
-          <div className="absolute inset-0 flex">
-            {/* 슬라이드 배경 이미지 영역 (60%) */}
-            <div className="w-[60%] relative overflow-hidden">
-              <div
-                className="flex h-full"
-                style={{
-                  transform: `translateX(-${currentSlide * 100}%)`,
-                  transition: isTransitioning ? 'transform 1s cubic-bezier(0.4, 0, 0.2, 1)' : 'none'
-                }}
-              >
-                {extendedSlides.map((slide, index) => (
-                  <div
-                    key={`bg-${slide.id}-${index}`}
-                    className="min-w-full h-full relative flex-shrink-0"
-                  >
-                    <img
-                      src={slide.image}
-                      alt=""
-                      className="w-full h-full object-cover"
-                    />
-                    {/* 어두운 오버레이 - 텍스트 가독성 */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-black/60" />
-                  </div>
-                ))}
-              </div>
-              {/* 슬라이드 인디케이터 - 슬라이드 이미지 영역 중앙 */}
-              <div className="absolute bottom-6 left-0 right-0 flex items-center justify-center gap-3 z-10">
-                {slides.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => goToSlide(index)}
-                    className={cn(
-                      'w-3 h-3 rounded-full transition-all',
-                      index === actualSlideIndex ? 'bg-white' : 'bg-white/40 hover:bg-white/60'
-                    )}
-                  />
-                ))}
-                <button
-                  onClick={() => setIsAutoPlaying(!isAutoPlaying)}
-                  className="ml-2 text-white/60 hover:text-white text-sm"
+          {/* 배경 - 전체 너비 슬라이드 이미지 */}
+          <div className="absolute inset-0 overflow-hidden">
+            <div
+              className="flex h-full"
+              style={{
+                transform: `translateX(-${currentSlide * 100}%)`,
+                transition: isTransitioning ? 'transform 1s cubic-bezier(0.4, 0, 0.2, 1)' : 'none'
+              }}
+            >
+              {extendedSlides.map((slide, index) => (
+                <div
+                  key={`bg-${slide.id}-${index}`}
+                  className="min-w-full h-full relative flex-shrink-0"
                 >
-                  {isAutoPlaying ? '⏸' : '▶'}
-                </button>
-              </div>
+                  <img
+                    src={slide.image}
+                    alt=""
+                    className="w-full h-full object-cover"
+                  />
+                  {/* 어두운 오버레이 - 텍스트 가독성 */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-black/30" />
+                </div>
+              ))}
             </div>
-            <div className="w-[40%] bg-gradient-to-br from-theme-dark to-black" />
           </div>
+
+          {/* 대통령 사진 영역 어두운 오버레이 (오른쪽 40%) */}
+          <div className="absolute top-0 right-0 w-[40%] h-full bg-gradient-to-br from-theme-dark/95 to-black/95" />
 
           {/* 콘텐츠 - 중앙 정렬 */}
           <div className="relative max-w-[1280px] mx-auto h-full flex">
@@ -272,6 +252,25 @@ export default function HeroModern({ className }: HeroLayoutProps) {
                 ))}
               </div>
 
+              {/* 슬라이드 인디케이터 */}
+              <div className="absolute bottom-6 left-0 right-0 flex items-center justify-center gap-3 z-10">
+                {slides.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => goToSlide(index)}
+                    className={cn(
+                      'w-3 h-3 rounded-full transition-all',
+                      index === actualSlideIndex ? 'bg-white' : 'bg-white/40 hover:bg-white/60'
+                    )}
+                  />
+                ))}
+                <button
+                  onClick={() => setIsAutoPlaying(!isAutoPlaying)}
+                  className="ml-2 text-white/60 hover:text-white text-sm"
+                >
+                  {isAutoPlaying ? '⏸' : '▶'}
+                </button>
+              </div>
             </div>
 
             {/* 대통령 사진 영역 (40%) */}

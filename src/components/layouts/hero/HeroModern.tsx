@@ -189,7 +189,7 @@ export default function HeroModern({ className }: HeroLayoutProps) {
       <div className="hidden lg:block">
         {/* === 1행: 슬라이드 + 대통령 사진 === */}
         <div className="relative h-[480px]">
-          {/* 배경 - 60/40 분리 */}
+          {/* 배경 - 60/40 분리 (gap 없이 붙임) */}
           <div className="absolute inset-0 flex">
             {/* 슬라이드 배경 (60%) */}
             <div className="w-[60%] h-full relative overflow-hidden">
@@ -216,8 +216,8 @@ export default function HeroModern({ className }: HeroLayoutProps) {
                 ))}
               </div>
             </div>
-            {/* 대통령 사진 배경 (40%) - 독립된 어두운 배경 */}
-            <div className="w-[40%] h-full bg-gradient-to-br from-[#1a1a2e] to-[#0f0f1a]" />
+            {/* 대통령 사진 배경 (40%) - 왼쪽에 그림자로 경계 부드럽게 */}
+            <div className="w-[40%] h-full bg-gradient-to-br from-[#1a1a2e] to-[#0f0f1a] shadow-[-4px_0_8px_rgba(0,0,0,0.5)]" />
           </div>
 
           {/* 콘텐츠 - 중앙 정렬 */}

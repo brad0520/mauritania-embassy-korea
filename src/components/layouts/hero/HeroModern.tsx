@@ -103,30 +103,30 @@ function FlagImage({ country, emoji }: { country: 'korea' | 'mauritania'; emoji:
 export default function HeroModern({ className }: HeroLayoutProps) {
   const { locale, isRTL } = useI18n()
   const { currentTheme } = useTheme()
-  const [currentSlide, setCurrentSlide] = useState(0)
+  const [currentSlide, setCurrentSlide] = useState(1)
   const [isAutoPlaying, setIsAutoPlaying] = useState(true)
   const [currentTime, setCurrentTime] = useState<Date>(new Date())
   const [isTransitioning, setIsTransitioning] = useState(true)
 
-  // 무한 루프를 위한 확장 슬라이드 (마지막에 첫 번째 슬라이드 복제)
-  const extendedSlides = [...slides, slides[0]]
+  // 무한 루프를 위한 확장 슬라이드 (맨 앞에 마지막 슬라이드 복제 - 역방향용)
+  const extendedSlides = [slides[slides.length - 1], ...slides]
 
-  // 자동 슬라이드
+  // 자동 슬라이드 (역방향: 인덱스 감소)
   useEffect(() => {
     if (!isAutoPlaying) return
     const timer = setInterval(() => {
-      setCurrentSlide((prev) => prev + 1)
+      setCurrentSlide((prev) => prev - 1)
     }, 5000)
     return () => clearInterval(timer)
   }, [isAutoPlaying])
 
-  // 마지막 복제 슬라이드에서 실제 첫 번째로 점프
+  // 복제된 첫 슬라이드(인덱스 0)에서 실제 마지막으로 점프
   useEffect(() => {
-    if (currentSlide === slides.length) {
-      // 복제된 첫 번째 슬라이드에 도달하면
+    if (currentSlide === 0) {
+      // 복제된 마지막 슬라이드(인덱스 0)에 도달하면
       const timer = setTimeout(() => {
         setIsTransitioning(false) // transition 비활성화
-        setCurrentSlide(0) // 실제 첫 번째로 점프
+        setCurrentSlide(slides.length) // 실제 마지막으로 점프
         // 다음 프레임에서 transition 다시 활성화
         requestAnimationFrame(() => {
           requestAnimationFrame(() => {
@@ -174,10 +174,14 @@ export default function HeroModern({ className }: HeroLayoutProps) {
   }
 
   const goToSlide = (index: number) => {
-    setCurrentSlide(index)
+    // 확장 슬라이드에서 실제 슬라이드는 인덱스 1부터 시작
+    setCurrentSlide(index + 1)
     setIsAutoPlaying(false)
     setTimeout(() => setIsAutoPlaying(true), 10000)
   }
+
+  // 현재 실제 슬라이드 인덱스 계산 (0~5)
+  const actualSlideIndex = currentSlide === 0 ? slides.length - 1 : currentSlide - 1
 
   return (
     <div className={cn(className)}>
@@ -219,7 +223,7 @@ export default function HeroModern({ className }: HeroLayoutProps) {
                     onClick={() => goToSlide(index)}
                     className={cn(
                       'w-3 h-3 rounded-full transition-all',
-                      index === (currentSlide % slides.length) ? 'bg-white' : 'bg-white/40 hover:bg-white/60'
+                      index === actualSlideIndex ? 'bg-white' : 'bg-white/40 hover:bg-white/60'
                     )}
                   />
                 ))}
@@ -426,7 +430,7 @@ export default function HeroModern({ className }: HeroLayoutProps) {
                 onClick={() => goToSlide(index)}
                 className={cn(
                   'w-2.5 h-2.5 rounded-full transition-all',
-                  index === (currentSlide % slides.length) ? 'bg-white' : 'bg-white/40'
+                  index === actualSlideIndex ? 'bg-white' : 'bg-white/40'
                 )}
               />
             ))}

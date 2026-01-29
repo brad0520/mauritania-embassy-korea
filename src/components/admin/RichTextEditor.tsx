@@ -1,9 +1,57 @@
 'use client'
 
-import React, { useCallback, useRef } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Image from '@tiptap/extension-image'
+import { mergeAttributes } from '@tiptap/core'
+
+// 이미지 크기 조절 및 정렬을 지원하는 커스텀 Image 확장
+const ResizableImage = Image.extend({
+  addAttributes() {
+    return {
+      ...this.parent?.(),
+      width: {
+        default: '100%',
+        parseHTML: element => element.getAttribute('data-width') || element.style.width || '100%',
+        renderHTML: () => ({}), // renderHTML에서 통합 처리
+      },
+      align: {
+        default: 'center',
+        parseHTML: element => element.getAttribute('data-align') || 'center',
+        renderHTML: () => ({}), // renderHTML에서 통합 처리
+      },
+    }
+  },
+  renderHTML({ node, HTMLAttributes }) {
+    const width = node.attrs.width || '100%'
+    const align = node.attrs.align || 'center'
+    const isFullWidth = width === '100%'
+
+    // 정렬 스타일 결정
+    let alignStyle = ''
+    if (align === 'left') {
+      alignStyle = isFullWidth
+        ? 'display: block;'
+        : 'float: left; margin-right: 1rem; margin-bottom: 0.5rem;'
+    } else if (align === 'right') {
+      alignStyle = isFullWidth
+        ? 'display: block; margin-left: auto;'
+        : 'float: right; margin-left: 1rem; margin-bottom: 0.5rem;'
+    } else {
+      alignStyle = 'display: block; margin-left: auto; margin-right: auto;'
+    }
+
+    // width는 style로만 적용 (HTML width 속성은 픽셀 기대)
+    const style = `width: ${width} !important; max-width: ${width} !important; ${alignStyle}`
+
+    return ['img', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes, {
+      'data-width': width,
+      'data-align': align,
+      style,
+    })]
+  },
+})
 import Link from '@tiptap/extension-link'
 import Placeholder from '@tiptap/extension-placeholder'
 import TextAlign from '@tiptap/extension-text-align'
@@ -14,6 +62,7 @@ interface RichTextEditorProps {
   onChange: (content: string) => void
   placeholder?: string
   locale?: string
+  hideImageUpload?: boolean  // 이미지 업로드 버튼 숨기기 (언어별 동기화용)
 }
 
 // 에디터 다국어 지원
@@ -32,6 +81,7 @@ const editorTranslations: Record<string, Record<string, string>> = {
     alignRight: '오른쪽 정렬',
     addLink: '링크 추가',
     uploadImage: '이미지 업로드',
+    uploadImages: '여러 이미지 업로드 (Ctrl+클릭)',
     horizontalRule: '구분선',
     undo: '실행 취소',
     redo: '다시 실행',
@@ -39,7 +89,18 @@ const editorTranslations: Record<string, Record<string, string>> = {
     fileSizeError: '파일 크기는 5MB를 초과할 수 없습니다.',
     imageOnlyError: '이미지 파일만 업로드할 수 있습니다.',
     uploadFailed: '이미지 업로드에 실패했습니다.',
-    placeholder: '내용을 입력하세요...'
+    uploading: '업로드 중...',
+    uploadingCount: '개 이미지 업로드 중...',
+    placeholder: '내용을 입력하세요...',
+    imageSize: '이미지 크기',
+    imageSizeSmall: '25%',
+    imageSizeMedium: '50%',
+    imageSizeLarge: '75%',
+    imageSizeFull: '100%',
+    imageAlign: '정렬',
+    imageAlignLeft: '왼쪽',
+    imageAlignCenter: '중앙',
+    imageAlignRight: '오른쪽'
   },
   en: {
     bold: 'Bold',
@@ -55,6 +116,7 @@ const editorTranslations: Record<string, Record<string, string>> = {
     alignRight: 'Align Right',
     addLink: 'Add Link',
     uploadImage: 'Upload Image',
+    uploadImages: 'Upload multiple images (Ctrl+click)',
     horizontalRule: 'Horizontal Rule',
     undo: 'Undo',
     redo: 'Redo',
@@ -62,7 +124,18 @@ const editorTranslations: Record<string, Record<string, string>> = {
     fileSizeError: 'File size cannot exceed 5MB.',
     imageOnlyError: 'Only image files can be uploaded.',
     uploadFailed: 'Image upload failed.',
-    placeholder: 'Enter content here...'
+    uploading: 'Uploading...',
+    uploadingCount: ' images uploading...',
+    placeholder: 'Enter content here...',
+    imageSize: 'Image Size',
+    imageSizeSmall: '25%',
+    imageSizeMedium: '50%',
+    imageSizeLarge: '75%',
+    imageSizeFull: '100%',
+    imageAlign: 'Align',
+    imageAlignLeft: 'Left',
+    imageAlignCenter: 'Center',
+    imageAlignRight: 'Right'
   },
   fr: {
     bold: 'Gras',
@@ -78,6 +151,7 @@ const editorTranslations: Record<string, Record<string, string>> = {
     alignRight: 'Aligner à droite',
     addLink: 'Ajouter un lien',
     uploadImage: 'Télécharger une image',
+    uploadImages: 'Télécharger plusieurs images (Ctrl+clic)',
     horizontalRule: 'Ligne horizontale',
     undo: 'Annuler',
     redo: 'Rétablir',
@@ -85,7 +159,18 @@ const editorTranslations: Record<string, Record<string, string>> = {
     fileSizeError: 'La taille du fichier ne peut pas dépasser 5 Mo.',
     imageOnlyError: 'Seuls les fichiers image peuvent être téléchargés.',
     uploadFailed: 'Le téléchargement de l\'image a échoué.',
-    placeholder: 'Entrez le contenu ici...'
+    uploading: 'Téléchargement...',
+    uploadingCount: ' images en cours de téléchargement...',
+    placeholder: 'Entrez le contenu ici...',
+    imageSize: 'Taille de l\'image',
+    imageSizeSmall: '25%',
+    imageSizeMedium: '50%',
+    imageSizeLarge: '75%',
+    imageSizeFull: '100%',
+    imageAlign: 'Alignement',
+    imageAlignLeft: 'Gauche',
+    imageAlignCenter: 'Centre',
+    imageAlignRight: 'Droite'
   },
   ar: {
     bold: 'غامق',
@@ -101,6 +186,7 @@ const editorTranslations: Record<string, Record<string, string>> = {
     alignRight: 'محاذاة لليمين',
     addLink: 'إضافة رابط',
     uploadImage: 'تحميل صورة',
+    uploadImages: 'تحميل صور متعددة (Ctrl+نقر)',
     horizontalRule: 'خط أفقي',
     undo: 'تراجع',
     redo: 'إعادة',
@@ -108,7 +194,18 @@ const editorTranslations: Record<string, Record<string, string>> = {
     fileSizeError: 'حجم الملف لا يمكن أن يتجاوز 5 ميجابايت.',
     imageOnlyError: 'يمكن تحميل ملفات الصور فقط.',
     uploadFailed: 'فشل تحميل الصورة.',
-    placeholder: 'أدخل المحتوى هنا...'
+    uploading: 'جاري التحميل...',
+    uploadingCount: ' صور قيد التحميل...',
+    placeholder: 'أدخل المحتوى هنا...',
+    imageSize: 'حجم الصورة',
+    imageSizeSmall: '25%',
+    imageSizeMedium: '50%',
+    imageSizeLarge: '75%',
+    imageSizeFull: '100%',
+    imageAlign: 'محاذاة',
+    imageAlignLeft: 'يسار',
+    imageAlignCenter: 'وسط',
+    imageAlignRight: 'يمين'
   }
 }
 
@@ -116,9 +213,12 @@ export default function RichTextEditor({
   content,
   onChange,
   placeholder,
-  locale = 'ko'
+  locale = 'ko',
+  hideImageUpload = false
 }: RichTextEditorProps) {
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const [isUploading, setIsUploading] = useState(false)
+  const [uploadCount, setUploadCount] = useState(0)
   const t = editorTranslations[locale] || editorTranslations.ko
   const actualPlaceholder = placeholder || t.placeholder
 
@@ -129,9 +229,9 @@ export default function RichTextEditor({
           levels: [1, 2, 3]
         }
       }),
-      Image.configure({
+      ResizableImage.configure({
         HTMLAttributes: {
-          class: 'max-w-full h-auto rounded-lg my-4'
+          class: 'h-auto rounded-lg my-4 cursor-pointer'
         }
       }),
       Link.configure({
@@ -154,12 +254,12 @@ export default function RichTextEditor({
     },
     editorProps: {
       attributes: {
-        class: 'prose prose-sm sm:prose max-w-none focus:outline-none min-h-[300px] p-4'
+        class: 'focus:outline-none min-h-[700px] p-4 w-full'
       }
     }
   })
 
-  const handleImageUpload = useCallback(async (file: File) => {
+  const handleImageUpload = useCallback(async (file: File): Promise<void> => {
     if (!editor) return
 
     // 파일 크기 체크 (5MB 제한)
@@ -172,6 +272,33 @@ export default function RichTextEditor({
     if (!file.type.startsWith('image/')) {
       alert(t.imageOnlyError)
       return
+    }
+
+    // 이미지 삽입 헬퍼 함수
+    const insertImage = (src: string) => {
+      // 이미지가 선택된 상태면 선택 해제 후 그 뒤에 삽입
+      if (editor.isActive('image')) {
+        // 현재 선택된 노드 뒤로 커서 이동
+        editor.commands.selectParentNode()
+        const { to } = editor.state.selection
+        editor
+          .chain()
+          .setTextSelection(to)
+          .insertContent([
+            { type: 'paragraph' },
+            { type: 'image', attrs: { src } },
+          ])
+          .run()
+      } else {
+        // 일반 커서 위치에 삽입
+        editor
+          .chain()
+          .focus()
+          .insertContent([
+            { type: 'image', attrs: { src } },
+          ])
+          .run()
+      }
     }
 
     // Supabase 설정 확인
@@ -187,7 +314,7 @@ export default function RichTextEditor({
         const result = await uploadFile('news-images', fileName, file)
 
         if (result.url) {
-          editor.chain().focus().setImage({ src: result.url }).run()
+          insertImage(result.url)
         }
       } catch (error) {
         console.error('Image upload failed:', error)
@@ -195,32 +322,56 @@ export default function RichTextEditor({
       }
     } else {
       // 개발 환경: Base64로 변환하여 인라인 삽입
-      try {
-        const reader = new FileReader()
-        reader.onload = (e) => {
-          const base64 = e.target?.result as string
-          if (base64) {
-            editor.chain().focus().setImage({ src: base64 }).run()
+      return new Promise((resolve) => {
+        try {
+          const reader = new FileReader()
+          reader.onload = (e) => {
+            const base64 = e.target?.result as string
+            if (base64) {
+              insertImage(base64)
+            }
+            resolve()
           }
-        }
-        reader.onerror = () => {
+          reader.onerror = () => {
+            alert(t.uploadFailed)
+            resolve()
+          }
+          reader.readAsDataURL(file)
+        } catch (error) {
+          console.error('Image conversion failed:', error)
           alert(t.uploadFailed)
+          resolve()
         }
-        reader.readAsDataURL(file)
-      } catch (error) {
-        console.error('Image conversion failed:', error)
-        alert(t.uploadFailed)
-      }
+      })
     }
   }, [editor, t])
 
-  const handleFileSelect = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (file) {
-      handleImageUpload(file)
+  const handleFileSelect = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files
+    if (!files || files.length === 0) return
+
+    // FileList를 배열로 복사 (input 초기화 전에)
+    const fileArray: File[] = []
+    for (let i = 0; i < files.length; i++) {
+      fileArray.push(files[i])
     }
-    // 같은 파일 재선택 가능하도록 초기화
+
+    // 즉시 input 초기화 (같은 파일 재선택 가능하도록)
     e.target.value = ''
+
+    if (fileArray.length === 0) return
+
+    setIsUploading(true)
+    setUploadCount(fileArray.length)
+
+    // 순차적으로 업로드 (순서 보장)
+    for (let i = 0; i < fileArray.length; i++) {
+      setUploadCount(fileArray.length - i)
+      await handleImageUpload(fileArray[i])
+    }
+
+    setIsUploading(false)
+    setUploadCount(0)
   }, [handleImageUpload])
 
   const addLink = useCallback(() => {
@@ -230,6 +381,21 @@ export default function RichTextEditor({
       editor.chain().focus().setLink({ href: url }).run()
     }
   }, [editor, t])
+
+  // 이미지 크기 조절 함수
+  const setImageSize = useCallback((size: string) => {
+    if (!editor) return
+    editor.chain().focus().updateAttributes('image', { width: size }).run()
+  }, [editor])
+
+  // 이미지 정렬 함수
+  const setImageAlign = useCallback((align: string) => {
+    if (!editor) return
+    editor.chain().focus().updateAttributes('image', { align }).run()
+  }, [editor])
+
+  // 현재 선택된 노드가 이미지인지 확인
+  const isImageSelected = editor?.isActive('image')
 
   if (!editor) {
     return null
@@ -378,24 +544,110 @@ export default function RichTextEditor({
               <path strokeLinecap="round" strokeLinejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
             </svg>
           </button>
-          <button
-            type="button"
-            onClick={() => fileInputRef.current?.click()}
-            className="p-2 rounded hover:bg-gray-200 bg-blue-50 text-blue-600 hover:bg-blue-100"
-            title={t.uploadImage}
-          >
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-            </svg>
-          </button>
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="image/*"
-            onChange={handleFileSelect}
-            className="hidden"
-          />
+          {!hideImageUpload && (
+            <button
+              type="button"
+              onClick={() => fileInputRef.current?.click()}
+              disabled={isUploading}
+              className={`p-2 rounded flex items-center gap-1 ${
+                isUploading
+                  ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
+                  : 'bg-blue-50 text-blue-600 hover:bg-blue-100'
+              }`}
+              title={t.uploadImages}
+            >
+            {isUploading ? (
+              <>
+                <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                </svg>
+                <span className="text-xs">{uploadCount}</span>
+              </>
+            ) : (
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+            )}
+            </button>
+          )}
+          {!hideImageUpload && (
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              multiple={true}
+              onChange={handleFileSelect}
+              className="hidden"
+              key="image-upload-input"
+            />
+          )}
         </div>
+
+        {/* 이미지 크기 조절 (이미지 선택 시에만 표시, 이미지 업로드 숨김 모드가 아닐 때) */}
+        {isImageSelected && !hideImageUpload && (
+          <div className="flex gap-1 border-l border-gray-300 pl-2 ml-1">
+            <span className="text-xs text-gray-500 self-center mr-1">{t.imageSize}:</span>
+            <button
+              type="button"
+              onClick={() => setImageSize('25%')}
+              className="px-2 py-1 text-xs rounded hover:bg-gray-200 bg-gray-100"
+              title={t.imageSizeSmall}
+            >
+              25%
+            </button>
+            <button
+              type="button"
+              onClick={() => setImageSize('50%')}
+              className="px-2 py-1 text-xs rounded hover:bg-gray-200 bg-gray-100"
+              title={t.imageSizeMedium}
+            >
+              50%
+            </button>
+            <button
+              type="button"
+              onClick={() => setImageSize('75%')}
+              className="px-2 py-1 text-xs rounded hover:bg-gray-200 bg-gray-100"
+              title={t.imageSizeLarge}
+            >
+              75%
+            </button>
+            <button
+              type="button"
+              onClick={() => setImageSize('100%')}
+              className="px-2 py-1 text-xs rounded hover:bg-gray-200 bg-gray-100"
+              title={t.imageSizeFull}
+            >
+              100%
+            </button>
+            <span className="border-l border-gray-300 mx-1"></span>
+            <span className="text-xs text-gray-500 self-center mr-1">{t.imageAlign}:</span>
+            <button
+              type="button"
+              onClick={() => setImageAlign('left')}
+              className="px-2 py-1 text-xs rounded hover:bg-gray-200 bg-gray-100"
+              title={t.imageAlignLeft}
+            >
+              ◀
+            </button>
+            <button
+              type="button"
+              onClick={() => setImageAlign('center')}
+              className="px-2 py-1 text-xs rounded hover:bg-gray-200 bg-gray-100"
+              title={t.imageAlignCenter}
+            >
+              ◆
+            </button>
+            <button
+              type="button"
+              onClick={() => setImageAlign('right')}
+              className="px-2 py-1 text-xs rounded hover:bg-gray-200 bg-gray-100"
+              title={t.imageAlignRight}
+            >
+              ▶
+            </button>
+          </div>
+        )}
 
         {/* 구분선 */}
         <div className="flex gap-1 ml-auto">
@@ -440,9 +692,20 @@ export default function RichTextEditor({
       {/* 스타일 */}
       <style jsx global>{`
         .ProseMirror {
-          min-height: 300px;
+          min-height: 700px;
           padding: 1rem;
           outline: none;
+          width: 100% !important;
+          max-width: 100% !important;
+          font-size: 1rem;
+          line-height: 1.75;
+          color: #374151;
+        }
+        .ProseMirror > * {
+          max-width: 100% !important;
+        }
+        .ProseMirror p {
+          margin: 0.5rem 0;
         }
         .ProseMirror p.is-editor-empty:first-child::before {
           content: attr(data-placeholder);
@@ -452,10 +715,17 @@ export default function RichTextEditor({
           height: 0;
         }
         .ProseMirror img {
-          max-width: 100%;
-          height: auto;
+          height: auto !important;
           border-radius: 0.5rem;
           margin: 1rem 0;
+        }
+        .ProseMirror img[data-width="100%"] {
+          width: 100% !important;
+          max-width: 100% !important;
+          min-width: 100% !important;
+        }
+        .ProseMirror p {
+          clear: both;
         }
         .ProseMirror h1 {
           font-size: 1.875rem;

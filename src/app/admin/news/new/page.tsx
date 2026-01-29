@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/navigation'
 import { SimpleProtectedRoute, useSimpleAdminAuth } from '@/contexts/SimpleAdminAuth'
@@ -32,6 +32,40 @@ const LANGUAGES: { code: Language; label: string; dir: 'ltr' | 'rtl' }[] = [
   { code: 'fr', label: 'Français', dir: 'ltr' },
 ]
 
+// HTML에서 이미지 태그 추출
+function extractImages(html: string): string[] {
+  const imgRegex = /<img[^>]+>/g
+  return html.match(imgRegex) || []
+}
+
+// 이미지 동기화: 소스의 이미지를 타겟에 적용
+function syncImages(sourceHtml: string, targetHtml: string): string {
+  const sourceImages = extractImages(sourceHtml)
+  const targetImages = extractImages(targetHtml)
+
+  // 타겟에서 기존 이미지 제거
+  let result = targetHtml
+  targetImages.forEach(img => {
+    result = result.replace(img, '')
+  })
+
+  // 빈 p 태그 정리
+  result = result.replace(/<p>\s*<\/p>/g, '')
+
+  // 소스 이미지가 있으면 콘텐츠 시작 부분에 추가
+  if (sourceImages.length > 0) {
+    const imagesHtml = sourceImages.map(img => `<p>${img}</p>`).join('')
+    // 콘텐츠가 비어있지 않으면 이미지를 맨 앞에 추가
+    if (result.trim()) {
+      result = imagesHtml + result
+    } else {
+      result = imagesHtml
+    }
+  }
+
+  return result
+}
+
 function NewNewsContent() {
   const router = useRouter()
   const { logout } = useSimpleAdminAuth()
@@ -48,8 +82,26 @@ function NewNewsContent() {
     setTitle(prev => ({ ...prev, [lang]: value }))
   }
 
+  // 이미지 동기화 함수: 소스 언어의 이미지를 다른 모든 언어에 동기화
+  const syncImagesToOtherLanguages = useCallback((sourceLang: Language, sourceHtml: string) => {
+    setContent(prev => {
+      const updated = { ...prev }
+      LANGUAGES.forEach(lang => {
+        if (lang.code !== sourceLang) {
+          updated[lang.code] = syncImages(sourceHtml, prev[lang.code])
+        }
+      })
+      return updated
+    })
+  }, [])
+
   const handleContentChange = (lang: Language, value: string) => {
     setContent(prev => ({ ...prev, [lang]: value }))
+
+    // 어느 언어에서든 이미지 변경 시 다른 모든 언어에 동기화
+    setTimeout(() => {
+      syncImagesToOtherLanguages(lang, value)
+    }, 100)
   }
 
   // 탭 전환 시 에디터를 완전히 재마운트

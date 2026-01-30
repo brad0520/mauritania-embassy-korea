@@ -1,18 +1,24 @@
 import { NextRequest, NextResponse } from 'next/server'
 import bcrypt from 'bcryptjs'
-import { createClient } from '@supabase/supabase-js'
+import { createClient, SupabaseClient } from '@supabase/supabase-js'
 
 // Service Role 클라이언트 (RLS 우회 - 서버 사이드에서만 사용)
-const supabaseAdmin = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL || '',
-  process.env.SUPABASE_SERVICE_ROLE_KEY || '',
-  {
+// 빌드 시점에는 환경 변수가 없을 수 있으므로 런타임에 생성
+function getSupabaseAdmin(): SupabaseClient | null {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY
+
+  if (!url || !key || url === 'https://dummy-project.supabase.co') {
+    return null
+  }
+
+  return createClient(url, key, {
     auth: {
       autoRefreshToken: false,
       persistSession: false
     }
-  }
-)
+  })
+}
 
 // 개발용 기본 관리자
 const DEV_ADMIN = {
@@ -45,11 +51,10 @@ export async function POST(request: NextRequest) {
     // 실제 운영에서는 Redis나 더 강력한 솔루션 사용 권장
     const clientIP = request.headers.get('x-forwarded-for') || 'unknown'
 
-    // Service Role 키 확인
-    const hasServiceRole = process.env.SUPABASE_SERVICE_ROLE_KEY &&
-      process.env.SUPABASE_SERVICE_ROLE_KEY !== ''
+    // Service Role 클라이언트 생성 (런타임)
+    const supabaseAdmin = getSupabaseAdmin()
 
-    if (hasServiceRole) {
+    if (supabaseAdmin) {
       // 프로덕션: Service Role로 안전하게 조회
       const { data: admin, error } = await supabaseAdmin
         .from('admins')
@@ -73,7 +78,7 @@ export async function POST(request: NextRequest) {
 
       if (!admin) {
         // 로그인 실패 기록 (보안 로깅)
-        await logLoginAttempt(clientIP, username, false)
+        await logLoginAttempt(supabaseAdmin, clientIP, username, false)
         return NextResponse.json(
           { success: false, error: '사용자를 찾을 수 없습니다.' },
           { status: 401 }
@@ -84,7 +89,7 @@ export async function POST(request: NextRequest) {
       const isValid = await bcrypt.compare(password, (admin as AdminRecord).password_hash)
 
       if (!isValid) {
-        await logLoginAttempt(clientIP, username, false)
+        await logLoginAttempt(supabaseAdmin, clientIP, username, false)
         return NextResponse.json(
           { success: false, error: '비밀번호가 일치하지 않습니다.' },
           { status: 401 }
@@ -98,7 +103,7 @@ export async function POST(request: NextRequest) {
         .eq('id', (admin as AdminRecord).id)
 
       // 로그인 성공 기록
-      await logLoginAttempt(clientIP, username, true)
+      await logLoginAttempt(supabaseAdmin, clientIP, username, true)
 
       // 성공 응답 (password_hash 제외)
       return NextResponse.json({
@@ -145,7 +150,12 @@ function handleDevLogin(username: string, password: string) {
 }
 
 // 로그인 시도 기록 (보안 로깅)
-async function logLoginAttempt(ip: string, username: string, success: boolean) {
+async function logLoginAttempt(
+  supabaseAdmin: SupabaseClient,
+  ip: string,
+  username: string,
+  success: boolean
+) {
   try {
     // login_attempts 테이블이 있는 경우에만 기록
     await supabaseAdmin

@@ -24,17 +24,12 @@ const DEV_ADMIN = {
   displayName: '관리자'
 }
 
-// 관리자 테이블 타입
-interface AdminRecord {
-  id: string
-  username: string
-  password_hash: string
-  display_name: string | null
-  role?: string  // 선택적 - 테이블에 없을 수 있음
-}
-
 /**
  * 관리자 로그인을 처리합니다
+ *
+ * 보안 개선: 서버 사이드 API를 통해 인증 처리
+ * - 클라이언트에서 직접 password_hash 조회하지 않음
+ * - Service Role 키는 서버에서만 사용
  */
 export async function loginAdmin(username: string, password: string): Promise<{
   success: boolean
@@ -47,78 +42,38 @@ export async function loginAdmin(username: string, password: string): Promise<{
   error?: string
 }> {
   try {
-    // Supabase에서 관리자 조회 (role 컬럼은 없을 수 있음)
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { data, error } = await (supabase.from('admins') as any)
-      .select('id, username, password_hash, display_name')
-      .eq('username', username)
-      .single()
+    // 서버 사이드 API를 통한 안전한 로그인
+    const response = await fetch('/api/admin/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username, password }),
+    })
 
-    // 디버깅: 에러 및 데이터 로그
-    console.log('🔍 Login attempt for:', username)
-    console.log('🔍 Supabase error:', error ? JSON.stringify(error) : 'none')
-    console.log('🔍 Data received:', data ? 'yes (user found)' : 'no')
+    const result = await response.json()
 
-    const admin = data as AdminRecord | null
-
-    // DB에서 사용자를 찾은 경우
-    if (!error && admin) {
-      // 비밀번호 검증
-      const isValid = await verifyPassword(password, admin.password_hash)
-      if (!isValid) {
-        return { success: false, error: '비밀번호가 일치하지 않습니다.' }
-      }
-
-      // 마지막 로그인 시간 업데이트
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      await (supabase.from('admins') as any)
-        .update({ last_login_at: new Date().toISOString() })
-        .eq('id', admin.id)
-
+    if (result.success) {
       return {
         success: true,
-        admin: {
-          id: admin.id,
-          username: admin.username,
-          displayName: admin.display_name,
-          role: admin.role || 'admin'  // role이 없으면 기본값 사용
-        }
+        admin: result.admin
       }
     }
 
-    // DB 오류 또는 테이블 미존재 시 개발용 폴백
-    // PGRST116: no rows returned, 42P01: table not found
-    // 개발 환경이거나 DB에 사용자가 없는 경우 폴백
-    const isDevelopment = process.env.NODE_ENV === 'development' ||
-      (typeof window !== 'undefined' && window.location.hostname === 'localhost')
-    const isDbError = error?.code === '42P01' || error?.code === 'PGRST116' || !admin
-
-    if (isDevelopment || isDbError) {
-      if (username === DEV_ADMIN.username && password === DEV_ADMIN.password) {
-        console.log('⚠️ 개발용 관리자 계정으로 로그인 (DB 미설정 또는 사용자 미존재)')
-        return {
-          success: true,
-          admin: {
-            id: 'dev-admin',
-            username: DEV_ADMIN.username,
-            displayName: DEV_ADMIN.displayName,
-            role: 'admin'
-          }
-        }
-      }
+    return {
+      success: false,
+      error: result.error || '로그인에 실패했습니다.'
     }
-
-    return { success: false, error: '사용자를 찾을 수 없습니다.' }
   } catch (err) {
     console.error('Login error:', err)
 
-    // 예외 발생 시에도 개발용 폴백 시도
+    // API 호출 실패 시 개발용 폴백
     const isDevelopment = process.env.NODE_ENV === 'development' ||
       (typeof window !== 'undefined' && window.location.hostname === 'localhost')
 
     if (isDevelopment) {
       if (username === DEV_ADMIN.username && password === DEV_ADMIN.password) {
-        console.log('⚠️ 개발용 관리자 계정으로 로그인 (DB 연결 실패)')
+        console.log('⚠️ 개발용 관리자 계정으로 로그인 (API 연결 실패)')
         return {
           success: true,
           admin: {

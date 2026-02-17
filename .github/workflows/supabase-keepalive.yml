@@ -1,0 +1,28 @@
+name: Supabase Keepalive
+
+on:
+  schedule:
+    # 5일마다 09:00 UTC (Supabase 무료 플랜 7일 비활성 일시정지 방지)
+    - cron: '0 9 */5 * *'
+  workflow_dispatch: {} # 수동 실행 가능
+
+jobs:
+  keepalive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          response=$(curl -sf -o /dev/null -w "%{http_code}" \
+            "${SUPABASE_URL}/rest/v1/news?select=id&limit=1" \
+            -H "apikey: ${SUPABASE_ANON_KEY}" \
+            -H "Authorization: Bearer ${SUPABASE_ANON_KEY}")
+          echo "Response code: $response"
+          if [ "$response" -ge 200 ] && [ "$response" -lt 300 ]; then
+            echo "Keepalive ping successful"
+          else
+            echo "Keepalive ping failed with status $response"
+            exit 1
+          fi

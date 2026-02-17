@@ -6,6 +6,7 @@ import { useI18n } from '@/i18n/context'
 import { useTheme } from '@/contexts/ThemeContext'
 import { supabase } from '@/lib/supabase'
 import SubPageLayout from '@/components/layouts/SubPageLayout'
+import ServiceMaintenanceNotice from '@/components/ui/ServiceMaintenanceNotice'
 import type { MultilingualContent } from '@/types/supabase'
 
 interface Activity {
@@ -85,6 +86,7 @@ export default function ActivitiesPage() {
   const { currentTheme } = useTheme()
   const [activities, setActivities] = useState<Activity[]>([])
   const [loading, setLoading] = useState(true)
+  const [serviceUnavailable, setServiceUnavailable] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
 
   useEffect(() => {
@@ -109,7 +111,7 @@ export default function ActivitiesPage() {
         setActivities(data || [])
       } catch (error) {
         console.error('Error fetching activities:', error)
-        setActivities(dummyActivities)
+        setServiceUnavailable(true)
       }
     } else {
       const localNews = JSON.parse(localStorage.getItem('embassy_news') || '[]')
@@ -201,6 +203,10 @@ export default function ActivitiesPage() {
       {loading ? (
         <div className="flex justify-center items-center py-20">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2" style={{ borderColor: currentTheme.colors.primary }}></div>
+        </div>
+      ) : serviceUnavailable ? (
+        <div className="py-12">
+          <ServiceMaintenanceNotice variant="inline" />
         </div>
       ) : activities.length === 0 ? (
         <div className="text-center py-20">

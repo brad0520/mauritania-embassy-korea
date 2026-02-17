@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react'
 import { useI18n } from '@/i18n/context'
 import { useTheme } from '@/contexts/ThemeContext'
 import { getLatestNews, getDummyNews } from '@/services/newsService'
+import ServiceMaintenanceNotice from '@/components/ui/ServiceMaintenanceNotice'
 import type { NewsWithOrganization } from '@/types/supabase'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
@@ -13,6 +14,7 @@ export default function NewsListPage() {
   const { currentTheme } = useTheme()
   const [news, setNews] = useState<NewsWithOrganization[]>([])
   const [loading, setLoading] = useState(true)
+  const [serviceUnavailable, setServiceUnavailable] = useState(false)
   const [selectedCategory, setSelectedCategory] = useState('')
 
   useEffect(() => {
@@ -23,45 +25,53 @@ export default function NewsListPage() {
         const newsData = await getLatestNews(organizationId, 20)
         setNews(newsData)
       } catch (error) {
-        console.warn('뉴스 로드 실패, 더미 데이터 사용:', error)
-        const dummyNews = getDummyNews()
-        // 더미 뉴스를 더 많이 생성
-        const extendedDummyNews = [
-          ...dummyNews,
-          {
-            ...dummyNews[0],
-            id: '2',
-            title: {
-              ko: '한-모리타니아 문화교류 프로그램 개최',
-              en: 'Korea-Mauritania Cultural Exchange Program',
-              fr: 'Programme d\'échange culturel Corée-Mauritanie'
+        console.warn('뉴스 로드 실패:', error)
+        const isSupabaseConfigured =
+          process.env.NEXT_PUBLIC_SUPABASE_URL &&
+          process.env.NEXT_PUBLIC_SUPABASE_URL !== 'https://dummy-project.supabase.co'
+
+        if (isSupabaseConfigured) {
+          setServiceUnavailable(true)
+        } else {
+          // 개발 환경: 더미 데이터 사용
+          const dummyNews = getDummyNews()
+          const extendedDummyNews = [
+            ...dummyNews,
+            {
+              ...dummyNews[0],
+              id: '2',
+              title: {
+                ko: '한-모리타니아 문화교류 프로그램 개최',
+                en: 'Korea-Mauritania Cultural Exchange Program',
+                fr: 'Programme d\'échange culturel Corée-Mauritanie'
+              },
+              excerpt: {
+                ko: '양국 간 문화 교류를 증진하기 위한 특별 프로그램이 개최됩니다.',
+                en: 'A special program to promote cultural exchange between the two countries will be held.',
+                fr: 'Un programme spécial pour promouvoir les échanges culturels entre les deux pays aura lieu.'
+              },
+              published_at: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+              category: 'event'
             },
-            excerpt: {
-              ko: '양국 간 문화 교류를 증진하기 위한 특별 프로그램이 개최됩니다.',
-              en: 'A special program to promote cultural exchange between the two countries will be held.',
-              fr: 'Un programme spécial pour promouvoir les échanges culturels entre les deux pays aura lieu.'
-            },
-            published_at: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
-            category: 'event'
-          },
-          {
-            ...dummyNews[0],
-            id: '3',
-            title: {
-              ko: '모리타니아 투자 설명회 안내',
-              en: 'Mauritania Investment Briefing',
-              fr: 'Briefing sur les investissements en Mauritanie'
-            },
-            excerpt: {
-              ko: '모리타니아 투자 기회에 대한 설명회가 개최됩니다.',
-              en: 'A briefing on investment opportunities in Mauritania will be held.',
-              fr: 'Un briefing sur les opportunités d\'investissement en Mauritanie aura lieu.'
-            },
-            published_at: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
-            category: 'announcement'
-          }
-        ]
-        setNews(extendedDummyNews)
+            {
+              ...dummyNews[0],
+              id: '3',
+              title: {
+                ko: '모리타니아 투자 설명회 안내',
+                en: 'Mauritania Investment Briefing',
+                fr: 'Briefing sur les investissements en Mauritanie'
+              },
+              excerpt: {
+                ko: '모리타니아 투자 기회에 대한 설명회가 개최됩니다.',
+                en: 'A briefing on investment opportunities in Mauritania will be held.',
+                fr: 'Un briefing sur les opportunités d\'investissement en Mauritanie aura lieu.'
+              },
+              published_at: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
+              category: 'announcement'
+            }
+          ]
+          setNews(extendedDummyNews)
+        }
       } finally {
         setLoading(false)
       }
@@ -128,10 +138,37 @@ export default function NewsListPage() {
     )
   }
 
+  if (serviceUnavailable) {
+    return (
+      <>
+        <section
+          className="text-white py-16"
+          style={{
+            background: `linear-gradient(135deg, ${currentTheme.colors.primary}ee 0%, ${currentTheme.colors.secondary}ee 100%)`
+          }}
+        >
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center">
+              <h1 className="text-4xl font-bold mb-4">
+                뉴스 &amp; 공지사항
+              </h1>
+              <p className="text-xl text-white/90">
+                {currentTheme.name[locale]} 대사관의 최신 소식을 확인하세요
+              </p>
+            </div>
+          </div>
+        </section>
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <ServiceMaintenanceNotice variant="inline" />
+        </main>
+      </>
+    )
+  }
+
   return (
     <>
       {/* 페이지 헤더 */}
-      <section 
+      <section
         className="text-white py-16"
         style={{
           background: `linear-gradient(135deg, ${currentTheme.colors.primary}ee 0%, ${currentTheme.colors.secondary}ee 100%)`

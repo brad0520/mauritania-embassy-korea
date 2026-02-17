@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils'
 import { useI18n } from '@/i18n/context'
 import { useTheme } from '@/contexts/ThemeContext'
 import { getLatestNews, getDummyNews } from '@/services/newsService'
+import ServiceMaintenanceNotice from '@/components/ui/ServiceMaintenanceNotice'
 import type { NewsWithOrganization } from '@/types/supabase'
 
 interface NewsItem {
@@ -31,6 +32,7 @@ export default function NewsSection({
   const [selectedNews, setSelectedNews] = useState<string | null>(null)
   const [supabaseNews, setSupabaseNews] = useState<NewsWithOrganization[]>([])
   const [loading, setLoading] = useState(true)
+  const [serviceUnavailable, setServiceUnavailable] = useState(false)
 
   // Supabase에서 뉴스 데이터 가져오기
   useEffect(() => {
@@ -45,10 +47,18 @@ export default function NewsSection({
         const news = await getLatestNews(organizationId, maxItems)
         setSupabaseNews(news)
       } catch (error) {
-        console.warn('Supabase 뉴스 로드 실패, 더미 데이터 사용:', error)
-        // Supabase 연결 실패 시 더미 데이터 사용
-        const dummyNews = getDummyNews().slice(0, maxItems)
-        setSupabaseNews(dummyNews)
+        console.warn('Supabase 뉴스 로드 실패:', error)
+        const isSupabaseConfigured =
+          process.env.NEXT_PUBLIC_SUPABASE_URL &&
+          process.env.NEXT_PUBLIC_SUPABASE_URL !== 'https://dummy-project.supabase.co'
+
+        if (isSupabaseConfigured) {
+          setServiceUnavailable(true)
+        } else {
+          // 개발 환경: 더미 데이터 사용
+          const dummyNews = getDummyNews().slice(0, maxItems)
+          setSupabaseNews(dummyNews)
+        }
       } finally {
         setLoading(false)
       }
@@ -126,18 +136,41 @@ export default function NewsSection({
     setSelectedNews(selectedNews === newsId ? null : newsId)
   }
 
-  if (loading) {
+  if (serviceUnavailable) {
     return (
-      <section 
+      <section
         className={cn(
           'bg-white p-8 rounded-lg mb-8',
           'shadow-[0_2px_10px_rgba(0,0,0,0.1)]',
           className
         )}
       >
-        <h2 
+        <h2
           className="text-2xl font-bold mb-4 pb-2"
-          style={{ 
+          style={{
+            color: currentTheme.colors.primary,
+            borderBottom: `2px solid ${currentTheme.colors.secondary}`
+          }}
+        >
+          {t('news.title')}
+        </h2>
+        <ServiceMaintenanceNotice variant="section" />
+      </section>
+    )
+  }
+
+  if (loading) {
+    return (
+      <section
+        className={cn(
+          'bg-white p-8 rounded-lg mb-8',
+          'shadow-[0_2px_10px_rgba(0,0,0,0.1)]',
+          className
+        )}
+      >
+        <h2
+          className="text-2xl font-bold mb-4 pb-2"
+          style={{
             color: currentTheme.colors.primary,
             borderBottom: `2px solid ${currentTheme.colors.secondary}`
           }}

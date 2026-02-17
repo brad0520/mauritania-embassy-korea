@@ -6,6 +6,7 @@ import { cn } from '@/lib/utils'
 import { useI18n } from '@/i18n/context'
 import { ChevronRightIcon } from '@heroicons/react/24/outline'
 import { supabase } from '@/lib/supabase'
+import ServiceMaintenanceNotice from '@/components/ui/ServiceMaintenanceNotice'
 import type { MultilingualContent } from '@/types/supabase'
 
 // 공관활동 타입
@@ -122,6 +123,7 @@ export default function MainContentSection() {
   const { locale, isRTL, direction } = useI18n()
   const [activities, setActivities] = useState<Activity[]>([])
   const [loading, setLoading] = useState(true)
+  const [serviceUnavailable, setServiceUnavailable] = useState(false)
 
   const currentLocale = locale as 'ko' | 'en' | 'fr' | 'ar'
 
@@ -148,11 +150,11 @@ export default function MainContentSection() {
         if (data && data.length > 0) {
           setActivities(data)
         } else {
-          setActivities(dummyActivities)
+          setServiceUnavailable(true)
         }
       } catch (error) {
         console.error('Error fetching activities:', error)
-        setActivities(dummyActivities)
+        setServiceUnavailable(true)
       }
     } else {
       // localStorage에서 공관활동 가져오기
@@ -231,6 +233,10 @@ export default function MainContentSection() {
           {loading ? (
             <div className="flex justify-center items-center py-12">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-theme-nav"></div>
+            </div>
+          ) : serviceUnavailable ? (
+            <div className="p-6">
+              <ServiceMaintenanceNotice variant="section" />
             </div>
           ) : (
             <ul>

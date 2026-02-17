@@ -8,6 +8,7 @@ import { useI18n } from '@/i18n/context'
 import { useTheme } from '@/contexts/ThemeContext'
 import { supabase } from '@/lib/supabase'
 import SubPageLayout from '@/components/layouts/SubPageLayout'
+import ServiceMaintenanceNotice from '@/components/ui/ServiceMaintenanceNotice'
 import type { MultilingualContent } from '@/types/supabase'
 
 // HTML 콘텐츠 포맷팅 (HTML 태그 있으면 정화, 없으면 줄바꿈 처리)
@@ -107,6 +108,7 @@ function ActivityDetailContent() {
   const [activity, setActivity] = useState<Activity | null>(null)
   const [allActivities, setAllActivities] = useState<Activity[]>([])
   const [loading, setLoading] = useState(true)
+  const [serviceUnavailable, setServiceUnavailable] = useState(false)
   const [currentIndex, setCurrentIndex] = useState(-1)
 
   useEffect(() => {
@@ -137,7 +139,9 @@ function ActivityDetailContent() {
         activities = data || []
       } catch (error) {
         console.error('Error fetching activities:', error)
-        activities = dummyActivities
+        setServiceUnavailable(true)
+        setLoading(false)
+        return
       }
     } else {
       const localNews = JSON.parse(localStorage.getItem('embassy_news') || '[]')
@@ -199,6 +203,21 @@ function ActivityDetailContent() {
       >
         <div className="flex justify-center items-center py-20">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2" style={{ borderColor: currentTheme.colors.primary }}></div>
+        </div>
+      </SubPageLayout>
+    )
+  }
+
+  if (serviceUnavailable) {
+    return (
+      <SubPageLayout
+        menuTitle={menuTitle}
+        menuItems={menuItems}
+        currentPageTitle={menuTitle}
+        breadcrumbs={[{ label: menuTitle, href: '/embassy/activities' }]}
+      >
+        <div className="py-12">
+          <ServiceMaintenanceNotice variant="inline" />
         </div>
       </SubPageLayout>
     )

@@ -227,7 +227,7 @@ export async function searchNews(
   }
 }
 
-// 더미 데이터 반환 (Supabase 설정이 안된 경우)
+// 더미 데이터 반환 (개발 환경 전용 - Supabase 미설정 시 사용)
 export function getDummyNews(): NewsWithOrganization[] {
   const currentDate = new Date()
   const formatDate = (daysAgo: number) => {

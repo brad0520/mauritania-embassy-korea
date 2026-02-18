@@ -27,7 +27,24 @@ const notoSansArabic = Noto_Sans_Arabic({
 
 export const metadata: Metadata = {
   title: "주한 모리타니아 대사관 | Embassy of Mauritania in Korea",
-  description: "주한 모리타니아 이슬람 공화국 대사관 공식 웹사이트 - Embassy of the Islamic Republic of Mauritania in the Republic of Korea",
+  description: "주한 모리타니아 이슬람 공화국 대사관 공식 웹사이트. 비자 안내, 공관활동, 뉴스, 양국 관계 정보를 제공합니다. Official website of the Embassy of Mauritania in Korea.",
+  keywords: ["모리타니아 대사관", "주한 모리타니아", "Mauritania Embassy Korea", "Ambassade de Mauritanie", "비자", "영사 서비스", "공관활동"],
+  openGraph: {
+    type: "website",
+    locale: "ko_KR",
+    alternateLocale: ["en_US", "fr_FR", "ar_SA"],
+    siteName: "주한 모리타니아 대사관",
+    title: "주한 모리타니아 대사관 | Embassy of Mauritania in Korea",
+    description: "주한 모리타니아 이슬람 공화국 대사관 공식 웹사이트",
+    images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "주한 모리타니아 대사관" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "주한 모리타니아 대사관 | Embassy of Mauritania",
+    description: "주한 모리타니아 이슬람 공화국 대사관 공식 웹사이트",
+    images: ["/og-image.jpg"],
+  },
+  robots: { index: true, follow: true },
   // 파비콘: app/icon.svg, app/apple-icon.png 파일로 자동 적용
 };
 

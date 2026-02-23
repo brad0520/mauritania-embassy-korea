@@ -2,27 +2,47 @@ name: Supabase Keepalive
 
 on:
   schedule:
-    # 5일마다 09:00 UTC (Supabase 무료 플랜 7일 비활성 일시정지 방지)
-    - cron: '0 9 */5 * *'
+    # 3일마다 09:00 UTC (Supabase 무료 플랜 7일 비활성 일시정지 방지)
+    - cron: '0 9 */3 * *'
   workflow_dispatch: {} # 수동 실행 가능
 
 jobs:
   keepalive:
     runs-on: ubuntu-latest
     steps:
-      - name: Ping Supabase
+      - name: Ping Supabase (READ + WRITE)
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
         run: |
-          response=$(curl -sf -o /dev/null -w "%{http_code}" \
+          HEADERS=(-H "apikey: ${SUPABASE_ANON_KEY}" -H "Authorization: Bearer ${SUPABASE_ANON_KEY}" -H "Content-Type: application/json" -H "Prefer: return=representation")
+
+          # 1. READ - news 테이블 조회
+          read_response=$(curl -sf -o /dev/null -w "%{http_code}" \
             "${SUPABASE_URL}/rest/v1/news?select=id&limit=1" \
-            -H "apikey: ${SUPABASE_ANON_KEY}" \
-            -H "Authorization: Bearer ${SUPABASE_ANON_KEY}")
-          echo "Response code: $response"
-          if [ "$response" -ge 200 ] && [ "$response" -lt 300 ]; then
-            echo "Keepalive ping successful"
+            "${HEADERS[@]}")
+          echo "READ response: $read_response"
+
+          # 2. WRITE - keepalive 레코드 INSERT (실제 DB 쓰기로 활동 감지)
+          write_response=$(curl -sf -o /dev/null -w "%{http_code}" \
+            "${SUPABASE_URL}/rest/v1/news" \
+            -X POST \
+            "${HEADERS[@]}" \
+            -d "{\"title\":{\"ko\":\"keepalive\",\"en\":\"keepalive\",\"fr\":\"keepalive\",\"ar\":\"keepalive\"},\"content\":{\"ko\":\"ping\",\"en\":\"ping\",\"fr\":\"ping\",\"ar\":\"ping\"},\"category\":\"keepalive\",\"status\":\"draft\"}")
+          echo "WRITE response: $write_response"
+
+          # 3. DELETE - keepalive 레코드 정리
+          delete_response=$(curl -sf -o /dev/null -w "%{http_code}" \
+            "${SUPABASE_URL}/rest/v1/news?category=eq.keepalive" \
+            -X DELETE \
+            "${HEADERS[@]}")
+          echo "DELETE response: $delete_response"
+
+          # 결과 판정 (READ + WRITE 모두 성공해야 통과)
+          if [ "$read_response" -ge 200 ] && [ "$read_response" -lt 300 ] && \
+             [ "$write_response" -ge 200 ] && [ "$write_response" -lt 400 ]; then
+            echo "Keepalive successful (READ + WRITE + DELETE)"
           else
-            echo "Keepalive ping failed with status $response"
+            echo "Keepalive failed - READ:$read_response WRITE:$write_response DELETE:$delete_response"
             exit 1
           fi
